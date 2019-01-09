@@ -4,6 +4,7 @@ import { createSelector } from "reselect";
 // Constants
 export const CHARACTER_SELECTED = "gloomhaven-tracker-setup/CHARACTER_SELECTED";
 export const CHARACTER_DESELECTED = "gloomhaven-tracker-setup/CHARACTER_DESELECTED";
+export const CHARACTERS_CHANGED = "gloomhaven-tracker-setup/CHARACTERS_CHANGED";
 export const MONSTER_SELECTED = "gloomhaven-tracker-setup/MONSTER_SELECTED";
 export const MONSTER_DESELECTED = "gloomhaven-tracker-setup/MONSTER_DESELECTED";
 export const SCENARIO_SELECTED = "gloomhaven-tracker-setup/SCENARIO_SELECTED";
@@ -42,6 +43,13 @@ export function characterDeselected(characterClass) {
   }
 }
 
+export function charactersUpdated(characterClasses) {
+  return {
+    type: CHARACTERS_CHANGED,
+    characterClasses,
+  }
+}
+
 export function monsterSelected(monsterClass) {
   return {
     type: MONSTER_SELECTED,
@@ -70,6 +78,8 @@ function trackerSetupReducer(state = initialState, action) {
       return state.set("characterClasses", state.action.characterClasses.union(action.characterClass));
     case CHARACTER_DESELECTED:
       return state.set("characterClasses", state.action.characterClasses.delete(action.characterClass));
+    case CHARACTERS_CHANGED:
+      return state.set("characterClasses", Set(action.characterClasses));
     case MONSTER_SELECTED:
       return state
         .set("monsterClasses", state.action.monsterClasses.union(action.monsterClass))
