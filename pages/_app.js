@@ -1,20 +1,22 @@
 // Minimal _app.js setup for redux copied from https://github.com/kirill-konshin/next-redux-wrapper
 
-import React from 'react'
+import React from "react";
 import {Provider} from "react-redux";
 import App, {Container} from "next/app";
 import withRedux from "next-redux-wrapper";
-import {makeStore} from "../components/store";
+import makeStore from "../utils/store";
 
-export default withRedux(makeStore, {debug: true})(class MyApp extends App {
+class GloomhavenApp extends App {
 
   static async getInitialProps({Component, ctx}) {
-    return {
-      pageProps: {
-        // Call page-level getInitialProps
-        ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {}),
-      }
-    };
+    // we can dispatch from here too
+    //ctx.store.dispatch({type: 'FOO', payload: 'foo'});
+
+    const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
+
+    console.log("pageProps", pageProps);
+    return {pageProps};
+
   }
 
   render() {
@@ -27,4 +29,6 @@ export default withRedux(makeStore, {debug: true})(class MyApp extends App {
       </Container>
     );
   }
-});
+}
+
+export default withRedux(makeStore)(GloomhavenApp);
