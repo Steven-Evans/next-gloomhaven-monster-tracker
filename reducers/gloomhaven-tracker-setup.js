@@ -2,18 +2,15 @@ import { Set, fromJS } from "immutable";
 import { createSelector } from "reselect";
 
 // Constants
-export const CHARACTER_SELECTED = "gloomhaven-tracker-setup/CHARACTER_SELECTED";
-export const CHARACTER_DESELECTED = "gloomhaven-tracker-setup/CHARACTER_DESELECTED";
 export const CHARACTERS_CHANGED = "gloomhaven-tracker-setup/CHARACTERS_CHANGED";
-export const MONSTER_SELECTED = "gloomhaven-tracker-setup/MONSTER_SELECTED";
-export const MONSTER_DESELECTED = "gloomhaven-tracker-setup/MONSTER_DESELECTED";
+export const MONSTERS_CHANGED = "gloomhaven-tracker-setup/MONSTERS_CHANGED";
 export const SCENARIO_SELECTED = "gloomhaven-tracker-setup/SCENARIO_SELECTED";
 
 // State
 export const initialState = fromJS({
   characterClasses: Set(),
   monsterClasses: Set(),
-  scenario: 0,
+  scenarioNumber: 0,
 });
 
 // Selectors
@@ -25,24 +22,10 @@ export const selectCharacterClasses = () =>
 export const selectMonsterClasses = () =>
   createSelector(selectSetup, (setupState) => setupState.get('monsterClasses').toArray());
 
-export const selectScenario = () =>
-  createSelector(selectSetup, (setupState) => setupState.get('scenario'));
+export const selectScenarioNumber = () =>
+  createSelector(selectSetup, (setupState) => setupState.get('scenarioNumber'));
 
 // Actions
-export function characterSelected(characterClass) {
-  return {
-    type: CHARACTER_SELECTED,
-    characterClass,
-  }
-}
-
-export function characterDeselected(characterClass) {
-  return {
-    type: CHARACTER_DESELECTED,
-    characterClass,
-  }
-}
-
 export function charactersUpdated(characterClasses) {
   return {
     type: CHARACTERS_CHANGED,
@@ -50,21 +33,14 @@ export function charactersUpdated(characterClasses) {
   }
 }
 
-export function monsterSelected(monsterClass) {
+export function monstersUpdated(monsterClasses) {
   return {
-    type: MONSTER_SELECTED,
-    monsterClass,
+    type: MONSTERS_CHANGED,
+    monsterClasses,
   }
 }
 
-export function monsterDeselected(monsterClass) {
-  return {
-    type: MONSTER_DESELECTED,
-    monsterClass,
-  }
-}
-
-export function scenarioSelected(scenario) {
+export function scenarioNumberSelected(scenario) {
   return {
     type: SCENARIO_SELECTED,
     scenario,
@@ -74,21 +50,15 @@ export function scenarioSelected(scenario) {
 // Reducer
 function trackerSetupReducer(state = initialState, action) {
   switch (action.type) {
-    case CHARACTER_SELECTED:
-      return state.set("characterClasses", state.action.characterClasses.union(action.characterClass));
-    case CHARACTER_DESELECTED:
-      return state.set("characterClasses", state.action.characterClasses.delete(action.characterClass));
     case CHARACTERS_CHANGED:
       return state.set("characterClasses", Set(action.characterClasses));
-    case MONSTER_SELECTED:
+    case MONSTERS_CHANGED:
       return state
-        .set("monsterClasses", state.action.monsterClasses.union(action.monsterClass))
-        .set("scenario", 0);
-    case MONSTER_DESELECTED:
-      return state.set("monsterClasses", state.action.monsterClasses.delete(action.monsterClass));
+        .set("monsterClasses", Set(action.monsterClasses))
+        .set("scenarioNumber", 0);
     case SCENARIO_SELECTED:
       return state
-        .set("scenario", action.scenario)
+        .set("scenarioNumber", action.scenario)
         .set("monsterClasses", Set());
     default:
       return state;

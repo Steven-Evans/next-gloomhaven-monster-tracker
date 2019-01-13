@@ -7,44 +7,89 @@ import Chip from '@material-ui/core/Chip';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField'
 import { characterClasses } from '../utils/constants.js';
 import {
   selectCharacterClasses,
   selectMonsterClasses,
-  selectScenario,
+  selectScenarioNumber,
   charactersUpdated,
+  monstersUpdated,
+  scenarioNumberSelected,
 } from "../reducers/gloomhaven-tracker-setup";
+import monsterStats from "../utils/monster_stats"
+
+const monsterClasses = Object.keys(monsterStats.monsters).concat(Object.keys(monsterStats.bosses));
 
 const GloomhavenTrackerSetup = (props) => (
-  <FormControl>
-    <InputLabel htmlFor="select-character-classes">Select your character classes</InputLabel>
-    <Select
-  //  className={classes.textField}
-      multiple
-      value={props.characterClasses}
-  //    variant="filled"
-      onChange={props.onChangeClasses}
-      input={<Input id="select-character-classes" />}
-  //  margin="normal"
-      renderValue={selected => (
-  //      <div className={classes.chips}>
-        <div >
-          {selected.map(value => (
-  //          <Chip key={value} label={value} className={classes.chip} />
-            <Chip key={value} label={value}/>
-          ))}
-        </div>
-      )}
-    >
-      {
-        characterClasses.map(characterClass => (
-          <MenuItem key={characterClass.nickname} value={characterClass.nickname}>
-            {characterClass.name ? characterClass.name : characterClass.nickname}
-          </MenuItem>
-        ))
-      }
-    </Select>
-  </FormControl>
+  <div>
+    <FormControl>
+      <InputLabel htmlFor="select-character-classes">Select your character classes</InputLabel>
+      <Select
+    //  className={classes.textField}
+        multiple
+        value={props.characterClasses}
+    //    variant="filled"
+        onChange={props.onChangeClasses}
+        input={<Input id="select-character-classes" />}
+    //  margin="normal"
+        renderValue={selected => (
+    //      <div className={classes.chips}>
+          <div >
+            {selected.map(value => (
+    //          <Chip key={value} label={value} className={classes.chip} />
+              <Chip key={value} label={value}/>
+            ))}
+          </div>
+        )}
+      >
+        {
+          characterClasses.map(characterClass => (
+            <MenuItem key={characterClass.nickname} value={characterClass.nickname}>
+              {characterClass.name ? characterClass.name : characterClass.nickname}
+            </MenuItem>
+          ))
+        }
+      </Select>
+    </FormControl>
+    <FormControl>
+      <InputLabel htmlFor="select-monster-classes">Select the monster classes</InputLabel>
+      <Select
+        multiple
+        value={props.monsterClasses}
+        onChange={props.onChangeMonsters}
+        input={<Input id="select-monster-classes" />}
+        renderValue={selected => (
+          <div >
+            {selected.map(value => (
+              <Chip key={value} label={value}/>
+            ))}
+          </div>
+        )}
+      >
+        {
+          monsterClasses.map(monsterClass => (
+            <MenuItem key={monsterClass} value={monsterClass}>
+              {monsterClass}
+            </MenuItem>
+          ))
+        }
+      </Select>
+    </FormControl>
+    <TextField
+      id="standard-number"
+      label="Scenario Number"
+      value={props.scenarioNumber}
+      onChange={props.onChangeScenarioNumber}
+      inputProps={{ min: "0", max: "95" }}
+      type="number"
+//      className={classes.textField}
+/*      InputLabelProps={{
+        shrink: true,
+      }}*/
+      margin="normal"
+    />
+  </div>
 );
 
 GloomhavenTrackerSetup.getInitialProps = function({store, isServer, pathname, query}) {
@@ -56,13 +101,15 @@ GloomhavenTrackerSetup.getInitialProps = function({store, isServer, pathname, qu
 function mapDispatchToProps(dispatch) {
   return {
     onChangeClasses: event => dispatch(charactersUpdated(event.target.value)),
+    onChangeMonsters: event => dispatch(monstersUpdated(event.target.value)),
+    onChangeScenarioNumber: event => dispatch(scenarioNumberSelected(event.target.value)),
   }
 }
 
 const mapStateToProps = createStructuredSelector({
   characterClasses: selectCharacterClasses(),
   monsterClasses: selectMonsterClasses(),
-  scenario: selectScenario(),
+  scenarioNumber: selectScenarioNumber(),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GloomhavenTrackerSetup);
