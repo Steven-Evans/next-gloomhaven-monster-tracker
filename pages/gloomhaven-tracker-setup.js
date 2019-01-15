@@ -7,7 +7,7 @@ import Chip from '@material-ui/core/Chip';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField'
+import NumberTextField from '../components/NumberTextField'
 import { characterClasses } from '../utils/constants.js';
 import {
   selectCharacterClasses,
@@ -76,12 +76,13 @@ const GloomhavenTrackerSetup = (props) => (
         }
       </Select>
     </FormControl>
-    <TextField
+    <NumberTextField
       id="standard-number"
       label="Scenario Number"
       value={props.scenarioNumber}
       onChange={props.onChangeScenarioNumber}
-      inputProps={{ min: "0", max: "95" }}
+      min={0}
+      max={95}
       type="number"
 //      className={classes.textField}
 /*      InputLabelProps={{
