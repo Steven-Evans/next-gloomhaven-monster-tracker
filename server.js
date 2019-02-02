@@ -2,6 +2,7 @@ const express = require('express');
 const next = require('next');
 const MongoClient = require('mongodb').MongoClient;
 const config = require('./server/config');
+const api = require('./server/api');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -15,6 +16,8 @@ app.prepare().then(() => {
     const queryParams = { id: req.params.id };
     app.render(req, res, actualPage, queryParams);
   });
+
+  server.use('/api', api);
 
   server.get('*', (req, res) => {
     return handle(req, res);
@@ -33,7 +36,7 @@ app.prepare().then(() => {
     console.error(err);
   });
 })
-.catch((ex) => {
-  console.error(ex.stack);
+.catch((err) => {
+  console.error(err);
   process.exit(1);
 });
