@@ -20,10 +20,10 @@ app.prepare().then(() => {
     return handle(req, res);
   });
 
-  MongoClient.connect(config.database.url).then((db) => {
+  MongoClient.connect(config.database.url, {useNewUrlParser: true}).then((client) => {
     console.log("> Connected successfully to mongod database");
 
-    server.locals.db = db;
+    server.locals.db = client.db('gloomhavenTracker');
 
     server.listen(3000, (err) => {
       if (err) throw err;
