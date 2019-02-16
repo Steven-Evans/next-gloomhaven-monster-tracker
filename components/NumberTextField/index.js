@@ -22,7 +22,7 @@ class NumberTextField extends React.Component {
     if (event.target.value < this.props.min || event.target.value > this.props.max) {
       event.target.value = this.state.currentNumber;
     } else {
-      this.state.currentNumber = event.target.value;
+      this.setState({currentNumber: event.target.value});
     }
   }
 
