@@ -1,21 +1,26 @@
+import Link from "next/link"
 import React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
+import Button from "@material-ui/core/Button";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import Chip from '@material-ui/core/Chip';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-import NumberTextField from '../components/NumberTextField'
+import NumberTextField from '../components/NumberTextField';
 import { characterClasses } from '../utils/constants.js';
 import {
   selectCharacterClasses,
   selectMonsterClasses,
   selectScenarioNumber,
+  selectScenarioLevel,
   charactersUpdated,
   monstersUpdated,
   scenarioNumberSelected,
+  scenarioLevelSelected,
+  initializeTracker,
 } from "../reducers/gloomhaven-tracker-setup";
 import monsterStats from "../utils/monster_stats"
 
@@ -77,7 +82,7 @@ const GloomhavenTrackerSetup = (props) => (
       </Select>
     </FormControl>
     <NumberTextField
-      id="standard-number"
+      id="scenario-number"
       label="Scenario Number"
       value={props.scenarioNumber}
       onChange={props.onChangeScenarioNumber}
@@ -90,27 +95,46 @@ const GloomhavenTrackerSetup = (props) => (
       }}*/
       margin="normal"
     />
+    <NumberTextField
+      id="scenario-level"
+      label="Scenario Level"
+      value={props.scenarioLevel}
+      onChange={props.onChangeScenarioLevel}
+      min={0}
+      max={7}
+      type="number"
+      //      className={classes.textField}
+      /*      InputLabelProps={{
+              shrink: true,
+            }}*/
+      margin="normal"
+    />
+    <Link href="/gloomhaven-tracker-setup">
+      <Button type="button" onClick={props.onInitializeTracker}>Submit</Button>
+    </Link>
   </div>
 );
 
 GloomhavenTrackerSetup.getInitialProps = function({store, isServer, pathname, query}) {
-  console.log("args", arguments);
   store.dispatch({type: 'FOO', payload: 'foo'}); // component will be able to read from store's state when rendered
   return {custom: 'custom'}; // you can pass some custom props to component from here
 };
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
   return {
     onChangeClasses: event => dispatch(charactersUpdated(event.target.value)),
     onChangeMonsters: event => dispatch(monstersUpdated(event.target.value)),
     onChangeScenarioNumber: event => dispatch(scenarioNumberSelected(event.target.value)),
+    onChangeScenarioLevel: event => dispatch(scenarioLevelSelected(event.target.value)),
+    onInitializeTracker: () => dispatch(initializeTracker()),
   }
-}
+};
 
 const mapStateToProps = createStructuredSelector({
   characterClasses: selectCharacterClasses(),
   monsterClasses: selectMonsterClasses(),
   scenarioNumber: selectScenarioNumber(),
+  scenarioLevel: selectScenarioLevel(),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GloomhavenTrackerSetup);
