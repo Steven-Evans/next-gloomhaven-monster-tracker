@@ -14,7 +14,6 @@ class GloomhavenApp extends App {
 
     const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
 
-    console.log("pageProps", pageProps);
     return {pageProps};
 
   }
