@@ -1,27 +1,37 @@
-const router = require('express').Router();
 const roomCodeBijection = require('./lib').roomCodeBijection;
+const createInitialSession = require('./lib').createInitialSession;
 
-
-router.get('/roomcode', async (req, res) => {
+const postSession = async (req) => {
+  const db = req.app.locals.db;
   try {
-    const db = req.app.locals.db;
-    const roomCodeDocument = await db.collection('nextRoomCode').findOne({});
-    const roomCode = roomCodeDocument ? roomCodeDocument.roomCode : roomCodeBijection('aaaa');
-    const replacementCode = roomCodeBijection(roomCode);
-    db.collection('nextRoomCode').updateOne(
-      {},
-      { $set: { roomCode: replacementCode }},
-      { upsert: true},
-    );
-    res.end(roomCode);
+    req.body.roomCode = await createRoomCode(db);
+    await createSession(db, req.body);
   } catch (err) {
     console.error(err);
   }
-});
+  return { roomCode: req.body.roomCode };
+};
 
-router.get('/test', (req, res) => {
-  console.log('/test is hit');
-  res.send('test');
-});
+const createRoomCode = async (db) => {
+  const roomCodeDocument = await db.collection('nextRoomCode').findOne({});
+  const roomCode = roomCodeDocument ? roomCodeDocument.roomCode : roomCodeBijection('aaaa');
+  const replacementCode = roomCodeBijection(roomCode);
+  db.collection('nextRoomCode').updateOne(
+    {},
+    { $set: { roomCode: replacementCode }},
+    { upsert: true},
+  );
+  return roomCode;
+};
 
-module.exports = router;
+const createSession = async (db, body) => {
+  if (!(body.characterClasses && (body.monsterClasses || body.scenarioNumber))) {
+    console.error(new Error("Characters and Monsters/Scenario not defined"));
+  }
+  let session = createInitialSession(body);
+  await db.collection('sessions').insertOne(session, {w:1});
+};
+
+module.exports = {
+  postSession,
+};

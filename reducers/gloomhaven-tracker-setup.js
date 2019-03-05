@@ -61,16 +61,10 @@ export function scenarioLevelSelected(scenarioLevel) {
   }
 }
 
-export function initializeTracker() {
+export function initializeTracker(body) {
   return {
     type: INITIALIZE_TRACKER,
-  }
-}
-
-export function initializeTrackerSuccess(roomCode) {
-  return {
-    type: INITIALIZE_TRACKER_SUCCESS,
-    roomCode,
+    body,
   }
 }
 
@@ -85,11 +79,11 @@ function trackerSetupReducer(state = initialState, action) {
         .set("scenarioNumber", 0);
     case SCENARIO_NUMBER_SELECTED:
       return state
-        .set("scenarioNumber", action.scenarioNumber)
+        .set("scenarioNumber", parseInt(action.scenarioNumber))
         .set("monsterClasses", Set());
     case SCENARIO_LEVEL_SELECTED:
       return state
-        .set("scenarioLevel", action.scenarioLevel);
+        .set("scenarioLevel", parseInt(action.scenarioLevel));
     default:
       return state;
   }

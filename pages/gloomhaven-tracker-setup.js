@@ -109,25 +109,33 @@ const GloomhavenTrackerSetup = (props) => (
             }}*/
       margin="normal"
     />
-    <Link href="/gloomhaven-tracker-setup">
-      <Button type="button" onClick={props.onInitializeTracker}>Submit</Button>
+    <Link href="/gloomhaven-tracker">
+      <Button
+        type="button"
+        onClick={props.onInitializeTracker(props)}>Submit</Button>
     </Link>
   </div>
 );
 
 GloomhavenTrackerSetup.getInitialProps = function({store, isServer, pathname, query}) {
-  store.dispatch({type: 'FOO', payload: 'foo'}); // component will be able to read from store's state when rendered
-  return {custom: 'custom'}; // you can pass some custom props to component from here
+//  console.log("ARGS", arguments);
+//  store.dispatch({type: 'FOO', payload: 'foo'}); // component will be able to read from store's state when rendered
+//  return {custom: 'custom'}; // you can pass some custom props to component from here
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onChangeClasses: event => dispatch(charactersUpdated(event.target.value)),
     onChangeMonsters: event => dispatch(monstersUpdated(event.target.value)),
     onChangeScenarioNumber: event => dispatch(scenarioNumberSelected(event.target.value)),
     onChangeScenarioLevel: event => dispatch(scenarioLevelSelected(event.target.value)),
-    onInitializeTracker: () => dispatch(initializeTracker()),
-  }
+    onInitializeTracker: ({ characterClasses, monsterClasses, scenarioNumber, scenarioLevel }) => () => dispatch(initializeTracker({
+      characterClasses,
+      monsterClasses,
+      scenarioNumber,
+      scenarioLevel,
+    })),
+  };
 };
 
 const mapStateToProps = createStructuredSelector({

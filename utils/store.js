@@ -1,10 +1,22 @@
-import {createStore} from "redux";
+import { createStore, applyMiddleware } from "redux";
+import { createEpicMiddleware } from "redux-observable";
 import { fromJS } from "immutable";
-import reducers from "./reducers";
+import reducers from "../reducers/root";
+import epics from "../epics/root";
 import { composeWithDevTools } from "redux-devtools-extension";
 
+const epicMiddleware = createEpicMiddleware();
+
 const makeStore = (initialState, options) => {
-  return createStore(reducers, fromJS(initialState), composeWithDevTools());
+  const store = createStore(reducers, fromJS(initialState),
+    composeWithDevTools(
+      applyMiddleware(epicMiddleware)
+    )
+  );
+
+  epicMiddleware.run(epics);
+
+  return store
 };
 
 export default makeStore;

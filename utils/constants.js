@@ -1,4 +1,4 @@
-export const characterClasses = [
+const characterClasses = [
   {
     name: "Brute",
     nickname: "Brute"
@@ -62,7 +62,7 @@ export const characterClasses = [
   }
 ];
 
-export const scenarioMonsters = {
+const scenarioMonsters = {
   1: [
     "Bandit Guard",
     "Bandit Archer",
@@ -505,4 +505,9 @@ export const scenarioMonsters = {
   95: [
 
   ],
+};
+
+module.exports = {
+  characterClasses,
+  scenarioMonsters,
 };
