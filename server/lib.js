@@ -1,12 +1,24 @@
 const scenarioMonsters = require('../utils/constants').scenarioMonsters;
 
 const BASE_26_SET = 'a'.charCodeAt(0);
-const ROLL_BY = [15, 5, 21, 9];
+const ROLL_BY = 111113;
 
 const roomCodeBijection = (roomCode) => {
-  return roomCode.split("").map((char, index) =>
-    String.fromCharCode((char.charCodeAt(0) - BASE_26_SET + ROLL_BY[index]) % 26 + BASE_26_SET)
-  ).join("");
+  let roomVal = roomCode.split("").map((char, index) => {
+    return (char.charCodeAt(0) - BASE_26_SET) * Math.pow(26, index);
+  }).reduce((acc, val) => acc + val);
+  roomVal = (roomVal + ROLL_BY) % Math.pow(26, 4);
+  let newCode = [], newDigit, subtractor;
+  for (let digitInd = roomCode.length - 1; digitInd >= 0; digitInd--) {
+    newDigit = 0;
+    subtractor = Math.pow(26, digitInd);
+    while (roomVal >= subtractor) {
+      roomVal -= subtractor;
+      newDigit++;
+    }
+    newCode.unshift(String.fromCharCode(newDigit + BASE_26_SET))
+  }
+  return newCode.join("");
 };
 
 const createInitialSession = ({roomCode, scenarioLevel, scenarioNumber, monsterClasses, characterClasses}) => {
