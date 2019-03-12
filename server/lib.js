@@ -70,7 +70,13 @@ const getMonstersFromNumber = (scenarioNumber) => {
   return scenarioMonsters[scenarioNumber];
 };
 
+const validateRoomCode = (roomCode) => {
+  return typeof roomCode === "string" &&
+    roomCode.split("").filter((char) => char.charCodeAt(0) - BASE_26_SET < 26 && char.charCodeAt(0) - BASE_26_SET >= 0).length === 4;
+};
+
 module.exports = {
   roomCodeBijection,
   createInitialSession,
+  validateRoomCode,
 };

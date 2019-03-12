@@ -1,3 +1,9 @@
+const actionTypes = {
+  INITIALIZE_SSE_SUCCESS: "gloomhaven-tracker/INITIALIZE_SSE_SUCCESS",
+  INITIALIZE_SSE_FAILURE: "gloomhaven-tracker/INITIALIZE_SSE_FAILURE",
+
+};
+
 const characterClasses = [
   {
     name: "Brute",
@@ -508,6 +514,7 @@ const scenarioMonsters = {
 };
 
 module.exports = {
+  actionTypes,
   characterClasses,
   scenarioMonsters,
 };

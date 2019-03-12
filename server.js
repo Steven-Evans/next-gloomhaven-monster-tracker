@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const config = require('./server/config');
 const apiRoutes = require('./server/routes');
+const SSE = require('./server/sse');
+const sseStore = new SSE();
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -12,9 +14,10 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   const server = express();
 
-  server.use(bodyParser.json());
+  server.locals.sseStore = sseStore;
 
-  server.use('/api', apiRoutes);
+  server.use(bodyParser.json());
+  server.use('/api', SSE.sseMiddleware(), apiRoutes);
 
   server.get('/p/:id', (req, res) => {
     const actualPage = '/post';

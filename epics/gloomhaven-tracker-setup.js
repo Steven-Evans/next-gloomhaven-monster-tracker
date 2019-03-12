@@ -1,10 +1,11 @@
-import { filter, map, mapTo, mergeMap } from 'rxjs/operators';
+import { filter, map, mapTo, mergeMap, flatMap } from 'rxjs/operators';
+import { merge, of, concat } from 'rxjs';
 import Router from 'next/router';
 import { observableRequest } from '../utils/request';
 import { apiUrl } from '../config';
 
 import { INITIALIZE_TRACKER } from '../reducers/gloomhaven-tracker-setup';
-import { initializeTrackerSuccess } from '../reducers/gloomhaven-tracker';
+import { initializeSSE, initializeTrackerSuccess } from '../reducers/gloomhaven-tracker';
 
 export const pingEpic = action$ => action$.pipe(
   filter(action => action.type === 'PING'),
@@ -19,14 +20,17 @@ export const postNewRoomEpic = action$ => action$.pipe(
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(action.body)
     }).pipe(
-      map(response => {
+      flatMap(response =>
 //        Router.push(`/gloomhaven-tracker/?roomCode=${response.roomCode}`, `/gloomhaven-tracker/${response.roomCode}`, { shallow: true });
-        return initializeTrackerSuccess(response.roomCode)
-      })
+        concat(
+          of(initializeTrackerSuccess(response.roomCode)),
+          of(initializeSSE(response.roomCode))
+        )
+      )
     )
   )
 );
 
 export const getEventStreamEpic = action$ => {
-  
+
 };

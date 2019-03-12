@@ -7,7 +7,6 @@ export const MONSTERS_CHANGED = "gloomhaven-tracker-setup/MONSTERS_CHANGED";
 export const SCENARIO_NUMBER_SELECTED = "gloomhaven-tracker-setup/SCENARIO_NUMBER_SELECTED";
 export const SCENARIO_LEVEL_SELECTED = "gloomhaven-tracker-setup/SCENARIO_LEVEL_SELECTED";
 export const INITIALIZE_TRACKER = "gloomhaven-tracker-setup/INITIALIZE_TRACKER";
-export const INITIALIZE_TRACKER_SUCCESS = "gloomhaven-tracker-setup/INITIALIZE_TRACKER_SUCCESS";
 
 // State
 export const initialState = fromJS({
