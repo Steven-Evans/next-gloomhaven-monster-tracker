@@ -1,6 +1,6 @@
-import { filter, map, mapTo, mergeMap, flatMap } from 'rxjs/operators';
-import { merge, of, concat } from 'rxjs';
-import Router from 'next/router';
+import { filter, mapTo, mergeMap, flatMap } from 'rxjs/operators';
+import { of, concat } from 'rxjs';
+//import Router from 'next/router';
 import { observableRequest } from '../utils/request';
 import { apiUrl } from '../config';
 
@@ -30,7 +30,3 @@ export const postNewRoomEpic = action$ => action$.pipe(
     )
   )
 );
-
-export const getEventStreamEpic = action$ => {
-
-};

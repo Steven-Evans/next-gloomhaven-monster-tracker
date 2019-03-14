@@ -1,7 +1,7 @@
 const express = require('express');
 const next = require('next');
 const bodyParser = require('body-parser');
-const MongoClient = require('mongodb').MongoClient;
+import { MongoClient } from 'mongodb';
 const config = require('./server/config');
 const apiRoutes = require('./server/routes');
 const SSE = require('./server/sse');

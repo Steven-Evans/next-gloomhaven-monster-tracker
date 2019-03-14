@@ -117,13 +117,14 @@ const GloomhavenTrackerSetup = (props) => (
   </div>
 );
 
-GloomhavenTrackerSetup.getInitialProps = function({store, isServer, pathname, query}) {
+GloomhavenTrackerSetup.getInitialProps = function() {
+//  has args {store, isServer, pathname, query}
 //  console.log("ARGS", arguments);
 //  store.dispatch({type: 'FOO', payload: 'foo'}); // component will be able to read from store's state when rendered
 //  return {custom: 'custom'}; // you can pass some custom props to component from here
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     onChangeClasses: event => dispatch(charactersUpdated(event.target.value)),
     onChangeMonsters: event => dispatch(monstersUpdated(event.target.value)),

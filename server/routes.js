@@ -19,9 +19,4 @@ router.get('/session/:roomCode', function(req, res){
   sseStore.pub(actionTypes.INITIALIZE_SSE_SUCCESS, {}, req.params.roomCode);
 });
 
-router.get('/test', (req, res) => {
-  console.log('/test is hit');
-  res.send('test');
-});
-
 module.exports = router;

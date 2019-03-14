@@ -1,5 +1,5 @@
-import { filter, map, switchMap, tap } from 'rxjs/operators';
-import { Observable, fromEvent } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { INITIALIZE_SSE } from "../reducers/gloomhaven-tracker";
 import { apiUrl } from '../config';
 

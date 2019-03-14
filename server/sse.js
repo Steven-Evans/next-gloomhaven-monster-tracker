@@ -2,7 +2,7 @@ class SSE {
   constructor() {
     // arrays of responses keyed by roomCode
     this.responses = {};
-  };
+  }
 
   static sseMiddleware() {
     return function(req, res, next) {
@@ -23,7 +23,7 @@ class SSE {
 
       next()
     }
-  };
+  }
 
   sub(res, key) {
     res.sseHead();
@@ -32,7 +32,7 @@ class SSE {
     } else {
       this.responses[key] = [res];
     }
-  };
+  }
 
   pub(eventType, data, key) {
     if (this.responses[key]) {
@@ -42,7 +42,7 @@ class SSE {
     } else {
       console.error(new Error("No connections on this session to push to"));
     }
-  };
+  }
 }
 
 module.exports = SSE;
