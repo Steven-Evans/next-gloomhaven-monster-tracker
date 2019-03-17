@@ -1,7 +1,7 @@
 const express = require('express');
 const next = require('next');
 const bodyParser = require('body-parser');
-import { MongoClient } from 'mongodb';
+const MongoClient = require('mongodb').MongoClient;
 const config = require('./server/config');
 const apiRoutes = require('./server/routes');
 const SSE = require('./server/sse');
@@ -18,6 +18,12 @@ app.prepare().then(() => {
 
   server.use(bodyParser.json());
   server.use('/api', SSE.sseMiddleware(), apiRoutes);
+
+  server.get('/gloomhaven-tracker/:roomCode', (req, res) => {
+    const page = '/gloomhaven-tracker';
+    const queryParams = { roomCode: req.params.roomCode };
+    app.render(req, res, page, queryParams);
+  });
 
   server.get('/p/:id', (req, res) => {
     const actualPage = '/post';

@@ -1,6 +1,5 @@
 import { filter, mapTo, mergeMap, flatMap } from 'rxjs/operators';
 import { of, concat } from 'rxjs';
-//import Router from 'next/router';
 import { observableRequest } from '../utils/request';
 import { apiUrl } from '../config';
 
@@ -21,7 +20,6 @@ export const postNewRoomEpic = action$ => action$.pipe(
       body: JSON.stringify(action.body)
     }).pipe(
       flatMap(response =>
-//        Router.push(`/gloomhaven-tracker/?roomCode=${response.roomCode}`, `/gloomhaven-tracker/${response.roomCode}`, { shallow: true });
         concat(
           of(initializeTrackerSuccess(response.roomCode)),
           of(initializeSSE(response.roomCode))

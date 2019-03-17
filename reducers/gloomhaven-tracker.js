@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import { fromJS } from "immutable";
 import { createSelector } from "reselect";
 import { actionTypes } from "../utils/constants";
@@ -9,6 +10,7 @@ export const INITIALIZE_SSE = "gloomhaven-tracker/INITIALIZE_SSE";
 // State
 export const initialState = fromJS({
   roomCode: "",
+  sseConnected: false,
   monsterClass: [
     {
       initiative: 0,
@@ -49,10 +51,10 @@ export function initializeSSE(roomCode) {
 function trackerReducer(state = initialState, action) {
   switch (action.type) {
     case INITIALIZE_TRACKER_SUCCESS:
+      Router.push(`/gloomhaven-tracker/?roomCode=${action.roomCode}`, `/gloomhaven-tracker/${action.roomCode}`, { shallow: true }).then((val) => console.log("router promise", val));
       return state.set("roomCode", action.roomCode);
     case actionTypes.INITIALIZE_SSE_SUCCESS:
-      console.log("SSE connection set up");
-      return state;
+      return state.set("sseConnected", true);
     default:
       return state;
   }
