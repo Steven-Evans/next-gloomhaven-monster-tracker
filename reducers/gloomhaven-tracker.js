@@ -51,7 +51,7 @@ export function initializeSSE(roomCode) {
 function trackerReducer(state = initialState, action) {
   switch (action.type) {
     case INITIALIZE_TRACKER_SUCCESS:
-      Router.push(`/gloomhaven-tracker/?roomCode=${action.roomCode}`, `/gloomhaven-tracker/${action.roomCode}`, { shallow: true }).then((val) => console.log("router promise", val));
+      Router.push(`/gloomhaven-tracker?roomCode=${action.roomCode}`, `/gloomhaven-tracker/${action.roomCode}`, { shallow: true }).then((val) => console.log("router promise", val));
       return state.set("roomCode", action.roomCode);
     case actionTypes.INITIALIZE_SSE_SUCCESS:
       return state.set("sseConnected", true);
