@@ -4,8 +4,8 @@ const actionTypes = require('../utils/constants').actionTypes;
 const validateRoomCode = require('./lib').validateRoomCode;
 
 router.post('/session', (req, res) => {
-  api.postSession(req).then(roomCode => {
-    res.send(roomCode);
+  api.postSession(req).then((body) => {
+    res.send(body);
   });
 });
 

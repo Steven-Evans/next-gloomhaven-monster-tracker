@@ -2,6 +2,9 @@ import Router from 'next/router';
 import { fromJS } from "immutable";
 import { createSelector } from "reselect";
 import { actionTypes } from "../utils/constants";
+import { transformMonsterNamesToState, monstersFromScenarioOrSelect } from "../utils/monster";
+import { transformCharacterNamesToState } from "../utils/character";
+import { INITIALIZE_TRACKER, selectScenarioLevel } from "./gloomhaven-tracker-setup";
 
 // Constants
 export const INITIALIZE_TRACKER_SUCCESS = "gloomhaven-tracker-setup/INITIALIZE_TRACKER_SUCCESS";
@@ -11,19 +14,24 @@ export const INITIALIZE_SSE = "gloomhaven-tracker/INITIALIZE_SSE";
 export const initialState = fromJS({
   roomCode: "",
   sseConnected: false,
-  monsterClass: [
-    {
-      initiative: 0,
-      active: true,
-    }
-  ]
+  characters: {},
+  monsters: {}
 });
 
 // Selectors
 export const selectTracker = (state) => state.get('tracker');
 
 export const selectRoomCode = () =>
-  createSelector(selectTracker, (setupState) => setupState.get('roomCode'));
+  createSelector(selectTracker, (trackerState) => trackerState.get('roomCode'));
+
+export const selectCharacters = () =>
+  createSelector(selectTracker, (trackerState) => trackerState.get('characters'));
+
+export const selectMonsters = () =>
+  createSelector(selectTracker, (trackerState) => trackerState.get('monsters'));
+
+export const selectMonsterNames = () =>
+  createSelector(selectTracker, (trackerState) => trackerState.get("monsters").keySeq());
 
 // Actions
 export function pageLoad(characterClasses) {
@@ -50,6 +58,10 @@ export function initializeSSE(roomCode) {
 // Reducer
 function trackerReducer(state = initialState, action) {
   switch (action.type) {
+    case INITIALIZE_TRACKER:
+      return state
+        .set("characters", transformCharacterNamesToState(action.body.characterClasses))
+        .set("monsters", transformMonsterNamesToState(monstersFromScenarioOrSelect(action.body.scenarioNumber, action.body.monsterClasses)));
     case INITIALIZE_TRACKER_SUCCESS:
       Router.push(`/gloomhaven-tracker?roomCode=${action.roomCode}`, `/gloomhaven-tracker/${action.roomCode}`, { shallow: true }).then((val) => console.log("router promise", val));
       return state.set("roomCode", action.roomCode);
