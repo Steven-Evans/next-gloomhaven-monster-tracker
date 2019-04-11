@@ -140,10 +140,10 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = createStructuredSelector({
-  characterClasses: selectCharacterClasses(),
-  monsterClasses: selectMonsterClasses(),
-  scenarioNumber: selectScenarioNumber(),
-  scenarioLevel: selectScenarioLevel(),
+  characterClasses: selectCharacterClasses,
+  monsterClasses: selectMonsterClasses,
+  scenarioNumber: selectScenarioNumber,
+  scenarioLevel: selectScenarioLevel,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GloomhavenTrackerSetup);

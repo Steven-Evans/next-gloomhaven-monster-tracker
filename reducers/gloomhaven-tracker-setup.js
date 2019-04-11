@@ -17,7 +17,7 @@ export const initialState = fromJS({
 });
 
 // Selectors
-export const selectSetup = (state) => state.get('setup');
+/*export const selectSetup = (state) => state.get('setup');
 
 export const selectCharacterClasses = () =>
   createSelector(selectSetup, (setupState) => setupState.get('characterClasses').toArray());
@@ -29,7 +29,18 @@ export const selectScenarioNumber = () =>
   createSelector(selectSetup, (setupState) => setupState.get('scenarioNumber'));
 
 export const selectScenarioLevel = () =>
-  createSelector(selectSetup, (setupState) => setupState.get('scenarioLevel'));
+  createSelector(selectSetup, (setupState) => setupState.get('scenarioLevel'));*/
+
+
+export const selectSetup = (state) => state.get('setup');
+
+export const selectCharacterClasses = (state) => selectSetup(state).get('characterClasses').toArray();
+
+export const selectMonsterClasses = (state) => selectSetup(state).get('monsterClasses').toArray();
+
+export const selectScenarioNumber = (state) => selectSetup(state).get('scenarioNumber');
+
+export const selectScenarioLevel = (state) => selectSetup(state).get('scenarioLevel');
 
 // Actions
 export function charactersUpdated(characterClasses) {
