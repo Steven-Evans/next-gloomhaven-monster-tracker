@@ -6,65 +6,78 @@ const actionTypes = {
 
 const characterClasses = [
   {
+    codename: "brute",
     name: "Brute",
     nickname: "Brute"
   },
   {
+    codename: "scoundrel",
     name: "Scoundrel",
     nickname: "Scoundrel"
   },
   {
+    codename: "spellweaver",
     name: "Spellweaver",
     nickname: "Spellweaver"
   },
   {
-    name: "Tinker",
-    nickname: "Tinker"
+    codename: "tinkerer",
+    name: "Tinkerer",
+    nickname: "Tinkerer"
   },
   {
+    codename: "mindthief",
     name: "Mindthief",
     nickname: "Mindthief"
   },
   {
+    codename: "cragheart",
     name: "Cragheart",
     nickname: "Cragheart"
   },
   {
-    name: "Plagueherald",
+    codename: "cthulu",
     nickname: "Cthulu"
   },
   {
-    name: "Berserker",
+    codename: "lightningbolt",
     nickname: "Lightning Bolt"
   },
   {
-    name: "Bard",
+    codename: "musicnote",
     nickname: "Music Note"
   },
   {
-    name: "Elementalist",
+    codename: "triforce",
     nickname: "Triforce"
   },
   {
+    codename: "sun",
     nickname: "Sun"
   },
   {
+    codename: "eclipse",
     nickname: "Eclipse"
   },
   {
+    codename: "threespears",
     nickname: "Three Spears"
   },
   {
+    codename: "angryface",
     nickname: "Angry Face"
   },
   {
-    nickname: "Two Mini"
+    codename: "twominis",
+    nickname: "Two Minis"
   },
   {
+    codename: "concentriccircles",
     nickname: "Concentric Circles"
   },
   {
-    nickname: "Saw"
+    codename: "bonesaw",
+    nickname: "Bone Saw"
   }
 ];
 

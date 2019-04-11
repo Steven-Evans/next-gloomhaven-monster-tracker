@@ -50,7 +50,7 @@ const GloomhavenTrackerSetup = (props) => (
       >
         {
           characterClasses.map(characterClass => (
-            <MenuItem key={characterClass.nickname} value={characterClass.nickname}>
+            <MenuItem key={characterClass.codename} value={characterClass.codename}>
               {characterClass.name ? characterClass.name : characterClass.nickname}
             </MenuItem>
           ))
