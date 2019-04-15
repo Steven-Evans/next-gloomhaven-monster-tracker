@@ -25,9 +25,14 @@ const createRoomCode = async (db) => {
 };
 
 const createSession = async (db, body) => {
-  if (!(body.characterClasses && (body.monsterClasses || body.scenarioNumber))) {
-    console.error(new Error("Characters and Monsters/Scenario not defined"));
+  if (!(body.characterClasses && (body.monsterClasses || body.scenarioNumber) && body.scenarioLevel)) {
+    console.error(new Error("Characters, Monsters/Scenario, and Scenario Level not defined"));
   }
+  body.scenarioLevel = parseInt(body.scenarioLevel);
+  if (isNaN(body.scenarioLevel)) {
+    console.error(new Error("Scenario Level is not a number"));
+  }
+
   let session = createInitialSession(body);
   await db.collection('sessions').insertOne(session, {w:1});
 };

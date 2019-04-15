@@ -86,9 +86,8 @@ const GloomhavenTrackerSetup = (props) => (
       label="Scenario Number"
       value={props.scenarioNumber}
       onChange={props.onChangeScenarioNumber}
-      min={0}
+      min={1}
       max={95}
-      type="number"
 //      className={classes.textField}
 /*      InputLabelProps={{
         shrink: true,
@@ -102,7 +101,6 @@ const GloomhavenTrackerSetup = (props) => (
       onChange={props.onChangeScenarioLevel}
       min={0}
       max={7}
-      type="number"
       //      className={classes.textField}
       /*      InputLabelProps={{
               shrink: true,

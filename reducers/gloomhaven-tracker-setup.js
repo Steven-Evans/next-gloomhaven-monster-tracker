@@ -12,8 +12,8 @@ export const INITIALIZE_TRACKER = "gloomhaven-tracker-setup/INITIALIZE_TRACKER";
 export const initialState = fromJS({
   characterClasses: Set(),
   monsterClasses: Set(),
-  scenarioNumber: 0,
-  scenarioLevel: 0,
+  scenarioNumber: "",
+  scenarioLevel: "",
 });
 
 // Selectors
@@ -89,11 +89,11 @@ function trackerSetupReducer(state = initialState, action) {
         .set("scenarioNumber", 0);
     case SCENARIO_NUMBER_SELECTED:
       return state
-        .set("scenarioNumber", parseInt(action.scenarioNumber))
+        .set("scenarioNumber", action.scenarioNumber)
         .set("monsterClasses", Set());
     case SCENARIO_LEVEL_SELECTED:
       return state
-        .set("scenarioLevel", parseInt(action.scenarioLevel));
+        .set("scenarioLevel", action.scenarioLevel);
     default:
       return state;
   }

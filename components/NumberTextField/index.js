@@ -6,7 +6,7 @@ class NumberTextField extends React.Component {
     super(props);
 
     this.state = {
-      currentNumber: 0,
+      currentNumber: this.props.value,
     }
   }
 
@@ -19,10 +19,11 @@ class NumberTextField extends React.Component {
   }
 
   handlePreviousNumber (event) {
-    if (event.target.value < this.props.min || event.target.value > this.props.max) {
-      event.target.value = this.state.currentNumber;
+    const eventVal = event.target.value;
+    if (!!eventVal.toString().match(/(^[0]$|^[1-9][0-9]*$|^$)/) && (eventVal >= this.props.min && eventVal <= this.props.max || eventVal === "")) {
+      this.setState({currentNumber: eventVal});
     } else {
-      this.setState({currentNumber: event.target.value});
+      event.target.value = this.state.currentNumber;
     }
   }
 
@@ -34,11 +35,6 @@ class NumberTextField extends React.Component {
         { ...other }
         inputProps={{ min, max }}
         onChange={this.handleOnChange.bind(this)}
-        type="number"
-        //      className={classes.textField}
-        /*      InputLabelProps={{
-                shrink: true,
-              }}*/
         margin="normal"
       />
     );
