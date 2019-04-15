@@ -31,8 +31,12 @@ const createMonsterType = (monsterClass) => {
   }
 };
 
+const isBoss = (monsterClass) => {
+  return !monsterStats.monsters[monsterClass];
+};
+
 const getMonsterStats = (monsterClass, scenarioLevel, numCharacters) => {
-  if (!monsterStats.monsters[monsterClass]) {
+  if (isBoss) {
     return getBossStats(monsterClass, scenarioLevel, numCharacters);
   }
   return monsterStats.monsters[monsterClass].level.find((monsterByLevel) =>
@@ -65,6 +69,7 @@ module.exports = {
   transformMonsterNamesToState,
   getMonstersFromScenario,
   monstersFromScenarioOrSelect,
+  isBoss,
   getMonsterStats,
   createMonsterType,
   createMonster,
