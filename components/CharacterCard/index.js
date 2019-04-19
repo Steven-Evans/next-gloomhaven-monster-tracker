@@ -1,0 +1,138 @@
+import React from "react";
+import { connect } from "react-redux";
+import { withStyles } from '@material-ui/core/styles';
+import CardMedia from "@material-ui/core/CardMedia";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
+import ClassCard from "../ClassCard/index";
+import NumberTextField from "../NumberTextField/index";
+import NumberTextFieldStepper from "../NumberTextFieldStepper/index";
+import { characterClasses } from "../../utils/constants";
+import { createStructuredSelector } from "reselect";
+import {
+  updateCharacterExperience,
+  incrementCharacterExperience,
+  decrementCharacterExperience,
+  updateCharacterHealth,
+  incrementCharacterHealth,
+  decrementCharacterHealth,
+  updateCharacterInitiative,
+  selectCharacter,
+} from "../../reducers/gloomhaven-tracker";
+
+const styles = theme => ({
+  media: {
+    width: '6em',
+    height: 0,
+    paddingTop: '90%',
+    marginLeft: '-1em',
+  },
+  actions: {
+    display: 'flex',
+  },
+});
+
+class CharacterCard extends React.Component {
+
+  render () {
+    const {
+      name,
+      character,
+      classes,
+      ...props
+    } = this.props;
+    console.log('PROPS', props.onIncrementExperience);
+
+    const nickname = characterClasses.find((character) => character.codename === name).nickname;
+    const imagePath = `/static/char_icons/${name}.png`;
+
+    return (
+      <ClassCard>
+        <Grid container direction="row" spacing={24} >
+          <Grid container item xs={3}>
+            <Grid item xs={12}>
+              <Typography noWrap variant="h5">
+                {nickname}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <CardMedia
+                className={classes.media}
+                image={imagePath}
+              />
+            </Grid>
+          </Grid>
+          <Grid container item xs={3}>
+            <Grid item xs={4}>
+              <Typography noWrap variant="subtitle1">
+                Initiative:
+              </Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <NumberTextField
+                min={0}
+                max={99}
+                value={character.initiative}
+                onChange={props.onUpdateInitiative}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <Typography noWrap variant="subtitle1">
+                Health:
+              </Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <NumberTextFieldStepper
+                min={0}
+                max={99}
+                value={character.currentHealth}
+                onIncrement={props.onIncrementHealth}
+                onDecrement={props.onDecrementHealth}
+                onChange={props.onUpdateHealth}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <Typography noWrap variant="subtitle1">
+                Experience:
+              </Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <NumberTextFieldStepper
+                min={0}
+                max={99}
+                value={character.experience}
+                onIncrement={props.onIncrementExperience}
+                onDecrement={props.onDecrementExperience}
+                onChange={props.onUpdateExperience}
+              />
+            </Grid>
+          </Grid>
+          <Grid container item xs={6}>
+            stats
+          </Grid>
+        </Grid>
+      </ClassCard>
+    );
+  }
+}
+
+const mapStateToProps = (state, ownProps) => createStructuredSelector({
+  character: selectCharacter(ownProps.name),
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  console.log("OWNPROPS", ownProps);
+  const name = ownProps.name;
+  return {
+    onIncrementHealth: () => dispatch(incrementCharacterHealth(name)),
+    onDecrementHealth: () => dispatch(decrementCharacterHealth(name)),
+    onUpdateHealth: event => dispatch(updateCharacterHealth(name, event.target.value)),
+    onIncrementExperience: () => dispatch(incrementCharacterExperience(name)),
+    onDecrementExperience: () => dispatch(decrementCharacterExperience(name)),
+    onUpdateExperience: event => dispatch(updateCharacterExperience(name, event.target.value)),
+    onUpdateInitiative: event => dispatch(updateCharacterInitiative(name, event.target.value)),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CharacterCard));

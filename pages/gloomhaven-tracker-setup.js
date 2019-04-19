@@ -18,8 +18,8 @@ import {
   selectScenarioLevel,
   charactersUpdated,
   monstersUpdated,
-  scenarioNumberSelected,
-  scenarioLevelSelected,
+  scenarioNumberUpdated,
+  scenarioLevelUpdated,
   initializeTracker,
 } from "../reducers/gloomhaven-tracker-setup";
 import monsterStats from "../utils/monster_stats"
@@ -126,8 +126,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onChangeClasses: event => dispatch(charactersUpdated(event.target.value)),
     onChangeMonsters: event => dispatch(monstersUpdated(event.target.value)),
-    onChangeScenarioNumber: event => dispatch(scenarioNumberSelected(event.target.value)),
-    onChangeScenarioLevel: event => dispatch(scenarioLevelSelected(event.target.value)),
+    onChangeScenarioNumber: event => dispatch(scenarioNumberUpdated(event.target.value)),
+    onChangeScenarioLevel: event => dispatch(scenarioLevelUpdated(event.target.value)),
     onInitializeTracker: ({ characterClasses, monsterClasses, scenarioNumber, scenarioLevel }) => () => dispatch(initializeTracker({
       characterClasses,
       monsterClasses,

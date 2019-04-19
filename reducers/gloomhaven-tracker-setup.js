@@ -2,10 +2,10 @@ import { Set, fromJS } from "immutable";
 import { createSelector } from "reselect";
 
 // Constants
-export const CHARACTERS_CHANGED = "gloomhaven-tracker-setup/CHARACTERS_CHANGED";
-export const MONSTERS_CHANGED = "gloomhaven-tracker-setup/MONSTERS_CHANGED";
-export const SCENARIO_NUMBER_SELECTED = "gloomhaven-tracker-setup/SCENARIO_NUMBER_SELECTED";
-export const SCENARIO_LEVEL_SELECTED = "gloomhaven-tracker-setup/SCENARIO_LEVEL_SELECTED";
+export const UPDATE_CHARACTERS = "gloomhaven-tracker-setup/UPDATE_CHARACTERS";
+export const UPDATE_MONSTERS = "gloomhaven-tracker-setup/UPDATE_MONSTERS";
+export const SCENARIO_NUMBER_UPDATED = "gloomhaven-tracker-setup/SCENARIO_NUMBER_UPDATED";
+export const SCENARIO_LEVEL_UPDATED = "gloomhaven-tracker-setup/SCENARIO_LEVEL_UPDATED";
 export const INITIALIZE_TRACKER = "gloomhaven-tracker-setup/INITIALIZE_TRACKER";
 
 // State
@@ -45,28 +45,28 @@ export const selectScenarioLevel = (state) => selectSetup(state).get('scenarioLe
 // Actions
 export function charactersUpdated(characterClasses) {
   return {
-    type: CHARACTERS_CHANGED,
+    type: UPDATE_CHARACTERS,
     characterClasses,
   }
 }
 
 export function monstersUpdated(monsterClasses) {
   return {
-    type: MONSTERS_CHANGED,
+    type: UPDATE_MONSTERS,
     monsterClasses,
   }
 }
 
-export function scenarioNumberSelected(scenarioNumber) {
+export function scenarioNumberUpdated(scenarioNumber) {
   return {
-    type: SCENARIO_NUMBER_SELECTED,
+    type: SCENARIO_NUMBER_UPDATED,
     scenarioNumber,
   }
 }
 
-export function scenarioLevelSelected(scenarioLevel) {
+export function scenarioLevelUpdated(scenarioLevel) {
   return {
-    type: SCENARIO_LEVEL_SELECTED,
+    type: SCENARIO_LEVEL_UPDATED,
     scenarioLevel,
   }
 }
@@ -81,17 +81,17 @@ export function initializeTracker(body) {
 // Reducer
 function trackerSetupReducer(state = initialState, action) {
   switch (action.type) {
-    case CHARACTERS_CHANGED:
+    case UPDATE_CHARACTERS:
       return state.set("characterClasses", Set(action.characterClasses));
-    case MONSTERS_CHANGED:
+    case UPDATE_MONSTERS:
       return state
         .set("monsterClasses", Set(action.monsterClasses))
         .set("scenarioNumber", 0);
-    case SCENARIO_NUMBER_SELECTED:
+    case SCENARIO_NUMBER_UPDATED:
       return state
         .set("scenarioNumber", action.scenarioNumber)
         .set("monsterClasses", Set());
-    case SCENARIO_LEVEL_SELECTED:
+    case SCENARIO_LEVEL_UPDATED:
       return state
         .set("scenarioLevel", action.scenarioLevel);
     default:
