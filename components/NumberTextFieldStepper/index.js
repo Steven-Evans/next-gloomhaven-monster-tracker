@@ -38,7 +38,6 @@ class NumberTextFieldStepper extends React.Component {
       onDecrement,
       ...other
     } = this.props;
-    console.log('PROPS', other);
 
     return (
       <Grid container spacing={8}>

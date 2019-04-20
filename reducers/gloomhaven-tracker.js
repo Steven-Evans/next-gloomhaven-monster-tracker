@@ -143,7 +143,9 @@ export function updateCharacterInitiative(characterName, initiative) {
 }
 
 // Reducer
-//function characterState()
+function numberOrEmpty(stateVal) {
+  return isNaN(stateVal) ? "" : stateVal;
+}
 
 function trackerReducer(state = initialState, action) {
   let keyPath, nextVal;
@@ -159,29 +161,29 @@ function trackerReducer(state = initialState, action) {
       return state.set("sseConnected", true);
     case UPDATE_CHARACTER_EXPERIENCE:
       nextVal = parseInt(action.experience);
-      return state.setIn(["characters", action.characterName, "experience"], isNaN(nextVal) ? "" : nextVal);
+      return state.setIn(["characters", action.characterName, "experience"], numberOrEmpty(nextVal));
     case INCREMENT_CHARACTER_EXPERIENCE:
       keyPath = ["characters", action.characterName, "experience"];
       nextVal = parseInt(state.getIn(keyPath)) + 1;
-      return state.setIn(keyPath, isNaN(nextVal) ? "" : nextVal);
+      return state.setIn(keyPath, numberOrEmpty(nextVal));
     case DECREMENT_CHARACTER_EXPERIENCE:
       keyPath = ["characters", action.characterName, "experience"];
       nextVal = parseInt(state.getIn(keyPath)) - 1;
-      return state.setIn(keyPath, isNaN(nextVal) ? "" : nextVal);
+      return state.setIn(keyPath, numberOrEmpty(nextVal));
     case UPDATE_CHARACTER_HEALTH:
       nextVal = parseInt(action.currentHealth);
-      return state.setIn(["characters", action.characterName, "currentHealth"], isNaN(nextVal) ? "" : nextVal);
+      return state.setIn(["characters", action.characterName, "currentHealth"], numberOrEmpty(nextVal));
     case INCREMENT_CHARACTER_HEALTH:
       keyPath = ["characters", action.characterName, "currentHealth"];
       nextVal = parseInt(state.getIn(keyPath)) + 1;
-      return state.setIn(keyPath, isNaN(nextVal) ? "" : nextVal);
+      return state.setIn(keyPath, numberOrEmpty(nextVal));
     case DECREMENT_CHARACTER_HEALTH:
       keyPath = ["characters", action.characterName, "currentHealth"];
       nextVal = parseInt(state.getIn(keyPath)) - 1;
-      return state.setIn(keyPath, isNaN(nextVal) ? "" : nextVal);
+      return state.setIn(keyPath, numberOrEmpty(nextVal));
     case UPDATE_CHARACTER_INITIATIVE:
       nextVal = parseInt(action.initiative);
-      return state.setIn(["characters", action.characterName, "initiative"], isNaN(nextVal) ? "" : nextVal);
+      return state.setIn(["characters", action.characterName, "initiative"], numberOrEmpty(nextVal));
     default:
       return state;
   }
