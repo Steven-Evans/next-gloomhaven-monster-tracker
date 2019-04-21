@@ -16,6 +16,7 @@ export const UPDATE_CHARACTER_HEALTH = "gloomhaven-tracker/UPDATE_CHARACTER_HEAL
 export const INCREMENT_CHARACTER_HEALTH = "gloomhaven-tracker/INCREMENT_CHARACTER_HEALTH";
 export const DECREMENT_CHARACTER_HEALTH = "gloomhaven-tracker/DECREMENT_CHARACTER_HEALTH";
 export const UPDATE_CHARACTER_INITIATIVE = "gloomhaven-tracker/UPDATE_CHARACTER_INITIATIVE";
+export const UPDATE_CHARACTER_STATUS_EFFECT = "gloomhaven-tracker/UPDATE_CHARACTER_STATUS_EFFECT";
 
 // State
 export const initialState = fromJS({
@@ -142,6 +143,15 @@ export function updateCharacterInitiative(characterName, initiative) {
   }
 }
 
+export function updateCharacterStatusEffect(characterName, statusEffect, checked) {
+  return {
+    type: UPDATE_CHARACTER_STATUS_EFFECT,
+    characterName,
+    statusEffect,
+    checked,
+  }
+}
+
 // Reducer
 function numberOrEmpty(stateVal) {
   return isNaN(stateVal) ? "" : stateVal;
@@ -184,6 +194,9 @@ function trackerReducer(state = initialState, action) {
     case UPDATE_CHARACTER_INITIATIVE:
       nextVal = parseInt(action.initiative);
       return state.setIn(["characters", action.characterName, "initiative"], numberOrEmpty(nextVal));
+    case UPDATE_CHARACTER_STATUS_EFFECT:
+      keyPath = ["characters", action.characterName, "statusEffects", action.statusEffect];
+      return state.setIn(keyPath, action.checked);
     default:
       return state;
   }

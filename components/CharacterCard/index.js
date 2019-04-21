@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import ClassCard from "../ClassCard/index";
 import NumberTextField from "../NumberTextField/index";
 import NumberTextFieldStepper from "../NumberTextFieldStepper/index";
+import StatusEffectSelector from "../StatusEffectSelector/index";
 import { characterClasses } from "../../utils/constants";
 import { createStructuredSelector } from "reselect";
 import {
@@ -18,6 +19,7 @@ import {
   incrementCharacterHealth,
   decrementCharacterHealth,
   updateCharacterInitiative,
+  updateCharacterStatusEffect,
   selectCharacter,
 } from "../../reducers/gloomhaven-tracker";
 
@@ -109,7 +111,10 @@ class CharacterCard extends React.Component {
             </Grid>
           </Grid>
           <Grid container item xs={6}>
-            stats
+            <StatusEffectSelector
+              statusEffects={character.statusEffects}
+              handleStatusToggle={props.onUpdateStatusEffect.bind(null, name)}
+            />
           </Grid>
         </Grid>
       </ClassCard>
@@ -122,16 +127,16 @@ const mapStateToProps = (state, ownProps) => createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  console.log("OWNPROPS", ownProps);
   const name = ownProps.name;
   return {
     onIncrementHealth: () => dispatch(incrementCharacterHealth(name)),
     onDecrementHealth: () => dispatch(decrementCharacterHealth(name)),
-    onUpdateHealth: event => dispatch(updateCharacterHealth(name, event.target.value)),
+    onUpdateHealth: (event) => dispatch(updateCharacterHealth(name, event.target.value)),
     onIncrementExperience: () => dispatch(incrementCharacterExperience(name)),
     onDecrementExperience: () => dispatch(decrementCharacterExperience(name)),
-    onUpdateExperience: event => dispatch(updateCharacterExperience(name, event.target.value)),
-    onUpdateInitiative: event => dispatch(updateCharacterInitiative(name, event.target.value)),
+    onUpdateExperience: (event) => dispatch(updateCharacterExperience(name, event.target.value)),
+    onUpdateInitiative: (event) => dispatch(updateCharacterInitiative(name, event.target.value)),
+    onUpdateStatusEffect: (name, effect) => (event) => dispatch(updateCharacterStatusEffect(name, effect, event.target.checked)),
   }
 };
 

@@ -1,12 +1,13 @@
 const statusEffects = () => {
   return {
-    disarmed: false,
-    immobilized: false,
-    invisible: false,
-    muddled: false,
     poisoned: false,
-    stunned: false,
     wounded: false,
+    disarmed: false,
+    stunned: false,
+    muddled: false,
+    immobilized: false,
+    strengthened: false,
+    invisible: false,
   }
 };
 
