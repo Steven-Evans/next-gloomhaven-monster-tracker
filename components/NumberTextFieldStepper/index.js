@@ -22,7 +22,7 @@ const styles = theme => ({
     //fontSize: 24,
   },
   iconButton: {
-    margin: theme.spacing.unit,
+    //margin: theme.spacing.unit,
     color: theme.palette.primary.main,
     /*'&:hover': {
       color: theme.palette.primary.accent,
@@ -53,7 +53,6 @@ class NumberTextFieldStepper extends React.Component {
             /*      InputLabelProps={{
                     shrink: true,
                   }}*/
-            margin="normal"
           />
         </Grid>
         <Grid item xs={4}>

@@ -16,12 +16,12 @@ import { isBoss } from '../utils/monster';
 const GloomhavenTracker = (props) => {
   return (
     <Grid container spacing={24}>
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} md={4}>
         <Paper>
           xs
         </Paper>
       </Grid>
-      <Grid container item xs={12} sm={8}>
+      <Grid container item xs={12} md={8}>
         {
           props.initiativeSortedClasses.map((sortedClass) => {
             let componentToRender;

@@ -22,7 +22,7 @@ import {
   scenarioLevelUpdated,
   initializeTracker,
 } from "../reducers/gloomhaven-tracker-setup";
-import monsterStats from "../utils/monster_stats"
+import monsterStats from "../utils/monster_stats";
 
 const monsterClasses = Object.keys(monsterStats.monsters).concat(Object.keys(monsterStats.bosses));
 

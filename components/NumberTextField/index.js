@@ -36,7 +36,7 @@ class NumberTextField extends React.Component {
         type="tel"
         inputProps={{ min, max }}
         onChange={this.handleOnChange.bind(this)}
-        margin="normal"
+        margin="none"
       />
     );
   }

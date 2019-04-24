@@ -20,7 +20,7 @@ class StatusEffectSelector extends React.Component {
       <Grid container spacing={8}>
         {
           Object.entries(statusEffects).map((effect) => (
-            <Grid item xs={6}>
+            <Grid item xs={6} key={effect[0]}>
               <FormControlLabel
                 control={
                   <Checkbox
