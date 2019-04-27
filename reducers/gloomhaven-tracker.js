@@ -2,7 +2,7 @@ import Router from 'next/router';
 import { fromJS } from "immutable";
 import { createSelector } from "reselect";
 import { actionTypes } from "../utils/constants";
-import { transformMonsterNamesToState, monstersFromScenarioOrSelect } from "../utils/monster";
+import { createNewMonster, transformMonsterNamesToState, monstersFromScenarioOrSelect } from "../utils/monster";
 import { transformCharacterNamesToState } from "../utils/character";
 import { INITIALIZE_TRACKER, selectScenarioLevel } from "./gloomhaven-tracker-setup";
 
@@ -17,12 +17,18 @@ export const INCREMENT_CHARACTER_HEALTH = "gloomhaven-tracker/INCREMENT_CHARACTE
 export const DECREMENT_CHARACTER_HEALTH = "gloomhaven-tracker/DECREMENT_CHARACTER_HEALTH";
 export const UPDATE_CHARACTER_INITIATIVE = "gloomhaven-tracker/UPDATE_CHARACTER_INITIATIVE";
 export const UPDATE_CHARACTER_STATUS_EFFECT = "gloomhaven-tracker/UPDATE_CHARACTER_STATUS_EFFECT";
+export const CREATE_MONSTER = "gloomhaven-tracker/CREATE_MONSTER";
 export const UPDATE_MONSTER_INITIATIVE = "gloomhaven-tracker/UPDATE_MONSTER_INITIATIVE";
 export const UPDATE_MONSTER_STATUS_EFFECT = "gloomhaven-tracker/UPDATE_MONSTER_STATUS_EFFECT";
+export const UPDATE_NEW_MONSTER_DIALOGUE = "gloomhaven-tracker/UPDATE_NEW_MONSTER_DIALOGUE";
 
 // State
 export const initialState = fromJS({
   roomCode: "",
+  newMonsterDialogue: {
+    open: false,
+    type: "",
+  },
   sseConnected: false,
   characters: {},
   monsters: {}
@@ -41,15 +47,13 @@ export const selectMonster = (monsterName) => (state) => selectMonsters(state)[m
 
 export const selectCharacter = (characterName) => (state) => selectCharacters(state)[characterName];
 
+export const selectNewMonsterDialogueOpen = (state) => selectTracker(state).getIn(['newMonsterDialogue', 'open']);
 
+export const selectNewMonsterType = (state) => selectTracker(state).getIn(['newMonsterDialogue', 'type']);
 
-/*
-export const selectMonsterByName = (monsterName) =>
-  createSelector(selectMonsters, (monstersState) => monstersState[monsterName]);
-
-export const selectCharacterByName = (characterName) =>
-  createSelector(selectCharacters, (characterState) => characterState[characterName]);
-*/
+export const selectMonsterByNewType = (state) => {
+  return selectMonster(selectNewMonsterType(state))(state);
+};
 
 export const selectMonsterNames = () =>
   createSelector(selectTracker, (trackerState) => trackerState.get('monsters').keySeq());
@@ -69,6 +73,10 @@ export const selectClassesByInitiative = createSelector([selectCharacters, selec
       return difference;
     }
   });
+});
+
+export const selectActiveStandees = createSelector(selectMonsterByNewType, (monster) => {
+  return !!monster ? Object.keys(monster.active) : [];
 });
 
 // Actions
@@ -154,6 +162,16 @@ export function updateCharacterStatusEffect(characterName, statusEffect, checked
   }
 }
 
+export function createMonster(standeeNumber, monsterName, elite, scenarioLevel) {
+  return {
+    type: CREATE_MONSTER,
+    standeeNumber,
+    monsterName,
+    elite,
+    scenarioLevel,
+  }
+}
+
 export function updateMonsterInitiative(monsterName, initiative) {
   return {
     type: UPDATE_MONSTER_INITIATIVE,
@@ -169,6 +187,14 @@ export function updateMonsterStatusEffect(monsterName, token, statusEffect, chec
     standeeNumber,
     statusEffect,
     checked,
+  }
+}
+
+export function updateNewMonsterDialogue(monsterType, open) {
+  return {
+    type: UPDATE_NEW_MONSTER_DIALOGUE,
+    monsterType,
+    open,
   }
 }
 
@@ -217,12 +243,22 @@ function trackerReducer(state = initialState, action) {
     case UPDATE_CHARACTER_STATUS_EFFECT:
       keyPath = ["characters", action.characterName, "statusEffects", action.statusEffect];
       return state.setIn(keyPath, action.checked);
+    case CREATE_MONSTER:
+      const newMonsterType = action.monsterType || state.getIn(['newMonsterDialogue', 'type']);
+      keyPath = ["monsters", newMonsterType, "active", action.standeeNumber];
+      return state
+        .setIn(keyPath, createNewMonster(newMonsterType, action.standeeNumber, action.elite, action.scenarioLevel))
+        .setIn(['newMonsterDialogue', 'open'], false);
     case UPDATE_MONSTER_INITIATIVE:
       nextVal = parseInt(action.initiative);
       return state.setIn(["monsters", action.monsterName, "initiative"], numberOrEmpty(nextVal));
     case UPDATE_MONSTER_STATUS_EFFECT:
       keyPath = ["monsters", action.monsterName, "active", action.standeeNumber, "statusEffects", action.statusEffect];
       return state.setIn(keyPath, action.checked);
+    case UPDATE_NEW_MONSTER_DIALOGUE:
+      return state
+        .setIn(["newMonsterDialogue", "type"], action.monsterType)
+        .setIn(["newMonsterDialogue", "open"], action.open);
     default:
       return state;
   }

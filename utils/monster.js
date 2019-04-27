@@ -57,10 +57,15 @@ const getBossHitpoints = (hitpointStr, numCharacters) => {
   return hitpointStr.split("x")[0] * numCharacters;
 };
 
-const createMonster = (monsterClass, standeeNum, elite, scenarioLevel) => {
+const getMonsterHitpoints = (monsterClass, elite, scenarioLevel) => {
+  const stats = monsterStats.monsters[monsterClass].level[scenarioLevel];
+  return elite ? stats.elite.health : stats.normal.health;
+};
+
+const createNewMonster = (monsterClass, standeeNum, elite, scenarioLevel) => {
   return {
     elite,
-    currentHealth: 0, //getMonsterHitpoints(monsterClass, elite, scenarioLevel),
+    currentHealth: getMonsterHitpoints(monsterClass, elite, scenarioLevel), //getMonsterHitpoints(monsterClass, elite, scenarioLevel),
     statusEffects: statusEffects(),
   };
 };
@@ -72,5 +77,5 @@ module.exports = {
   isBoss,
   getMonsterStats,
   createMonsterType,
-  createMonster,
+  createNewMonster,
 };

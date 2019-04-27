@@ -11,6 +11,7 @@ import NumberTextField from "../NumberTextField";
 import {
   selectMonster,
   updateMonsterInitiative,
+  updateNewMonsterDialogue,
 } from "../../reducers/gloomhaven-tracker";
 import { selectScenarioLevel } from "../../reducers/gloomhaven-tracker-setup";
 import monsterStats from "../../utils/monster_stats";
@@ -55,9 +56,9 @@ class MonsterCard extends React.Component {
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Button variant="contained" color="primary" className={classes.button}>
+              <Button variant="contained" color="primary" className={classes.button} onClick={props.onClickNewMonster}>
                 New Monster
-              </Button>x
+              </Button>
             </Grid>
           </Grid>
           <Grid container item xs={6} md={3}>
@@ -77,7 +78,7 @@ class MonsterCard extends React.Component {
           </Grid>
           {
             ["normal", "elite"].map((type) => (
-              <Grid container item xs={6} md={3}>
+              <Grid container item xs={6} md={3} key={type}>
                 <Typography variant="h6">
                   { uppercase(type) }
                 </Typography>
@@ -93,7 +94,7 @@ class MonsterCard extends React.Component {
                         <Grid item xs={6}>
                           {
                             Array.isArray(stat[1]) ? stat[1].map((attribute) => (
-                              <Typography className={classes.statsTypography}>
+                              <Typography className={classes.statsTypography} key={attribute}>
                                 { attribute }
                               </Typography>
                             )) : (
@@ -125,6 +126,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const name = ownProps.name;
   return {
     onUpdateInitiative: (event) => dispatch(updateMonsterInitiative(name, event.target.value)),
+    onClickNewMonster: () => dispatch(updateNewMonsterDialogue(name, true)),
   }
 };
 
