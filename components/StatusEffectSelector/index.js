@@ -12,15 +12,16 @@ class StatusEffectSelector extends React.Component {
   render() {
     const {
       classes,
+      isCharacter,
       statusEffects,
       handleStatusToggle,
     } = this.props;
 
     return (
-      <Grid container spacing={8}>
+      <Grid container spacing={8} direction="row">
         {
           Object.entries(statusEffects).map((effect) => (
-            <Grid item xs={6} key={effect[0]}>
+            <Grid item xs={6} sm={3} md={isCharacter ? 6 : 3} lg={3} key={effect[0]}>
               <FormControlLabel
                 control={
                   <Checkbox

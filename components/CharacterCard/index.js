@@ -51,9 +51,9 @@ class CharacterCard extends React.Component {
     return (
       <ClassCard>
         <Grid container direction="row" spacing={24} >
-          <Grid container item xs={6} md={3}>
+          <Grid container item xs={4} md={2}>
             <Grid item xs={12}>
-              <Typography noWrap variant="h5">
+              <Typography variant="h5">
                 {nickname}
               </Typography>
             </Grid>
@@ -64,9 +64,9 @@ class CharacterCard extends React.Component {
               />
             </Grid>
           </Grid>
-          <Grid container item xs={6} md={3}>
+          <Grid container item xs={8} md={4}>
             <Grid item xs={4}>
-              <Typography noWrap variant="subtitle1">
+              <Typography variant="subtitle1">
                 Initiative:
               </Typography>
             </Grid>
@@ -79,7 +79,7 @@ class CharacterCard extends React.Component {
               />
             </Grid>
             <Grid item xs={4}>
-              <Typography noWrap variant="subtitle1">
+              <Typography variant="subtitle1">
                 Health:
               </Typography>
             </Grid>
@@ -94,7 +94,7 @@ class CharacterCard extends React.Component {
               />
             </Grid>
             <Grid item xs={4}>
-              <Typography noWrap variant="subtitle1">
+              <Typography variant="subtitle1">
                 Experience:
               </Typography>
             </Grid>
@@ -111,6 +111,7 @@ class CharacterCard extends React.Component {
           </Grid>
           <Grid container item xs={12} md={6}>
             <StatusEffectSelector
+              isCharacter={true}
               statusEffects={character.statusEffects}
               handleStatusToggle={props.onUpdateStatusEffect.bind(null, name)}
             />

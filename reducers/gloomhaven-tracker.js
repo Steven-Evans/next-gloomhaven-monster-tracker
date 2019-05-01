@@ -19,6 +19,9 @@ export const UPDATE_CHARACTER_INITIATIVE = "gloomhaven-tracker/UPDATE_CHARACTER_
 export const UPDATE_CHARACTER_STATUS_EFFECT = "gloomhaven-tracker/UPDATE_CHARACTER_STATUS_EFFECT";
 export const CREATE_MONSTER = "gloomhaven-tracker/CREATE_MONSTER";
 export const UPDATE_MONSTER_INITIATIVE = "gloomhaven-tracker/UPDATE_MONSTER_INITIATIVE";
+export const UPDATE_MONSTER_HEALTH = "gloomhaven-tracker/UPDATE_MONSTER_HEALTH";
+export const INCREMENT_MONSTER_HEALTH = "gloomhaven-tracker/INCREMENT_MONSTER_HEALTH";
+export const DECREMENT_MONSTER_HEALTH = "gloomhaven-tracker/DECREMENT_MONSTER_HEALTH";
 export const UPDATE_MONSTER_STATUS_EFFECT = "gloomhaven-tracker/UPDATE_MONSTER_STATUS_EFFECT";
 export const UPDATE_NEW_MONSTER_DIALOGUE = "gloomhaven-tracker/UPDATE_NEW_MONSTER_DIALOGUE";
 
@@ -180,7 +183,32 @@ export function updateMonsterInitiative(monsterName, initiative) {
   }
 }
 
-export function updateMonsterStatusEffect(monsterName, token, statusEffect, checked) {
+export function updateMonsterHealth(standeeNumber, monsterName, currentHealth) {
+  return {
+    type: UPDATE_MONSTER_HEALTH,
+    standeeNumber,
+    monsterName,
+    currentHealth
+  }
+}
+
+export function incrementMonsterHealth(standeeNumber, monsterName) {
+  return {
+    type: INCREMENT_MONSTER_HEALTH,
+    standeeNumber,
+    monsterName,
+  }
+}
+
+export function decrementMonsterHealth(standeeNumber, monsterName) {
+  return {
+    type: DECREMENT_MONSTER_HEALTH,
+    standeeNumber,
+    monsterName,
+  }
+}
+
+export function updateMonsterStatusEffect(monsterName, standeeNumber, statusEffect, checked) {
   return {
     type: UPDATE_MONSTER_STATUS_EFFECT,
     monsterName,
@@ -252,6 +280,17 @@ function trackerReducer(state = initialState, action) {
     case UPDATE_MONSTER_INITIATIVE:
       nextVal = parseInt(action.initiative);
       return state.setIn(["monsters", action.monsterName, "initiative"], numberOrEmpty(nextVal));
+    case UPDATE_MONSTER_HEALTH:
+      nextVal = parseInt(action.currentHealth);
+      return state.setIn(["monsters", action.monsterName, "active", action.standeeNumber, "currentHealth"], numberOrEmpty(nextVal));
+    case INCREMENT_MONSTER_HEALTH:
+      keyPath = ["monsters", action.monsterName, "active", action.standeeNumber, "currentHealth"];
+      nextVal = parseInt(state.getIn(keyPath)) + 1;
+      return state.setIn(keyPath, numberOrEmpty(nextVal));
+    case DECREMENT_MONSTER_HEALTH:
+      keyPath = ["monsters", action.monsterName, "active", action.standeeNumber, "currentHealth"];
+      nextVal = parseInt(state.getIn(keyPath)) - 1;
+      return state.setIn(keyPath, numberOrEmpty(nextVal));
     case UPDATE_MONSTER_STATUS_EFFECT:
       keyPath = ["monsters", action.monsterName, "active", action.standeeNumber, "statusEffects", action.statusEffect];
       return state.setIn(keyPath, action.checked);

@@ -41,7 +41,7 @@ const characterClasses = [
   },
   {
     codename: "lightningbolt",
-    nickname: "Lightning Bolt"
+    nickname: "Lightning"
   },
   {
     codename: "musicnote",
@@ -73,7 +73,7 @@ const characterClasses = [
   },
   {
     codename: "concentriccircles",
-    nickname: "Concentric Circles"
+    nickname: "Circles"
   },
   {
     codename: "bonesaw",

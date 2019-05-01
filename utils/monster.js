@@ -65,7 +65,7 @@ const getMonsterHitpoints = (monsterClass, elite, scenarioLevel) => {
 const createNewMonster = (monsterClass, standeeNum, elite, scenarioLevel) => {
   return {
     elite,
-    currentHealth: getMonsterHitpoints(monsterClass, elite, scenarioLevel), //getMonsterHitpoints(monsterClass, elite, scenarioLevel),
+    currentHealth: getMonsterHitpoints(monsterClass, elite, scenarioLevel),
     statusEffects: statusEffects(),
   };
 };

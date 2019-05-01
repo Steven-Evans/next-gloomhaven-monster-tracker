@@ -10,11 +10,16 @@ import { createStructuredSelector } from "reselect";
 import NumberTextField from "../NumberTextField";
 import {
   selectMonster,
+  updateMonsterStatusEffect,
   updateMonsterInitiative,
   updateNewMonsterDialogue,
+  updateMonsterHealth,
+  incrementMonsterHealth,
+  decrementMonsterHealth,
 } from "../../reducers/gloomhaven-tracker";
 import { selectScenarioLevel } from "../../reducers/gloomhaven-tracker-setup";
 import monsterStats from "../../utils/monster_stats";
+import ActiveMonster from "../ActiveMonster";
 
 const styles = theme => ({
   button: {
@@ -51,7 +56,7 @@ class MonsterCard extends React.Component {
         <Grid container direction="row" spacing={24} >
           <Grid container item xs={6} md={3}>
             <Grid item xs={12}>
-              <Typography noWrap variant="h5">
+              <Typography variant="h5">
                 {name}
               </Typography>
             </Grid>
@@ -63,7 +68,7 @@ class MonsterCard extends React.Component {
           </Grid>
           <Grid container item xs={6} md={3}>
             <Grid item xs={4}>
-              <Typography noWrap variant="subtitle1">
+              <Typography variant="subtitle1">
                 Initiative:
               </Typography>
             </Grid>
@@ -112,6 +117,20 @@ class MonsterCard extends React.Component {
             ))
           }
         </Grid>
+        {
+          Object.entries(monster.active).map(standee => (
+            <ActiveMonster
+              monsterName={name}
+              standeeNumber={standee[0]}
+              activeMonster={standee[1]}
+              onUpdateStatusEffect={props.onUpdateStatusEffect}
+              onIncrementHealth={props.onIncrementHealth(standee[0])}
+              onDecrementHealth={props.onDecrementHealth(standee[0])}
+              onUpdateHealth={props.onUpdateHealth(standee[0])}
+              key={`${name}-${standee[0]}`}
+            />
+          ))
+        }
       </ClassCard>
     );
   }
@@ -127,6 +146,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onUpdateInitiative: (event) => dispatch(updateMonsterInitiative(name, event.target.value)),
     onClickNewMonster: () => dispatch(updateNewMonsterDialogue(name, true)),
+    onUpdateStatusEffect: (monsterName, standeeNumber, effect) => (event) => dispatch(updateMonsterStatusEffect(monsterName, standeeNumber, effect, event.target.checked)),
+    onIncrementHealth: (standeeNumber) => () => dispatch(incrementMonsterHealth(standeeNumber, name)),
+    onDecrementHealth: (standeeNumber) => () => dispatch(decrementMonsterHealth(standeeNumber, name)),
+    onUpdateHealth: (standeeNumber) => (event) => dispatch(updateMonsterHealth(standeeNumber, name, event.target.value)),
   }
 };
 

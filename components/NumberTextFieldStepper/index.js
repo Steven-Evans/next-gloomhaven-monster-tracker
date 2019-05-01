@@ -22,7 +22,7 @@ const styles = theme => ({
     //fontSize: 24,
   },
   iconButton: {
-    //margin: theme.spacing.unit,
+    //textAlign: 'center',
     color: theme.palette.primary.main,
     /*'&:hover': {
       color: theme.palette.primary.accent,
@@ -40,8 +40,8 @@ class NumberTextFieldStepper extends React.Component {
     } = this.props;
 
     return (
-      <Grid container spacing={8}>
-        <Grid item xs={4}>
+      <Grid container spacing={8} justify="space-evenly" wrap="nowrap"  alignItems="center">
+        <Grid item>
           <IconButton className={classes.iconButton} aria-label="Decrement" onClick={onDecrement}>
             <RemoveCircle className={classes.icon}/>
           </IconButton>
@@ -55,7 +55,7 @@ class NumberTextFieldStepper extends React.Component {
                   }}*/
           />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item>
           <IconButton className={classes.iconButton} aria-label="Increment" onClick={onIncrement}>
             <AddCircle />
           </IconButton>
