@@ -8,12 +8,24 @@ import StatusEffectSelector from "../StatusEffectSelector/index";
 import NumberTextFieldStepper from "../NumberTextFieldStepper";
 
 const styles = theme => ({
+  monsterContainer: {
+    borderLeftWidth: "medium",
+    borderLeftStyle: "solid",
+  },
   healthTypography: {
     textAlign: "right",
   },
+  iconContainer: {
+    textAlign: "center",
+  },
   iconButton: {
-    //textAlign: 'center',
     color: theme.palette.primary.dark,
+  },
+  elite: {
+    borderLeftColor: "gold",
+  },
+  normal: {
+    borderLeftColor: "silver",
   },
 });
 
@@ -29,7 +41,7 @@ class ActiveMonster extends React.Component {
     } = this.props;
 
     return (
-      <Grid container spacing={24} alignItems="baseline">
+      <Grid container spacing={8} alignItems="baseline" className={`${classes.monsterContainer} ${activeMonster.elite ? classes.elite : classes.normal}`}>
         <Grid item xs={1}>
           <Typography variant={"h5"}>
             { standeeNumber }
@@ -40,13 +52,13 @@ class ActiveMonster extends React.Component {
             { activeMonster.elite ? "Elite" : "Normal" }
           </Typography>
         </Grid>
-        <Grid container item xs={8} alignItems="center">
-          <Grid item xs={4}>
+        <Grid container item xs={7} alignItems="center">
+          <Grid item xs={3}>
             <Typography variant="subtitle1" className={classes.healthTypography}>
               Health:
             </Typography>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={9}>
             <NumberTextFieldStepper
               min={0}
               max={999}
@@ -57,7 +69,7 @@ class ActiveMonster extends React.Component {
             />
           </Grid>
         </Grid>
-        <Grid item xs={1}>
+        <Grid item xs={2} className={classes.iconContainer}>
           <IconButton className={classes.iconButton} onClick={props.onMonsterKilled}>
             <Cancel />
           </IconButton>
