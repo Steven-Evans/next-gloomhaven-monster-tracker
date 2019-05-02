@@ -10,12 +10,14 @@ import { createStructuredSelector } from "reselect";
 import NumberTextField from "../NumberTextField";
 import {
   selectMonster,
+  makeSelectSortedActiveMonsters,
   updateMonsterStatusEffect,
   updateMonsterInitiative,
   updateNewMonsterDialogue,
   updateMonsterHealth,
   incrementMonsterHealth,
   decrementMonsterHealth,
+  deleteActiveMonster,
 } from "../../reducers/gloomhaven-tracker";
 import { selectScenarioLevel } from "../../reducers/gloomhaven-tracker-setup";
 import monsterStats from "../../utils/monster_stats";
@@ -45,6 +47,7 @@ class MonsterCard extends React.Component {
       name,
       monster,
       scenarioLevel,
+      sortedMonsters,
       ...props
     } = this.props;
 
@@ -76,7 +79,7 @@ class MonsterCard extends React.Component {
               <NumberTextField
                 min={0}
                 max={99}
-                value={monster.initiative}
+                value={monster && monster.initiative || 0}
                 onChange={props.onUpdateInitiative}
               />
             </Grid>
@@ -118,7 +121,7 @@ class MonsterCard extends React.Component {
           }
         </Grid>
         {
-          Object.entries(monster.active).map(standee => (
+          sortedMonsters.map(standee => (
             <ActiveMonster
               monsterName={name}
               standeeNumber={standee[0]}
@@ -127,6 +130,7 @@ class MonsterCard extends React.Component {
               onIncrementHealth={props.onIncrementHealth(standee[0])}
               onDecrementHealth={props.onDecrementHealth(standee[0])}
               onUpdateHealth={props.onUpdateHealth(standee[0])}
+              onMonsterKilled={props.onMonsterKilled(standee[0])}
               key={`${name}-${standee[0]}`}
             />
           ))
@@ -136,10 +140,18 @@ class MonsterCard extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => createStructuredSelector({
-  monster: selectMonster(ownProps.name),
-  scenarioLevel: selectScenarioLevel,
-});
+const makeMapStateToProps = (state, ownProps) => {
+  const selectActiveMonsters = makeSelectSortedActiveMonsters(ownProps.name);
+
+  const mapStateToProps = createStructuredSelector({
+    monster: selectMonster(ownProps.name),
+    scenarioLevel: selectScenarioLevel,
+    sortedMonsters: selectActiveMonsters,
+  });
+  return mapStateToProps;
+};
+
+
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const name = ownProps.name;
@@ -150,7 +162,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onIncrementHealth: (standeeNumber) => () => dispatch(incrementMonsterHealth(standeeNumber, name)),
     onDecrementHealth: (standeeNumber) => () => dispatch(decrementMonsterHealth(standeeNumber, name)),
     onUpdateHealth: (standeeNumber) => (event) => dispatch(updateMonsterHealth(standeeNumber, name, event.target.value)),
+    onMonsterKilled: (standeeNumber) => () => dispatch(deleteActiveMonster(standeeNumber, name)),
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MonsterCard));
+export default connect(makeMapStateToProps, mapDispatchToProps)(withStyles(styles)(MonsterCard));

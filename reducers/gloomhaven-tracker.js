@@ -22,6 +22,7 @@ export const UPDATE_MONSTER_INITIATIVE = "gloomhaven-tracker/UPDATE_MONSTER_INIT
 export const UPDATE_MONSTER_HEALTH = "gloomhaven-tracker/UPDATE_MONSTER_HEALTH";
 export const INCREMENT_MONSTER_HEALTH = "gloomhaven-tracker/INCREMENT_MONSTER_HEALTH";
 export const DECREMENT_MONSTER_HEALTH = "gloomhaven-tracker/DECREMENT_MONSTER_HEALTH";
+export const DELETE_ACTIVE_MONSTER = "gloomhaven-tracker/DELETE_ACTIVE_MONSTER";
 export const UPDATE_MONSTER_STATUS_EFFECT = "gloomhaven-tracker/UPDATE_MONSTER_STATUS_EFFECT";
 export const UPDATE_NEW_MONSTER_DIALOGUE = "gloomhaven-tracker/UPDATE_NEW_MONSTER_DIALOGUE";
 
@@ -54,9 +55,7 @@ export const selectNewMonsterDialogueOpen = (state) => selectTracker(state).getI
 
 export const selectNewMonsterType = (state) => selectTracker(state).getIn(['newMonsterDialogue', 'type']);
 
-export const selectMonsterByNewType = (state) => {
-  return selectMonster(selectNewMonsterType(state))(state);
-};
+export const selectMonsterByNewType = (state) => selectMonster(selectNewMonsterType(state))(state);
 
 export const selectMonsterNames = () =>
   createSelector(selectTracker, (trackerState) => trackerState.get('monsters').keySeq());
@@ -80,6 +79,10 @@ export const selectClassesByInitiative = createSelector([selectCharacters, selec
 
 export const selectActiveStandees = createSelector(selectMonsterByNewType, (monster) => {
   return !!monster ? Object.keys(monster.active) : [];
+});
+
+export const makeSelectSortedActiveMonsters = (monsterName) => createSelector([selectMonster(monsterName)], (monster) => {
+  return Object.entries(monster.active).filter(standee => standee[1].elite).concat(Object.entries(monster.active).filter(standee => !standee[1].elite));
 });
 
 // Actions
@@ -218,6 +221,14 @@ export function updateMonsterStatusEffect(monsterName, standeeNumber, statusEffe
   }
 }
 
+export function deleteActiveMonster(standeeNumber, monsterName) {
+  return {
+    type: DELETE_ACTIVE_MONSTER,
+    standeeNumber,
+    monsterName,
+  }
+}
+
 export function updateNewMonsterDialogue(monsterType, open) {
   return {
     type: UPDATE_NEW_MONSTER_DIALOGUE,
@@ -291,6 +302,9 @@ function trackerReducer(state = initialState, action) {
       keyPath = ["monsters", action.monsterName, "active", action.standeeNumber, "currentHealth"];
       nextVal = parseInt(state.getIn(keyPath)) - 1;
       return state.setIn(keyPath, numberOrEmpty(nextVal));
+    case DELETE_ACTIVE_MONSTER:
+      keyPath = ["monsters", action.monsterName, "active", action.standeeNumber];
+      return state.deleteIn(keyPath);
     case UPDATE_MONSTER_STATUS_EFFECT:
       keyPath = ["monsters", action.monsterName, "active", action.standeeNumber, "statusEffects", action.statusEffect];
       return state.setIn(keyPath, action.checked);

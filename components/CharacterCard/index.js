@@ -64,7 +64,7 @@ class CharacterCard extends React.Component {
               />
             </Grid>
           </Grid>
-          <Grid container item xs={8} md={4}>
+          <Grid container item xs={8} md={4} alignItems="center">
             <Grid item xs={4}>
               <Typography variant="subtitle1">
                 Initiative:

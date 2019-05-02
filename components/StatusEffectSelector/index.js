@@ -5,7 +5,10 @@ import Checkbox from "@material-ui/core/Checkbox";
 import {withStyles} from "@material-ui/core";
 
 const styles = theme => ({
-
+  checkbox: {
+    width: "36px",
+    height: "36px",
+  },
 });
 
 class StatusEffectSelector extends React.Component {
@@ -25,6 +28,7 @@ class StatusEffectSelector extends React.Component {
               <FormControlLabel
                 control={
                   <Checkbox
+                    className={classes.checkbox}
                     checked={effect[1]}
                     onChange={handleStatusToggle(effect[0])}
                   />
