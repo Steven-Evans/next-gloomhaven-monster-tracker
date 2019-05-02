@@ -60,7 +60,13 @@ class NewMonsterDialog extends React.Component {
           {
             NewMonsterDialog.standeesToArray(numberOfMaxStandees).map((standee) => (
               <Grid item xs={4} key={standee}>
-                <Button variant="contained" color="primary" className={classes.button} onClick={onSelectStandee(standee, this.state.elite)}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={onSelectStandee(standee, this.state.elite)}
+                  disabled={!!activeStandees.find(active => standee === active)}
+                >
                   { standee }
                 </Button>
               </Grid>
