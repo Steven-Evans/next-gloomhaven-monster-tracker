@@ -1,4 +1,7 @@
 const statusEffects = require('./statusEffects');
+const characterClasses = require("./constants").characterClasses;
+
+const getNickname = (name) => characterClasses.find((character) => character.codename === name).nickname;
 
 const transformCharacterNamesToState = (characterNames) => {
   const characters = {};
@@ -19,5 +22,6 @@ const createCharacterState = (characterName) => {
 };
 
 module.exports = {
+  getNickname,
   transformCharacterNamesToState,
 };

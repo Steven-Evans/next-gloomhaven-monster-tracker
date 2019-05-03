@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { createSelector } from "reselect";
 import { actionTypes } from "../utils/constants";
 import { createNewMonster, transformMonsterNamesToState, monstersFromScenarioOrSelect } from "../utils/monster";
-import { transformCharacterNamesToState } from "../utils/character";
+import { getNickname, transformCharacterNamesToState } from "../utils/character";
 import { INITIALIZE_TRACKER, selectScenarioLevel } from "./gloomhaven-tracker-setup";
 
 // Constants
@@ -45,6 +45,8 @@ export const selectCharacters = (state) => selectTracker(state).get('characters'
 
 export const selectMonsters = (state) => selectTracker(state).get('monsters');
 
+export const selectCharacterNames = (state) => Object.keys(selectCharacters(state));
+
 export const selectRoomCode = (state) => selectTracker(state).get('roomCode');
 
 export const selectMonster = (monsterName) => (state) => selectMonsters(state)[monsterName];
@@ -79,6 +81,12 @@ export const selectClassesByInitiative = createSelector([selectCharacters, selec
 
 export const selectActiveStandees = createSelector(selectMonsterByNewType, (monster) => {
   return !!monster ? Object.keys(monster.active) : [];
+});
+
+export const selectCharactersNiceNames = createSelector(selectCharacterNames, (names) => {
+  const niceNames = {};
+  names.forEach(name => niceNames[name] = getNickname(name));
+  return niceNames;
 });
 
 export const makeSelectSortedActiveMonsters = (monsterName) => createSelector([selectMonster(monsterName)], (monster) => {

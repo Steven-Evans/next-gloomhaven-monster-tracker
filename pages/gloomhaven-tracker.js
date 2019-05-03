@@ -20,17 +20,16 @@ import {
 } from "../reducers/gloomhaven-tracker";
 import { isBoss } from '../utils/monster';
 import NewMonsterDialog from "../components/NewMonsterDialog";
+import InitiativeInputCard from "../components/InitiativeInputCard";
 
 const GloomhavenTracker = (props) => {
   return (
     <React.Fragment>
       <Grid container spacing={24}>
         <Grid item xs={12} md={4}>
-          <Paper>
-            xs
-          </Paper>
+          <InitiativeInputCard />
         </Grid>
-        <Grid container item xs={12} md={8}>
+        <Grid container item xs={12} md={8} spacing={24}>
           {
             props.initiativeSortedClasses.map((sortedClass) => {
               let componentToRender;
