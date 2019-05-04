@@ -1,4 +1,4 @@
-const scenarioMonsters = require('./constants').scenarioMonsters;
+const { scenarioMonsters, monsterClasses } = require('./constants');
 const statusEffects = require('./statusEffects');
 const monsterStats = require('./monster_stats');
 
@@ -23,9 +23,13 @@ const getMonstersFromScenario = (scenarioNumber) => {
   return scenarioMonsters[scenarioNumber];
 };
 
+const getMonsterName = (monsterClass) => {
+  return monsterClasses.find((monClass) => monClass.codename === monsterClass).name;
+};
+
 const createMonsterType = (monsterClass) => {
   return {
-    name: monsterClass,
+    name: getMonsterName(monsterClass),
     initiative: 0,
     active: {},
   }
@@ -58,7 +62,7 @@ const getBossHitpoints = (hitpointStr, numCharacters) => {
 };
 
 const getMonsterHitpoints = (monsterClass, elite, scenarioLevel) => {
-  const stats = monsterStats.monsters[monsterClass].level[scenarioLevel];
+  const stats = monsterStats.monsters[getMonsterName(monsterClass)].level[scenarioLevel];
   return elite ? stats.elite.health : stats.normal.health;
 };
 

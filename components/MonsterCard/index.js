@@ -51,7 +51,7 @@ class MonsterCard extends React.Component {
       ...props
     } = this.props;
 
-    const stats = monsterStats.monsters[name].level[scenarioLevel];
+    const stats = monsterStats.monsters[monster.name].level[scenarioLevel];
     const uppercase = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
     return (
@@ -60,7 +60,7 @@ class MonsterCard extends React.Component {
           <Grid container item xs={6} md={3}>
             <Grid item xs={12}>
               <Typography variant="h5">
-                {name}
+                {monster.name}
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -158,7 +158,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onUpdateInitiative: (event) => dispatch(updateMonsterInitiative(name, event.target.value)),
     onClickNewMonster: () => dispatch(updateNewMonsterDialogue(name, true)),
-    onUpdateStatusEffect: (monsterName, standeeNumber, effect) => (event) => dispatch(updateMonsterStatusEffect(monsterName, standeeNumber, effect, event.target.checked)),
+    onUpdateStatusEffect: (standeeNumber, effect) => (event) => dispatch(updateMonsterStatusEffect(name, standeeNumber, effect, event.target.checked)),
     onIncrementHealth: (standeeNumber) => () => dispatch(incrementMonsterHealth(standeeNumber, name)),
     onDecrementHealth: (standeeNumber) => () => dispatch(decrementMonsterHealth(standeeNumber, name)),
     onUpdateHealth: (standeeNumber) => (event) => dispatch(updateMonsterHealth(standeeNumber, name, event.target.value)),

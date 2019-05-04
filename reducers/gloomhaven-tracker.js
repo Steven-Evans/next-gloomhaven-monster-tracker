@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { createSelector } from "reselect";
 import { actionTypes } from "../utils/constants";
 import { createNewMonster, transformMonsterNamesToState, monstersFromScenarioOrSelect } from "../utils/monster";
-import { getNickname, transformCharacterNamesToState } from "../utils/character";
+import { transformCharacterNamesToState } from "../utils/character";
 import { INITIALIZE_TRACKER, selectScenarioLevel } from "./gloomhaven-tracker-setup";
 
 // Constants
@@ -45,8 +45,6 @@ export const selectCharacters = (state) => selectTracker(state).get('characters'
 
 export const selectMonsters = (state) => selectTracker(state).get('monsters');
 
-export const selectCharacterNames = (state) => Object.keys(selectCharacters(state));
-
 export const selectRoomCode = (state) => selectTracker(state).get('roomCode');
 
 export const selectMonster = (monsterName) => (state) => selectMonsters(state)[monsterName];
@@ -63,12 +61,12 @@ export const selectMonsterNames = () =>
   createSelector(selectTracker, (trackerState) => trackerState.get('monsters').keySeq());
 
 export const selectClassesByInitiative = createSelector([selectCharacters, selectMonsters], (characters, monsters) => {
-  return Object.values(characters).concat(Object.values(monsters)).sort((a, b) => {
-    const difference = a.initiative - b.initiative;
+  return Object.entries(characters).concat(Object.entries(monsters)).sort((a, b) => {
+    const difference = a[1].initiative - b[1].initiative;
     if (difference === 0) {
-      if (!!a.active && !b.active) {
+      if (!!a[1].active && !b[1].active) {
         return 1;
-      } else if (!!b.active && !a.active) {
+      } else if (!!b[1].active && !a[1].active) {
         return -1;
       } else {
         return 0;
@@ -81,12 +79,6 @@ export const selectClassesByInitiative = createSelector([selectCharacters, selec
 
 export const selectActiveStandees = createSelector(selectMonsterByNewType, (monster) => {
   return !!monster ? Object.keys(monster.active) : [];
-});
-
-export const selectCharactersNiceNames = createSelector(selectCharacterNames, (names) => {
-  const niceNames = {};
-  names.forEach(name => niceNames[name] = getNickname(name));
-  return niceNames;
 });
 
 export const makeSelectSortedActiveMonsters = (monsterName) => createSelector([selectMonster(monsterName)], (monster) => {

@@ -33,15 +33,15 @@ const GloomhavenTracker = (props) => {
           {
             props.initiativeSortedClasses.map((sortedClass) => {
               let componentToRender;
-              if (!sortedClass.active) {
-                componentToRender = <CharacterCard name={sortedClass.name}/>;
-              } else if (isBoss(sortedClass.name)) {
-                //componentToRender = <BossCard name={sortedClass.name}/>;
+              if (!sortedClass[1].active) {
+                componentToRender = <CharacterCard name={sortedClass[0]}/>;
+              } else if (isBoss(sortedClass[1].name)) {
+                //componentToRender = <BossCard name={sortedClass[0]}/>;
               } else {
-                componentToRender = <MonsterCard name={sortedClass.name} scenarioLevel={props.scenarioLevel}/>;
+                componentToRender = <MonsterCard name={sortedClass[0]} scenarioLevel={props.scenarioLevel}/>;
               }
               return (
-                <Grid key={sortedClass.name} item xs={12}>
+                <Grid key={sortedClass[0]} item xs={12}>
                   {componentToRender}
                 </Grid>
               );

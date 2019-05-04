@@ -13,7 +13,7 @@ const transformCharacterNamesToState = (characterNames) => {
 
 const createCharacterState = (characterName) => {
   return {
-    name: characterName,
+    name: getNickname(characterName),
     initiative: 0,
     currentHealth: 0,
     experience: 0,

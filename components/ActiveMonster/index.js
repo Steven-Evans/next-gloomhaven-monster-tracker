@@ -34,7 +34,6 @@ class ActiveMonster extends React.Component {
   render() {
     const {
       classes,
-      monsterName,
       standeeNumber,
       activeMonster,
       ...props
@@ -78,7 +77,7 @@ class ActiveMonster extends React.Component {
           <StatusEffectSelector
             isCharacter={false}
             statusEffects={activeMonster.statusEffects}
-            handleStatusToggle={props.onUpdateStatusEffect.bind(null, monsterName, standeeNumber)}
+            handleStatusToggle={props.onUpdateStatusEffect.bind(null, standeeNumber)}
           />
         </Grid>
       </Grid>

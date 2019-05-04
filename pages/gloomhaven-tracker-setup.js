@@ -10,7 +10,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import NumberTextField from '../components/NumberTextField';
-import { characterClasses } from '../utils/constants.js';
+import { characterClasses, monsterClasses } from '../utils/constants.js';
 import {
   selectCharacterClasses,
   selectMonsterClasses,
@@ -22,9 +22,6 @@ import {
   scenarioLevelUpdated,
   initializeTracker,
 } from "../reducers/gloomhaven-tracker-setup";
-import monsterStats from "../utils/monster_stats";
-
-const monsterClasses = Object.keys(monsterStats.monsters).concat(Object.keys(monsterStats.bosses));
 
 const GloomhavenTrackerSetup = (props) => (
   <div>
@@ -74,8 +71,8 @@ const GloomhavenTrackerSetup = (props) => (
       >
         {
           monsterClasses.map(monsterClass => (
-            <MenuItem key={monsterClass} value={monsterClass}>
-              {monsterClass}
+            <MenuItem key={monsterClass.codename} value={monsterClass.codename}>
+              {monsterClass.name}
             </MenuItem>
           ))
         }

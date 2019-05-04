@@ -45,7 +45,6 @@ class CharacterCard extends React.Component {
       ...props
     } = this.props;
 
-    const nickname = characterClasses.find((character) => character.codename === name).nickname;
     const imagePath = `/static/char_icons/${name}.png`;
 
     return (
@@ -54,7 +53,7 @@ class CharacterCard extends React.Component {
           <Grid container item xs={4} md={2}>
             <Grid item xs={12}>
               <Typography variant="h5">
-                {nickname}
+                {character.name}
               </Typography>
             </Grid>
             <Grid item>
@@ -113,7 +112,7 @@ class CharacterCard extends React.Component {
             <StatusEffectSelector
               isCharacter={true}
               statusEffects={character.statusEffects}
-              handleStatusToggle={props.onUpdateStatusEffect.bind(null, name)}
+              handleStatusToggle={props.onUpdateStatusEffect}
             />
           </Grid>
         </Grid>
@@ -136,7 +135,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onDecrementExperience: () => dispatch(decrementCharacterExperience(name)),
     onUpdateExperience: (event) => dispatch(updateCharacterExperience(name, event.target.value)),
     onUpdateInitiative: (event) => dispatch(updateCharacterInitiative(name, event.target.value)),
-    onUpdateStatusEffect: (name, effect) => (event) => dispatch(updateCharacterStatusEffect(name, effect, event.target.checked)),
+    onUpdateStatusEffect: (effect) => (event) => dispatch(updateCharacterStatusEffect(name, effect, event.target.checked)),
   }
 };
 

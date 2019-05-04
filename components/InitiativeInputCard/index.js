@@ -9,7 +9,6 @@ import NumberTextField from "../NumberTextField/index";
 import {
   selectCharacters,
   selectMonsters,
-  selectCharactersNiceNames,
   updateMonsterInitiative,
   updateCharacterInitiative
 } from "../../reducers/gloomhaven-tracker";
@@ -24,7 +23,6 @@ class InitiativeInputCard extends React.Component {
     const {
       classes,
       characters,
-      characterNames,
       monsters,
       ...props
     } = this.props;
@@ -36,19 +34,19 @@ class InitiativeInputCard extends React.Component {
         </Typography>
         <Grid container spacing={8}>
           {
-            Object.values(characters).concat(Object.values(monsters)).map((monOrChar) => (
-              <React.Fragment key={monOrChar.name}>
+            Object.entries(characters).concat(Object.entries(monsters)).map((monOrChar) => (
+              <React.Fragment key={monOrChar[0]}>
                 <Grid item xs={4}>
                   <Typography variant="subtitle1">
-                    { characterNames[monOrChar.name] || monOrChar.name }
+                    { monOrChar[1].name }
                   </Typography>
                 </Grid>
                 <Grid item xs={8}>
                   <NumberTextField
                     min={0}
                     max={99}
-                    value={monOrChar.initiative}
-                    onChange={!monOrChar.active ? props.onUpdateCharacterInitiative(monOrChar.name) : props.onUpdateMonsterInitiative(monOrChar.name)}
+                    value={monOrChar[1].initiative}
+                    onChange={!monOrChar[1].active ? props.onUpdateCharacterInitiative(monOrChar[0]) : props.onUpdateMonsterInitiative(monOrChar[0])}
                   />
                 </Grid>
               </React.Fragment>
@@ -70,7 +68,6 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = createStructuredSelector({
   characters: selectCharacters,
   monsters: selectMonsters,
-  characterNames: selectCharactersNiceNames,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(InitiativeInputCard));
