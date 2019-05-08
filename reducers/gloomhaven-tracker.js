@@ -385,6 +385,7 @@ function trackerReducer(state = initialState, action) {
     case actionTypes.INITIALIZE_SSE_SUCCESS:
       return state.set("sseConnected", true);
     case UPDATE_CHARACTER_EXPERIENCE:
+    case actionTypes.SSE_UPDATE_CHARACTER_EXPERIENCE:
       nextVal = parseInt(action.experience);
       return state.setIn(["characters", action.characterName, "experience"], numberOrEmpty(nextVal));
     case INCREMENT_CHARACTER_EXPERIENCE:
@@ -396,6 +397,7 @@ function trackerReducer(state = initialState, action) {
       nextVal = parseInt(state.getIn(keyPath)) - 1;
       return state.setIn(keyPath, numberOrEmpty(nextVal));
     case UPDATE_CHARACTER_HEALTH:
+    case actionTypes.SSE_UPDATE_CHARACTER_HEALTH:
       nextVal = parseInt(action.currentHealth);
       return state.setIn(["characters", action.characterName, "currentHealth"], numberOrEmpty(nextVal));
     case INCREMENT_CHARACTER_HEALTH:
@@ -407,21 +409,26 @@ function trackerReducer(state = initialState, action) {
       nextVal = parseInt(state.getIn(keyPath)) - 1;
       return state.setIn(keyPath, numberOrEmpty(nextVal));
     case UPDATE_CHARACTER_INITIATIVE:
+    case actionTypes.SSE_UPDATE_CHARACTER_INITIATIVE:
       nextVal = parseInt(action.initiative);
       return state.setIn(["characters", action.characterName, "initiative"], numberOrEmpty(nextVal));
     case UPDATE_CHARACTER_STATUS_EFFECT:
+    case actionTypes.SSE_UPDATE_CHARACTER_STATUS_EFFECT:
       keyPath = ["characters", action.characterName, "statusEffects", action.statusEffect];
       return state.setIn(keyPath, action.checked);
     case CREATE_ACTIVE_MONSTER:
+    case actionTypes.SSE_CREATE_ACTIVE_MONSTER:
       const newMonsterType = action.monsterType || state.getIn(['newMonsterDialogue', 'type']);
       keyPath = ["monsters", newMonsterType, "active", action.standeeNumber];
       return state
         .setIn(keyPath, createNewMonster(newMonsterType, action.standeeNumber, action.elite, action.scenarioLevel))
         .setIn(['newMonsterDialogue', 'open'], false);
     case UPDATE_MONSTER_INITIATIVE:
+    case actionTypes.SSE_UPDATE_MONSTER_INITIATIVE:
       nextVal = parseInt(action.initiative);
       return state.setIn(["monsters", action.monsterName, "initiative"], numberOrEmpty(nextVal));
     case UPDATE_MONSTER_HEALTH:
+    case actionTypes.SSE_UPDATE_MONSTER_HEALTH:
       nextVal = parseInt(action.currentHealth);
       return state.setIn(["monsters", action.monsterName, "active", action.standeeNumber, "currentHealth"], numberOrEmpty(nextVal));
     case INCREMENT_MONSTER_HEALTH:
@@ -433,9 +440,11 @@ function trackerReducer(state = initialState, action) {
       nextVal = parseInt(state.getIn(keyPath)) - 1;
       return state.setIn(keyPath, numberOrEmpty(nextVal));
     case DELETE_ACTIVE_MONSTER:
+    case actionTypes.SSE_DELETE_ACTIVE_MONSTER:
       keyPath = ["monsters", action.monsterName, "active", action.standeeNumber];
       return state.deleteIn(keyPath);
     case UPDATE_MONSTER_STATUS_EFFECT:
+    case actionTypes.SSE_UPDATE_MONSTER_STATUS_EFFECT:
       keyPath = ["monsters", action.monsterName, "active", action.standeeNumber, "statusEffects", action.statusEffect];
       return state.setIn(keyPath, action.checked);
     case UPDATE_NEW_MONSTER_DIALOGUE:

@@ -63,7 +63,7 @@ export const sseEpic = action$ => action$.pipe(
         let json = JSON.parse(response.data);
         return {
           type: json.type,
-          payload: json.payload,
+          ...json.payload,
         }
       })
     )
