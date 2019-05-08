@@ -27,6 +27,7 @@ class SSE {
 
   sub(res, key) {
     res.sseHead();
+    res.setTimeout(0);
     if (this.responses[key]) {
       this.responses[key].push(res);
     } else {
@@ -36,6 +37,7 @@ class SSE {
 
   pub(eventType, data, key) {
     if (this.responses[key]) {
+      this.responses[key] = this.responses[key].filter((res) => !res.req.aborted);
       this.responses[key].forEach((res) => {
         res.sseSend(eventType, data);
       });

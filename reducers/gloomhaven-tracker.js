@@ -12,18 +12,37 @@ export const INITIALIZE_SSE = "gloomhaven-tracker/INITIALIZE_SSE";
 export const UPDATE_CHARACTER_EXPERIENCE = "gloomhaven-tracker/UPDATE_CHARACTER_EXPERIENCE";
 export const INCREMENT_CHARACTER_EXPERIENCE = "gloomhaven-tracker/INCREMENT_CHARACTER_EXPERIENCE";
 export const DECREMENT_CHARACTER_EXPERIENCE = "gloomhaven-tracker/DECREMENT_CHARACTER_EXPERIENCE";
+export const UPDATE_CHARACTER_EXPERIENCE_SUCCESS = "gloomhaven-tracker/UPDATE_CHARACTER_EXPERIENCE_SUCCESS";
+export const UPDATE_CHARACTER_EXPERIENCE_FAILURE = "gloomhaven-tracker/UPDATE_CHARACTER_EXPERIENCE_FAILURE";
 export const UPDATE_CHARACTER_HEALTH = "gloomhaven-tracker/UPDATE_CHARACTER_HEALTH";
 export const INCREMENT_CHARACTER_HEALTH = "gloomhaven-tracker/INCREMENT_CHARACTER_HEALTH";
 export const DECREMENT_CHARACTER_HEALTH = "gloomhaven-tracker/DECREMENT_CHARACTER_HEALTH";
+export const UPDATE_CHARACTER_HEALTH_SUCCESS = "gloomhaven-tracker/UPDATE_CHARACTER_HEALTH_SUCCESS";
+export const UPDATE_CHARACTER_HEALTH_FAILURE = "gloomhaven-tracker/UPDATE_CHARACTER_HEALTH_FAILURE";
 export const UPDATE_CHARACTER_INITIATIVE = "gloomhaven-tracker/UPDATE_CHARACTER_INITIATIVE";
+export const UPDATE_CHARACTER_INITIATIVE_SUCCESS = "gloomhaven-tracker/UPDATE_CHARACTER_INITIATIVE_SUCCESS";
+export const UPDATE_CHARACTER_INITIATIVE_FAILURE = "gloomhaven-tracker/UPDATE_CHARACTER_INITIATIVE_FAILURE";
 export const UPDATE_CHARACTER_STATUS_EFFECT = "gloomhaven-tracker/UPDATE_CHARACTER_STATUS_EFFECT";
-export const CREATE_MONSTER = "gloomhaven-tracker/CREATE_MONSTER";
+export const UPDATE_CHARACTER_STATUS_EFFECT_SUCCESS = "gloomhaven-tracker/UPDATE_CHARACTER_STATUS_EFFECT_SUCCESS";
+export const UPDATE_CHARACTER_STATUS_EFFECT_FAILURE = "gloomhaven-tracker/UPDATE_CHARACTER_STATUS_EFFECT_FAILURE";
+
+export const CREATE_ACTIVE_MONSTER = "gloomhaven-tracker/CREATE_ACTIVE_MONSTER";
+export const CREATE_ACTIVE_MONSTER_SUCCESS = "gloomhaven-tracker/CREATE_ACTIVE_MONSTER_SUCCESS";
+export const CREATE_ACTIVE_MONSTER_FAILURE = "gloomhaven-tracker/CREATE_ACTIVE_MONSTER_FAILURE";
 export const UPDATE_MONSTER_INITIATIVE = "gloomhaven-tracker/UPDATE_MONSTER_INITIATIVE";
+export const UPDATE_MONSTER_INITIATIVE_SUCCESS = "gloomhaven-tracker/UPDATE_MONSTER_INITIATIVE_SUCCESS";
+export const UPDATE_MONSTER_INITIATIVE_FAILURE = "gloomhaven-tracker/UPDATE_MONSTER_INITIATIVE_FAILURE";
 export const UPDATE_MONSTER_HEALTH = "gloomhaven-tracker/UPDATE_MONSTER_HEALTH";
 export const INCREMENT_MONSTER_HEALTH = "gloomhaven-tracker/INCREMENT_MONSTER_HEALTH";
 export const DECREMENT_MONSTER_HEALTH = "gloomhaven-tracker/DECREMENT_MONSTER_HEALTH";
-export const DELETE_ACTIVE_MONSTER = "gloomhaven-tracker/DELETE_ACTIVE_MONSTER";
+export const UPDATE_MONSTER_HEALTH_SUCCESS = "gloomhaven-tracker/UPDATE_MONSTER_HEALTH_SUCCESS";
+export const UPDATE_MONSTER_HEALTH_FAILURE = "gloomhaven-tracker/UPDATE_MONSTER_HEALTH_FAILURE";
 export const UPDATE_MONSTER_STATUS_EFFECT = "gloomhaven-tracker/UPDATE_MONSTER_STATUS_EFFECT";
+export const UPDATE_MONSTER_STATUS_EFFECT_SUCCESS = "gloomhaven-tracker/UPDATE_MONSTER_STATUS_EFFECT_SUCCESS";
+export const UPDATE_MONSTER_STATUS_EFFECT_FAILURE = "gloomhaven-tracker/UPDATE_MONSTER_STATUS_EFFECT_FAILURE";
+export const DELETE_ACTIVE_MONSTER = "gloomhaven-tracker/DELETE_ACTIVE_MONSTER";
+export const DELETE_ACTIVE_MONSTER_SUCCESS = "gloomhaven-tracker/DELETE_ACTIVE_MONSTER_SUCCESS";
+export const DELETE_ACTIVE_MONSTER_FAILURE = "gloomhaven-tracker/DELETE_ACTIVE_MONSTER_FAILURE";
 export const UPDATE_NEW_MONSTER_DIALOGUE = "gloomhaven-tracker/UPDATE_NEW_MONSTER_DIALOGUE";
 
 // State
@@ -50,6 +69,8 @@ export const selectRoomCode = (state) => selectTracker(state).get('roomCode');
 export const selectMonster = (monsterName) => (state) => selectMonsters(state)[monsterName];
 
 export const selectCharacter = (characterName) => (state) => selectCharacters(state)[characterName];
+
+export const selectActiveMonster = (monsterName, standeeNumber) => (state) => selectMonster(monsterName)(state).active[standeeNumber];
 
 export const selectNewMonsterDialogueOpen = (state) => selectTracker(state).getIn(['newMonsterDialogue', 'open']);
 
@@ -86,13 +107,6 @@ export const makeSelectSortedActiveMonsters = (monsterName) => createSelector([s
 });
 
 // Actions
-/*export function pageLoad(characterClasses) {
-  return {
-    type: CHARACTERS_CHANGED,
-    characterClasses,
-  }
-}*/
-
 export function initializeTrackerSuccess(roomCode) {
   return {
     type: INITIALIZE_TRACKER_SUCCESS,
@@ -128,6 +142,18 @@ export function decrementCharacterExperience(characterName) {
     characterName,
   }
 }
+export function updateCharacterExperienceSuccess() {
+  return {
+    type: UPDATE_CHARACTER_EXPERIENCE_SUCCESS,
+  }
+}
+
+export function updateCharacterExperienceFailure(error) {
+  return {
+    type: UPDATE_CHARACTER_EXPERIENCE_FAILURE,
+    error,
+  }
+}
 
 export function updateCharacterHealth(characterName, currentHealth) {
   return {
@@ -151,11 +177,37 @@ export function decrementCharacterHealth(characterName) {
   }
 }
 
+export function updateCharacterHealthSuccess() {
+  return {
+    type: UPDATE_CHARACTER_HEALTH_SUCCESS,
+  }
+}
+
+export function updateCharacterHealthFailure(error) {
+  return {
+    type: UPDATE_CHARACTER_HEALTH_FAILURE,
+    error,
+  }
+}
+
 export function updateCharacterInitiative(characterName, initiative) {
   return {
     type: UPDATE_CHARACTER_INITIATIVE,
     characterName,
     initiative,
+  }
+}
+
+export function updateCharacterInitiativeSuccess() {
+  return {
+    type: UPDATE_CHARACTER_INITIATIVE_SUCCESS,
+  }
+}
+
+export function updateCharacterInitiativeFailure(error) {
+  return {
+    type: UPDATE_CHARACTER_INITIATIVE_FAILURE,
+    error,
   }
 }
 
@@ -168,13 +220,39 @@ export function updateCharacterStatusEffect(characterName, statusEffect, checked
   }
 }
 
+export function updateCharacterStatusEffectSuccess() {
+  return {
+    type: UPDATE_CHARACTER_STATUS_EFFECT_SUCCESS,
+  }
+}
+
+export function updateCharacterStatusEffectFailure(error) {
+  return {
+    type: UPDATE_CHARACTER_STATUS_EFFECT_FAILURE,
+    error,
+  }
+}
+
 export function createMonster(standeeNumber, monsterName, elite, scenarioLevel) {
   return {
-    type: CREATE_MONSTER,
+    type: CREATE_ACTIVE_MONSTER,
     standeeNumber,
     monsterName,
     elite,
     scenarioLevel,
+  }
+}
+
+export function createActiveMonsterSuccess() {
+  return {
+    type: CREATE_ACTIVE_MONSTER_SUCCESS,
+  }
+}
+
+export function createActiveMonsterFailure(error) {
+  return {
+    type: CREATE_ACTIVE_MONSTER_FAILURE,
+    error,
   }
 }
 
@@ -183,6 +261,19 @@ export function updateMonsterInitiative(monsterName, initiative) {
     type: UPDATE_MONSTER_INITIATIVE,
     monsterName,
     initiative,
+  }
+}
+
+export function updateMonsterInitiativeSuccess() {
+  return {
+    type: UPDATE_MONSTER_INITIATIVE_SUCCESS,
+  }
+}
+
+export function updateMonsterInitiativeFailure(error) {
+  return {
+    type: UPDATE_MONSTER_INITIATIVE_FAILURE,
+    error,
   }
 }
 
@@ -211,6 +302,19 @@ export function decrementMonsterHealth(standeeNumber, monsterName) {
   }
 }
 
+export function updateMonsterHealthSuccess() {
+  return {
+    type: UPDATE_MONSTER_HEALTH_SUCCESS,
+  }
+}
+
+export function updateMonsterHealthFailure(error) {
+  return {
+    type: UPDATE_MONSTER_HEALTH_FAILURE,
+    error,
+  }
+}
+
 export function updateMonsterStatusEffect(monsterName, standeeNumber, statusEffect, checked) {
   return {
     type: UPDATE_MONSTER_STATUS_EFFECT,
@@ -221,11 +325,37 @@ export function updateMonsterStatusEffect(monsterName, standeeNumber, statusEffe
   }
 }
 
+export function updateMonsterStatusEffectSuccess() {
+  return {
+    type: UPDATE_MONSTER_STATUS_EFFECT_SUCCESS,
+  }
+}
+
+export function updateMonsterStatusEffectFailure(error) {
+  return {
+    type: UPDATE_MONSTER_STATUS_EFFECT_FAILURE,
+    error,
+  }
+}
+
 export function deleteActiveMonster(standeeNumber, monsterName) {
   return {
     type: DELETE_ACTIVE_MONSTER,
     standeeNumber,
     monsterName,
+  }
+}
+
+export function deleteActiveMonsterSuccess() {
+  return {
+    type: DELETE_ACTIVE_MONSTER_SUCCESS,
+  }
+}
+
+export function deleteActiveMonsterFailure(error) {
+  return {
+    type: DELETE_ACTIVE_MONSTER_FAILURE,
+    error,
   }
 }
 
@@ -282,7 +412,7 @@ function trackerReducer(state = initialState, action) {
     case UPDATE_CHARACTER_STATUS_EFFECT:
       keyPath = ["characters", action.characterName, "statusEffects", action.statusEffect];
       return state.setIn(keyPath, action.checked);
-    case CREATE_MONSTER:
+    case CREATE_ACTIVE_MONSTER:
       const newMonsterType = action.monsterType || state.getIn(['newMonsterDialogue', 'type']);
       keyPath = ["monsters", newMonsterType, "active", action.standeeNumber];
       return state

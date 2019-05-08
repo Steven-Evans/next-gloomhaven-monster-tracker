@@ -14,7 +14,6 @@ export default function request(url, options) {
   return fetch(url, options)
     .then(checkStatusCode)
     .then(response => response.json())
-    .catch(error => console.error(error));
 }
 
 export function observableRequest(url, options) {

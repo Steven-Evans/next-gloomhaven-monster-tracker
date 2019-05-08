@@ -9,7 +9,7 @@ const postSession = async (req) => {
   } catch (err) {
     console.error(err);
   }
-  return { roomCode: req.body.roomCode };
+  return {roomCode: req.body.roomCode};
 };
 
 const createRoomCode = async (db) => {
@@ -18,8 +18,8 @@ const createRoomCode = async (db) => {
   const replacementCode = roomCodeBijection(roomCode);
   db.collection('nextRoomCode').updateOne(
     {},
-    { $set: { roomCode: replacementCode }},
-    { upsert: true},
+    {$set: {roomCode: replacementCode}},
+    {upsert: true},
   );
   return roomCode;
 };
@@ -37,6 +37,32 @@ const createSession = async (db, body) => {
   await db.collection('sessions').insertOne(session, {w:1});
 };
 
+const updateTrackerField = async (req, keyString, val, sseEventType, sseData, mongoOptions = {}) => {
+  const db = req.app.locals.db;
+  try {
+    await db.collection('sessions').updateOne({roomCode: req.params.roomCode}, {$set: {[keyString]: val}}, mongoOptions, (mongoError) => {
+      if (mongoError) throw mongoError;
+      req.app.locals.sseStore.pub(sseEventType, sseData, req.params.roomCode);
+    })
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const deleteTrackerField = async (req, keyString, sseEventType, sseData, mongoOptions = {}) => {
+  const db = req.app.locals.db;
+  try {
+    await db.collection('sessions').updateOne({roomCode: req.params.roomCode}, {$unset: {[keyString]: ""}}, mongoOptions, (mongoError) => {
+      if (mongoError) throw mongoError;
+      req.app.locals.sseStore.pub(sseEventType, sseData, req.params.roomCode);
+    })
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 module.exports = {
   postSession,
+  updateTrackerField,
+  deleteTrackerField,
 };
