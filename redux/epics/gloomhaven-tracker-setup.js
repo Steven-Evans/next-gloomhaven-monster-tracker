@@ -7,6 +7,12 @@ import { apiUrl } from '../config';
 import { INITIALIZE_TRACKER } from '../reducers/gloomhaven-tracker-setup';
 import {initializeSSE, initializeTrackerSuccess} from '../reducers/gloomhaven-tracker';
 
+export const pingEpic = action$ => action$.pipe(
+  filter(action => action.type !== 'PONG'),
+  tap(action => console.log('ACTION', action)),
+  mapTo({ type: 'PONG' })
+);
+
 export const postNewRoomEpic = action$ => action$.pipe(
   ofType(INITIALIZE_TRACKER),
   mergeMap(action =>

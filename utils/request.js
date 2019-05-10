@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+const fetch = require('node-fetch');
 
 function checkStatusCode(response) {
   if (response.ok) {
@@ -13,7 +14,7 @@ function checkStatusCode(response) {
 export default function request(url, options) {
   return fetch(url, options)
     .then(checkStatusCode)
-    .then(response => response.json())
+    .then(response => response.json());
 }
 
 export function observableRequest(url, options) {
