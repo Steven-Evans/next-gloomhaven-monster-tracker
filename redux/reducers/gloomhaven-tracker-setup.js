@@ -1,12 +1,11 @@
-import { Set, fromJS } from "immutable";
-import { createSelector } from "reselect";
-
-// Constants
-export const UPDATE_CHARACTERS = "gloomhaven-tracker-setup/UPDATE_CHARACTERS";
-export const UPDATE_MONSTERS = "gloomhaven-tracker-setup/UPDATE_MONSTERS";
-export const SCENARIO_NUMBER_UPDATED = "gloomhaven-tracker-setup/SCENARIO_NUMBER_UPDATED";
-export const SCENARIO_LEVEL_UPDATED = "gloomhaven-tracker-setup/SCENARIO_LEVEL_UPDATED";
-export const INITIALIZE_TRACKER = "gloomhaven-tracker-setup/INITIALIZE_TRACKER";
+import {fromJS, Set} from "immutable";
+import {
+  SCENARIO_LEVEL_UPDATED,
+  SCENARIO_NUMBER_UPDATED,
+  UPDATE_CHARACTERS,
+  UPDATE_MONSTERS
+} from "../actionTypes/gloomhaven-tracker-setup";
+import {FETCH_TRACKER_STATE, FETCH_TRACKER_STATE_SUCCESS} from "../actionTypes/gloomhaven-tracker";
 
 // State
 export const initialState = fromJS({
@@ -42,42 +41,6 @@ export const selectScenarioNumber = (state) => selectSetup(state).get('scenarioN
 
 export const selectScenarioLevel = (state) => selectSetup(state).get('scenarioLevel');
 
-// Actions
-export function charactersUpdated(characterClasses) {
-  return {
-    type: UPDATE_CHARACTERS,
-    characterClasses,
-  }
-}
-
-export function monstersUpdated(monsterClasses) {
-  return {
-    type: UPDATE_MONSTERS,
-    monsterClasses,
-  }
-}
-
-export function scenarioNumberUpdated(scenarioNumber) {
-  return {
-    type: SCENARIO_NUMBER_UPDATED,
-    scenarioNumber,
-  }
-}
-
-export function scenarioLevelUpdated(scenarioLevel) {
-  return {
-    type: SCENARIO_LEVEL_UPDATED,
-    scenarioLevel,
-  }
-}
-
-export function initializeTracker(body) {
-  return {
-    type: INITIALIZE_TRACKER,
-    body,
-  }
-}
-
 // Reducer
 function trackerSetupReducer(state = initialState, action) {
   switch (action.type) {
@@ -92,8 +55,9 @@ function trackerSetupReducer(state = initialState, action) {
         .set("scenarioNumber", action.scenarioNumber)
         .set("monsterClasses", Set());
     case SCENARIO_LEVEL_UPDATED:
-      return state
-        .set("scenarioLevel", action.scenarioLevel);
+      return state.set("scenarioLevel", action.scenarioLevel);
+    case FETCH_TRACKER_STATE_SUCCESS:
+      return state.set("scenarioLevel", action.scenarioLevel);
     default:
       return state;
   }

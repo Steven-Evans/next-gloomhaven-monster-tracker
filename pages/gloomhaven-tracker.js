@@ -1,6 +1,8 @@
 import React from "react";
 import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
+import { of, Subject } from 'rxjs'
+import { StateObservable } from 'redux-observable'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
@@ -9,18 +11,23 @@ import ListItemText from '@material-ui/core/ListItemText';
 import BossCard from "../components/BossCard/index";
 import CharacterCard from "../components/CharacterCard/index";
 import MonsterCard from "../components/MonsterCard/index";
-import { selectScenarioLevel } from "../reducers/gloomhaven-tracker-setup";
+import NewMonsterDialog from "../components/NewMonsterDialog";
+import InitiativeInputCard from "../components/InitiativeInputCard";
+import { selectScenarioLevel } from "../redux/reducers/gloomhaven-tracker-setup";
 import {
-  createMonster,
-  updateNewMonsterDialogue,
   selectNewMonsterDialogueOpen,
   selectNewMonsterType,
   selectClassesByInitiative,
   selectActiveStandees,
-} from "../reducers/gloomhaven-tracker";
+} from "../redux/reducers/gloomhaven-tracker";
+import {
+  createMonster,
+  updateNewMonsterDialogue,
+  fetchTrackerState,
+  setRoomCode,
+} from "../redux/actions/gloomhaven-tracker";
+import rootEpic from "../redux/epics/root";
 import { isBoss } from '../utils/monster';
-import NewMonsterDialog from "../components/NewMonsterDialog";
-import InitiativeInputCard from "../components/InitiativeInputCard";
 
 const GloomhavenTracker = (props) => {
   return (
@@ -33,9 +40,9 @@ const GloomhavenTracker = (props) => {
           {
             props.initiativeSortedClasses.map((sortedClass) => {
               let componentToRender;
-              if (!sortedClass[1].active) {
+              if (!sortedClass[1].get('active')) {
                 componentToRender = <CharacterCard name={sortedClass[0]}/>;
-              } else if (isBoss(sortedClass[1].name)) {
+              } else if (isBoss(sortedClass[1].get('name'))) {
                 //componentToRender = <BossCard name={sortedClass[0]}/>;
               } else {
                 componentToRender = <MonsterCard name={sortedClass[0]} scenarioLevel={props.scenarioLevel}/>;
@@ -60,8 +67,16 @@ const GloomhavenTracker = (props) => {
   );
 };
 
-GloomhavenTracker.getInitialProps = function() {
+GloomhavenTracker.getInitialProps = async function({ query, store, isServer }) {
+  store.dispatch(setRoomCode(query.roomCode));
+  const state$ = new StateObservable(new Subject(), store.getState());
+  const resultAction = await rootEpic(
+    of(fetchTrackerState(query.roomCode)),
+    state$
+  ).toPromise();
+  store.dispatch(resultAction);
 
+  return { isServer }
 };
 
 const mapDispatchToProps = (dispatch) => {

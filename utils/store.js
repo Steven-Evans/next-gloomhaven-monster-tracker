@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware } from "redux";
 import { createEpicMiddleware } from "redux-observable";
 import { fromJS } from "immutable";
-import reducers from "../reducers/root";
-import epics from "../epics/root";
+import reducers from "../redux/reducers/root";
+import epics from "../redux/epics/root";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 const makeStore = (initialState, options) => {

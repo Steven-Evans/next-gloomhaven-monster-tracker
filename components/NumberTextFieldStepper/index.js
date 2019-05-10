@@ -6,7 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { selectCharacter } from "../../reducers/gloomhaven-tracker";
+import { selectCharacter } from "../../redux/reducers/gloomhaven-tracker";
 
 const styles = theme => ({
   media: {

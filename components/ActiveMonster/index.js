@@ -40,7 +40,7 @@ class ActiveMonster extends React.Component {
     } = this.props;
 
     return (
-      <Grid container spacing={8} alignItems="baseline" className={`${classes.monsterContainer} ${activeMonster.elite ? classes.elite : classes.normal}`}>
+      <Grid container spacing={8} alignItems="baseline" className={`${classes.monsterContainer} ${activeMonster.get('elite') ? classes.elite : classes.normal}`}>
         <Grid item xs={1}>
           <Typography variant={"h5"}>
             { standeeNumber }
@@ -48,7 +48,7 @@ class ActiveMonster extends React.Component {
         </Grid>
         <Grid item xs={2}>
           <Typography variant={"subtitle1"}>
-            { activeMonster.elite ? "Elite" : "Normal" }
+            { activeMonster.get('elite') ? "Elite" : "Normal" }
           </Typography>
         </Grid>
         <Grid container item xs={7} alignItems="center">
@@ -61,7 +61,7 @@ class ActiveMonster extends React.Component {
             <NumberTextFieldStepper
               min={0}
               max={999}
-              value={activeMonster.currentHealth}
+              value={activeMonster.get('currentHealth')}
               onIncrement={props.onIncrementHealth}
               onDecrement={props.onDecrementHealth}
               onChange={props.onUpdateHealth}
@@ -76,7 +76,7 @@ class ActiveMonster extends React.Component {
         <Grid item xs={12}>
           <StatusEffectSelector
             isCharacter={false}
-            statusEffects={activeMonster.statusEffects}
+            statusEffects={activeMonster.get('statusEffects')}
             handleStatusToggle={props.onUpdateStatusEffect.bind(null, standeeNumber)}
           />
         </Grid>

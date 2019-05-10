@@ -1,17 +1,11 @@
 import { ofType } from 'redux-observable';
-import { filter, mapTo, mergeMap, flatMap, tap } from 'rxjs/operators';
+import { mergeMap, flatMap } from 'rxjs/operators';
 import { of, concat } from 'rxjs';
-import { observableRequest } from '../utils/request';
-import { apiUrl } from '../config';
+import { observableRequest } from '../../utils/request';
+import { apiUrl } from '../../config';
 
-import { INITIALIZE_TRACKER } from '../reducers/gloomhaven-tracker-setup';
-import {initializeSSE, initializeTrackerSuccess} from '../reducers/gloomhaven-tracker';
-
-export const pingEpic = action$ => action$.pipe(
-  filter(action => action.type !== 'PONG'),
-  tap(action => console.log('ACTION', action)),
-  mapTo({ type: 'PONG' })
-);
+import {initializeSSE, initializeTrackerSuccess} from "../actions/gloomhaven-tracker";
+import {INITIALIZE_TRACKER} from "../actionTypes/gloomhaven-tracker-setup";
 
 export const postNewRoomEpic = action$ => action$.pipe(
   ofType(INITIALIZE_TRACKER),

@@ -16,12 +16,13 @@ import {
   selectMonsterClasses,
   selectScenarioNumber,
   selectScenarioLevel,
+  } from "../redux/reducers/gloomhaven-tracker-setup";
+import {
   charactersUpdated,
-  monstersUpdated,
-  scenarioNumberUpdated,
+  initializeTracker, monstersUpdated,
   scenarioLevelUpdated,
-  initializeTracker,
-} from "../reducers/gloomhaven-tracker-setup";
+  scenarioNumberUpdated
+} from "../redux/actions/gloomhaven-tracker-setup";
 
 const GloomhavenTrackerSetup = (props) => (
   <div>

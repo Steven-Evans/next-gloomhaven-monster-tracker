@@ -12,16 +12,18 @@ import StatusEffectSelector from "../StatusEffectSelector/index";
 import { characterClasses } from "../../utils/constants";
 import { createStructuredSelector } from "reselect";
 import {
-  updateCharacterExperience,
-  incrementCharacterExperience,
-  decrementCharacterExperience,
-  updateCharacterHealth,
-  incrementCharacterHealth,
-  decrementCharacterHealth,
-  updateCharacterInitiative,
-  updateCharacterStatusEffect,
   selectCharacter,
-} from "../../reducers/gloomhaven-tracker";
+} from "../../redux/reducers/gloomhaven-tracker";
+import {
+  decrementCharacterExperience,
+  decrementCharacterHealth,
+  incrementCharacterExperience,
+  incrementCharacterHealth,
+  updateCharacterExperience,
+  updateCharacterHealth,
+  updateCharacterInitiative,
+  updateCharacterStatusEffect
+} from "../../redux/actions/gloomhaven-tracker";
 
 const styles = theme => ({
   media: {
@@ -53,7 +55,7 @@ class CharacterCard extends React.Component {
           <Grid container item xs={4} md={2}>
             <Grid item xs={12}>
               <Typography variant="h5">
-                {character.name}
+                {character.get('name')}
               </Typography>
             </Grid>
             <Grid item>
@@ -73,7 +75,7 @@ class CharacterCard extends React.Component {
               <NumberTextField
                 min={0}
                 max={99}
-                value={character.initiative}
+                value={character.get('initiative')}
                 onChange={props.onUpdateInitiative}
               />
             </Grid>
@@ -86,7 +88,7 @@ class CharacterCard extends React.Component {
               <NumberTextFieldStepper
                 min={0}
                 max={99}
-                value={character.currentHealth}
+                value={character.get('currentHealth')}
                 onIncrement={props.onIncrementHealth}
                 onDecrement={props.onDecrementHealth}
                 onChange={props.onUpdateHealth}
@@ -101,7 +103,7 @@ class CharacterCard extends React.Component {
               <NumberTextFieldStepper
                 min={0}
                 max={99}
-                value={character.experience}
+                value={character.get('experience')}
                 onIncrement={props.onIncrementExperience}
                 onDecrement={props.onDecrementExperience}
                 onChange={props.onUpdateExperience}
@@ -111,7 +113,7 @@ class CharacterCard extends React.Component {
           <Grid container item xs={12} md={6}>
             <StatusEffectSelector
               isCharacter={true}
-              statusEffects={character.statusEffects}
+              statusEffects={character.get('statusEffects')}
               handleStatusToggle={props.onUpdateStatusEffect}
             />
           </Grid>

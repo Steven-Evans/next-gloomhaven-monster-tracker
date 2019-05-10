@@ -8,10 +8,8 @@ import ClassCard from "../ClassCard/index";
 import NumberTextField from "../NumberTextField/index";
 import {
   selectCharacters,
-  selectMonsters,
-  updateMonsterInitiative,
-  updateCharacterInitiative
-} from "../../reducers/gloomhaven-tracker";
+  selectMonsters} from "../../redux/reducers/gloomhaven-tracker";
+import {updateCharacterInitiative, updateMonsterInitiative} from "../../redux/actions/gloomhaven-tracker";
 
 const styles = theme => ({
 
@@ -34,19 +32,19 @@ class InitiativeInputCard extends React.Component {
         </Typography>
         <Grid container spacing={8}>
           {
-            Object.entries(characters).concat(Object.entries(monsters)).map((monOrChar) => (
+            characters.concat(monsters).entrySeq().map((monOrChar) => (
               <React.Fragment key={monOrChar[0]}>
                 <Grid item xs={4}>
                   <Typography variant="subtitle1">
-                    { monOrChar[1].name }
+                    { monOrChar[1].get('name') }
                   </Typography>
                 </Grid>
                 <Grid item xs={8}>
                   <NumberTextField
                     min={0}
                     max={99}
-                    value={monOrChar[1].initiative}
-                    onChange={!monOrChar[1].active ? props.onUpdateCharacterInitiative(monOrChar[0]) : props.onUpdateMonsterInitiative(monOrChar[0])}
+                    value={monOrChar[1].get('initiative')}
+                    onChange={!monOrChar[1].get('active') ? props.onUpdateCharacterInitiative(monOrChar[0]) : props.onUpdateMonsterInitiative(monOrChar[0])}
                   />
                 </Grid>
               </React.Fragment>

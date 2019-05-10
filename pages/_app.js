@@ -5,6 +5,7 @@ import {Provider} from "react-redux";
 import App, {Container} from "next/app";
 import withRedux from "next-redux-wrapper";
 import makeStore from "../utils/store";
+const {fromJS} = require('immutable');
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import JssProvider from 'react-jss/lib/JssProvider';

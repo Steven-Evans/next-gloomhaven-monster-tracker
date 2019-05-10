@@ -11,17 +11,16 @@ import NumberTextField from "../NumberTextField";
 import {
   selectMonster,
   makeSelectSortedActiveMonsters,
-  updateMonsterStatusEffect,
-  updateMonsterInitiative,
-  updateNewMonsterDialogue,
-  updateMonsterHealth,
-  incrementMonsterHealth,
-  decrementMonsterHealth,
-  deleteActiveMonster,
-} from "../../reducers/gloomhaven-tracker";
-import { selectScenarioLevel } from "../../reducers/gloomhaven-tracker-setup";
+  } from "../../redux/reducers/gloomhaven-tracker";
+import { selectScenarioLevel } from "../../redux/reducers/gloomhaven-tracker-setup";
 import monsterStats from "../../utils/monster_stats";
 import ActiveMonster from "../ActiveMonster";
+import {
+  decrementMonsterHealth,
+  deleteActiveMonster, incrementMonsterHealth, updateMonsterHealth, updateMonsterInitiative,
+  updateMonsterStatusEffect,
+  updateNewMonsterDialogue
+} from "../../redux/actions/gloomhaven-tracker";
 
 const styles = theme => ({
   button: {
@@ -51,7 +50,7 @@ class MonsterCard extends React.Component {
       ...props
     } = this.props;
 
-    const stats = monsterStats.monsters[monster.name].level[scenarioLevel];
+    const stats = monsterStats.monsters[monster.get('name')].level[scenarioLevel];
     const uppercase = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
     return (
@@ -60,7 +59,7 @@ class MonsterCard extends React.Component {
           <Grid container item xs={6} md={3}>
             <Grid item xs={12}>
               <Typography variant="h5">
-                {monster.name}
+                {monster.get('name')}
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -79,7 +78,7 @@ class MonsterCard extends React.Component {
               <NumberTextField
                 min={0}
                 max={99}
-                value={monster && monster.initiative || 0}
+                value={monster && monster.get('initiative') || 0}
                 onChange={props.onUpdateInitiative}
               />
             </Grid>

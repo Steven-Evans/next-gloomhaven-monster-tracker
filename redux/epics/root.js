@@ -1,6 +1,7 @@
 import { combineEpics } from 'redux-observable';
-import { postNewRoomEpic, pingEpic } from './gloomhaven-tracker-setup';
+import { postNewRoomEpic } from './gloomhaven-tracker-setup';
 import {
+  fetchTrackerStateEpic,
   sseEpic,
   updateCharacterInitiativeEpic,
   updateCharacterStatusEffectEpic,
@@ -14,8 +15,8 @@ import {
 } from './gloomhaven-tracker';
 
 const root = combineEpics(
-  pingEpic,
   postNewRoomEpic,
+  fetchTrackerStateEpic,
   sseEpic,
   updateCharacterInitiativeEpic,
   updateCharacterStatusEffectEpic,

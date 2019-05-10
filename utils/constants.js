@@ -1,4 +1,4 @@
-const actionTypes = {
+const sseActionTypes = {
   INITIALIZE_SSE_SUCCESS: "gloomhaven-tracker/INITIALIZE_SSE_SUCCESS",
   INITIALIZE_SSE_FAILURE: "gloomhaven-tracker/INITIALIZE_SSE_FAILURE",
   SSE_UPDATE_CHARACTER_INITIATIVE: "gloomhaven-tracker/SSE_UPDATE_CHARACTER_INITIATIVE",
@@ -773,7 +773,7 @@ const scenarioMonsters = {
 };
 
 module.exports = {
-  actionTypes,
+  sseActionTypes,
   characterClasses,
   monsterClasses,
   scenarioMonsters,

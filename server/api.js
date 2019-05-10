@@ -12,6 +12,17 @@ const postSession = async (req) => {
   return {roomCode: req.body.roomCode};
 };
 
+const getTrackerState = async (req) => {
+  const db = req.app.locals.db;
+  let state;
+  try {
+    state = await db.collection('sessions').findOne({roomCode: req.params.roomCode});
+  } catch (err) {
+    console.error(err);
+  }
+  return {scenarioLevel: state.scenarioLevel, characters: state.characters, monsters: state.monsters};
+};
+
 const createRoomCode = async (db) => {
   const roomCodeDocument = await db.collection('nextRoomCode').findOne({});
   const roomCode = roomCodeDocument ? roomCodeDocument.roomCode : roomCodeBijection('aaaa');
@@ -63,6 +74,7 @@ const deleteTrackerField = async (req, keyString, sseEventType, sseData, mongoOp
 
 module.exports = {
   postSession,
+  getTrackerState,
   updateTrackerField,
   deleteTrackerField,
 };

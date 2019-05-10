@@ -23,7 +23,7 @@ class StatusEffectSelector extends React.Component {
     return (
       <Grid container spacing={8} direction="row">
         {
-          Object.entries(statusEffects).map((effect) => (
+          statusEffects.entrySeq().toArray().map((effect) => (
             <Grid item xs={6} sm={3} md={isCharacter ? 6 : 3} lg={3} key={effect[0]}>
               <FormControlLabel
                 control={

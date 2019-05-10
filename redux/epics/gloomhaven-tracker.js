@@ -1,58 +1,73 @@
 import { ofType } from 'redux-observable';
-import {catchError, filter, map, mergeMap, switchMap} from 'rxjs/operators';
-import {concat, Observable, of} from 'rxjs';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { Observable, of} from 'rxjs';
 import {
-  initializeSSE,
-  initializeTrackerSuccess,
   selectRoomCode,
   selectCharacter,
   selectMonster,
   selectActiveMonster,
-  updateCharacterInitiativeSuccess,
-  updateCharacterInitiativeFailure,
-  updateCharacterStatusEffectSuccess,
-  updateCharacterStatusEffectFailure,
-  updateCharacterHealthSuccess,
-  updateCharacterHealthFailure,
-  updateCharacterExperienceSuccess,
-  updateCharacterExperienceFailure,
-  updateMonsterInitiativeSuccess,
-  updateMonsterInitiativeFailure,
-  updateMonsterHealthSuccess,
-  updateMonsterHealthFailure,
-  updateMonsterStatusEffectSuccess,
-  updateMonsterStatusEffectFailure,
-  createActiveMonsterSuccess,
-  createActiveMonsterFailure,
-  deleteActiveMonsterSuccess,
-  deleteActiveMonsterFailure,
+  } from "../reducers/gloomhaven-tracker";
+import { observableRequest } from '../../utils/request';
+import { apiUrl } from '../../config';
+import {
+  CREATE_ACTIVE_MONSTER,
+  DECREMENT_CHARACTER_EXPERIENCE,
+  DECREMENT_CHARACTER_HEALTH,
+  DECREMENT_MONSTER_HEALTH,
+  DELETE_ACTIVE_MONSTER,
+  FETCH_TRACKER_STATE,
+  INCREMENT_CHARACTER_EXPERIENCE,
+  INCREMENT_CHARACTER_HEALTH,
+  INCREMENT_MONSTER_HEALTH,
   INITIALIZE_SSE,
+  UPDATE_CHARACTER_EXPERIENCE,
+  UPDATE_CHARACTER_HEALTH,
   UPDATE_CHARACTER_INITIATIVE,
   UPDATE_CHARACTER_STATUS_EFFECT,
-  UPDATE_CHARACTER_HEALTH,
-  UPDATE_CHARACTER_EXPERIENCE,
-  UPDATE_MONSTER_INITIATIVE,
   UPDATE_MONSTER_HEALTH,
-  UPDATE_MONSTER_STATUS_EFFECT,
-  CREATE_ACTIVE_MONSTER,
-  DELETE_ACTIVE_MONSTER,
-  INCREMENT_CHARACTER_EXPERIENCE,
-  DECREMENT_CHARACTER_EXPERIENCE,
-  INCREMENT_CHARACTER_HEALTH,
-  DECREMENT_CHARACTER_HEALTH,
-  INCREMENT_MONSTER_HEALTH,
-  DECREMENT_MONSTER_HEALTH,
-} from "../reducers/gloomhaven-tracker";
-import { observableRequest } from '../utils/request';
-import { apiUrl } from '../config';
+  UPDATE_MONSTER_INITIATIVE,
+  UPDATE_MONSTER_STATUS_EFFECT
+} from "../actionTypes/gloomhaven-tracker";
+import {
+  createActiveMonsterFailure,
+  createActiveMonsterSuccess,
+  deleteActiveMonsterFailure,
+  deleteActiveMonsterSuccess,
+  fetchTrackerStateSuccess,
+  fetchTrackerStateFailure,
+  updateCharacterExperienceFailure,
+  updateCharacterExperienceSuccess,
+  updateCharacterHealthFailure,
+  updateCharacterHealthSuccess,
+  updateCharacterInitiativeFailure,
+  updateCharacterInitiativeSuccess,
+  updateCharacterStatusEffectFailure,
+  updateCharacterStatusEffectSuccess,
+  updateMonsterHealthFailure,
+  updateMonsterHealthSuccess,
+  updateMonsterInitiativeFailure,
+  updateMonsterInitiativeSuccess,
+  updateMonsterStatusEffectFailure,
+  updateMonsterStatusEffectSuccess
+} from "../actions/gloomhaven-tracker";
 
 const apiSessionUrl = (state) => `${apiUrl}/session/${selectRoomCode(state)}`;
+
+export const fetchTrackerStateEpic = action$ => action$.pipe(
+  ofType(FETCH_TRACKER_STATE),
+  switchMap(action =>
+    observableRequest(`${apiUrl}/session/${action.roomCode}`).pipe(
+      map(response => fetchTrackerStateSuccess(response)),
+      catchError(err => of(fetchTrackerStateFailure(err))),
+    )
+  )
+);
 
 export const sseEpic = action$ => action$.pipe(
   ofType(INITIALIZE_SSE),
   switchMap(action =>
     new Observable(observer => {
-      const eventSource = new EventSource(`${apiUrl}/session/${action.roomCode}`);
+      const eventSource = new EventSource(`${apiUrl}/session/${action.roomCode}/sse`);
       eventSource.onmessage = x => observer.next(x);
       eventSource.onerror = x => {console.error('Event Source Error: ', x); /*observer.error(x);*/};
       return () => {
@@ -104,7 +119,7 @@ export const updateCharacterHealthEpic = (action$, state$) => action$.pipe(
     observableRequest(`${apiSessionUrl(state$.value)}/character/${action.characterName}/health`, {
       method: "PUT",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({health: selectCharacter(action.characterName)(state$.value).currentHealth})
+      body: JSON.stringify({health: selectCharacter(action.characterName)(state$.value).get('currentHealth')})
     }).pipe(
       map(response => updateCharacterHealthSuccess(response)),
       catchError(err => of(updateCharacterHealthFailure(err)))
@@ -118,7 +133,7 @@ export const updateCharacterExperienceEpic = (action$, state$) => action$.pipe(
     observableRequest(`${apiSessionUrl(state$.value)}/character/${action.characterName}/experience`, {
       method: "PUT",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({experience: selectCharacter(action.characterName)(state$.value).experience})
+      body: JSON.stringify({experience: selectCharacter(action.characterName)(state$.value).get('experience')})
     }).pipe(
       map(response => updateCharacterExperienceSuccess(response)),
       catchError(err => of(updateCharacterExperienceFailure(err)))
@@ -146,7 +161,7 @@ export const updateMonsterHealthEpic = (action$, state$) => action$.pipe(
     observableRequest(`${apiSessionUrl(state$.value)}/monster/${action.monsterName}/active/${action.standeeNumber}/health`, {
       method: "PUT",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({health: selectActiveMonster(action.monsterName, action.standeeNumber)(state$.value).currentHealth})
+      body: JSON.stringify({health: selectActiveMonster(action.monsterName, action.standeeNumber)(state$.value).get('currentHealth')})
     }).pipe(
       map(response => updateMonsterHealthSuccess(response)),
       catchError(err => of(updateMonsterHealthFailure(err)))
