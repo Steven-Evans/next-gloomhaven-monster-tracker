@@ -146,7 +146,7 @@ function trackerReducer(state = initialState, action) {
       return state.setIn(keyPath, action.checked);
     case CREATE_ACTIVE_MONSTER:
     case sseActionTypes.SSE_CREATE_ACTIVE_MONSTER:
-      const newMonsterType = action.monsterType || state.getIn(['newMonsterDialogue', 'type']);
+      const newMonsterType = action.monsterName || state.getIn(['newMonsterDialogue', 'type']);
       keyPath = ["monsters", newMonsterType, "active", action.standeeNumber];
       return state
         .setIn(keyPath, fromJS(createNewMonster(newMonsterType, action.standeeNumber, action.elite, action.scenarioLevel)))
