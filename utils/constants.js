@@ -639,136 +639,262 @@ const scenarioMonsters = {
     "thegloom",
   ],
   52: [
-
+    "spittingdrake",
+    "ooze",
+    "vermlingscout",
+    "vermlingshaman",
+    "livingcorpse",
   ],
   53: [
-
+    "ooze",
+    "livingcorpse",
+    "livingspirit",
+    "livingbones",
+    "giantviper",
   ],
   54: [
-
+    "cavebear",
+    "livingspirit",
+    "frostdemon",
+    "harrowerinfester",
   ],
   55: [
 
   ],
   56: [
-
+    "hound",
+    "banditarcher",
+    "rendingdrake",
+    "banditguard",
   ],
   57: [
-
+    "cityguard",
+    "cityarcher",
+    "hound",
   ],
   58: [
-
+    "earthdemon",
+    "harrowerinfester",
+    "blackimp",
+    "cityguard",
   ],
   59: [
-
+    "cavebear",
+    "hound",
+    "forestimp",
   ],
   60: [
-
+    "ooze",
+    "giantviper",
+    "hound",
+    "rendingdrake",
+    "spittingdrake",
   ],
   61: [
-
+    "ooze",
+    "giantviper",
+    "frostdemon",
+    "flamedemon",
   ],
   62: [
-
+    "livingbones",
+    "livingspirit",
   ],
   63: [
-
+    "vermlingscout",
+    "inoxguard",
+    "inoxarcher",
+    "flamedemon",
   ],
   64: [
-
+    "ooze",
+    "forestimp",
+    "rendingdrake",
   ],
   65: [
-
+    "vermlingscout",
+    "hound",
+    "inoxshaman",
   ],
   66: [
-
+    "ooze",
+    "ancientartillery",
+    "livingspirit",
+    "stonegolem",
   ],
   67: [
-
+    "forestimp",
+    "cavebear",
+    "stonegolem",
   ],
   68: [
-
+    "rendingdrake",
+    "blackimp",
+    "giantviper",
+    "livingcorpse",
   ],
   69: [
-
+    "vermlingscout",
+    "vermlingshaman",
+    "forestimp",
+    "stonegolem",
+    "livingspirit",
   ],
   70: [
-
+    "nightdemon",
+    "winddemon",
+    "livingspirit",
   ],
   71: [
-
+    "spittingdrake",
+    "winddemon",
+    "sundemon",
   ],
   72: [
-
+    "ooze",
+    "forestimp",
+    "giantviper",
   ],
   73: [
-
+    "hound",
+    "inoxarcher",
+    "inoxguard",
+    "inoxshaman",
+    "ancientartillery",
   ],
   74: [
-
+    "banditguard",
+    "banditarcher",
+    "lurker",
+    "deepterror",
   ],
   75: [
-
+    "livingbones",
+    "livingcorpse",
+    "livingspirit",
   ],
   76: [
-
+    "giantviper",
+    "livingbones",
+    "nightdemon",
+    "harrowerinfester",
   ],
   77: [
-
+    "cityguard",
+    "cityarcher",
+    "stonegolem",
+    "hound",
   ],
   78: [
-
+    "banditguard",
+    "banditarcher",
+    "cultist",
+    "livingbones",
+    "blackimp",
   ],
   79: [
-
+    "stonegolem",
+    "giantviper",
+    "thebetrayer",
   ],
   80: [
-
+    "cityguard",
+    "cityarcher",
+    "ancientartillery",
+    "hound",
   ],
   81: [
-
+    "nightdemon",
+    "sundemon",
+    "stonegolem",
+    "ancientartillery",
+    "thecolorless",
   ],
   82: [
-
+    "earthdemon",
+    "flamedemon",
+    "stonegolem",
   ],
   83: [
-
+    "hound",
+    "cultist",
+    "livingbones",
+    "livingspirit",
+    "flamedemon",
   ],
   84: [
-
+    "flamedemon",
+    "frostdemon",
+    "earthdemon",
   ],
   85: [
-
+    "hound",
+    "blackimp",
+    "nightdemon",
+    "sundemon",
   ],
   86: [
-
+    "cavebear",
+    "vermlingscout",
+    "vermlingshaman",
+    "lurker",
   ],
   87: [
-
+    "lurker",
+    "deepterror",
+    "ooze",
+    "blackimp",
   ],
   88: [
-
+    "frostdemon",
+    "ooze",
+    "lurker",
   ],
   89: [
-
+    "banditarcher",
+    "banditguard",
+    "cultist",
+    "giantviper",
   ],
   90: [
-
+    "earthdemon",
+    "winddemon",
+    "nightdemon",
+    "livingspirit",
   ],
   91: [
-
+    "cavebear",
+    "hound",
+    "banditguard",
+    "banditarcher",
+    "livingspirit",
   ],
   92: [
-
+    "banditguard",
+    "banditarcher",
+    "inoxguard",
+    "savvaslavaflow",
+    "flamedemon",
+    "earthdemon",
+    "cityguard",
+    "cityarcher",
   ],
   93: [
-
+    "lurker",
+    "frostdemon",
+    "livingspirit",
   ],
   94: [
-
+    "hound",
+    "vermlingscout",
+    "vermlingshaman",
+    "cavebear",
   ],
   95: [
-
+    "deepterror",
+    "flamedemon",
+    "earthdemon",
+    "savvaslavaflow",
   ],
 };
 
