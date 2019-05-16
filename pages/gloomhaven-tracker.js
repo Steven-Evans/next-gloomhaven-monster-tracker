@@ -3,6 +3,7 @@ import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
 import { of, Subject } from 'rxjs'
 import { StateObservable } from 'redux-observable'
+import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
@@ -29,6 +30,13 @@ import {
 import rootEpic from "../redux/epics/root";
 import { isBoss } from '../utils/monster';
 
+
+const styles = theme => ({
+  cardGrid: {
+    padding: `${theme.spacing.unit * 3}px`,
+  },
+});
+
 class GloomhavenTracker extends React.Component {
 
   static async getInitialProps({ query, store, isServer }) {
@@ -53,28 +61,30 @@ class GloomhavenTracker extends React.Component {
 
     return (
       <React.Fragment>
-        <Grid container spacing={24}>
+        <Grid container spacing={24} className={props.classes.cardGrid}>
           <Grid item xs={12} md={4}>
-            <InitiativeInputCard />
+              <InitiativeInputCard />
           </Grid>
-          <Grid container item xs={12} md={8} spacing={24}>
-            {
-              props.initiativeSortedClasses.map((sortedClass) => {
-                let componentToRender;
-                if (!sortedClass[1].get('active')) {
-                  componentToRender = <CharacterCard name={sortedClass[0]}/>;
-                } else if (isBoss(sortedClass[1].get('name'))) {
-                  //componentToRender = <BossCard name={sortedClass[0]}/>;
-                } else {
-                  componentToRender = <MonsterCard name={sortedClass[0]} scenarioLevel={props.scenarioLevel}/>;
-                }
-                return (
-                  <Grid key={sortedClass[0]} item xs={12}>
-                    {componentToRender}
-                  </Grid>
-                );
-              })
-            }
+          <Grid item xs={12} md={8}>
+            <Grid container spacing={24}>
+              {
+                props.initiativeSortedClasses.map((sortedClass) => {
+                  let componentToRender;
+                  if (!sortedClass[1].get('active')) {
+                    componentToRender = <CharacterCard name={sortedClass[0]}/>;
+                  } else if (isBoss(sortedClass[1].get('name'))) {
+                    //componentToRender = <BossCard name={sortedClass[0]}/>;
+                  } else {
+                    componentToRender = <MonsterCard name={sortedClass[0]} scenarioLevel={props.scenarioLevel}/>;
+                  }
+                  return (
+                    <Grid key={sortedClass[0]} item xs={12}>
+                      {componentToRender}
+                    </Grid>
+                  );
+                })
+              }
+            </Grid>
           </Grid>
         </Grid>
         <NewMonsterDialog
@@ -109,4 +119,4 @@ const mapStateToProps = createStructuredSelector({
   activeStandees: selectActiveStandees,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(GloomhavenTracker);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(GloomhavenTracker));

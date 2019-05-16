@@ -4,7 +4,6 @@ import { Observable, of} from 'rxjs';
 import {
   selectRoomCode,
   selectCharacter,
-  selectMonster,
   selectActiveMonster,
   } from "../reducers/gloomhaven-tracker";
 import { observableRequest } from '../../utils/request';

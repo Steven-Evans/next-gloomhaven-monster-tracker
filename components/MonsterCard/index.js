@@ -69,16 +69,16 @@ class MonsterCard extends React.Component {
             </Grid>
           </Grid>
           <Grid container item xs={6} md={3}>
-            <Grid item xs={4}>
+            <Grid item xs={5}>
               <Typography variant="subtitle1">
                 Initiative:
               </Typography>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={7}>
               <NumberTextField
                 min={0}
                 max={99}
-                value={monster && monster.get('initiative') || 0}
+                value={monster.get('initiative')}
                 onChange={props.onUpdateInitiative}
               />
             </Grid>
