@@ -85,7 +85,8 @@ export const selectActiveStandees = createSelector(selectMonsterByNewType, (mons
 
 export const makeSelectSortedActiveMonsters = (monsterName) => createSelector([selectMonster(monsterName)], (monster) => {
   const active = monster.get('active').entrySeq();
-  return active.filter(standee => standee[1].get('elite')).concat(active.filter(standee => !standee[1].get('elite')));
+  return active.filter(standee => standee[1].get('elite')).sortBy(standee => standee[0])
+    .concat(active.filter(standee => !standee[1].get('elite')).sortBy(standee => standee[0]));
 });
 
 // Reducer
