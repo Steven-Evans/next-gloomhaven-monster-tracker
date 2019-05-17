@@ -49,7 +49,7 @@ function trackerSetupReducer(state = initialState, action) {
     case UPDATE_MONSTERS:
       return state
         .set("monsterClasses", Set(action.monsterClasses))
-        .set("scenarioNumber", 0);
+        .set("scenarioNumber", "");
     case SCENARIO_NUMBER_UPDATED:
       return state
         .set("scenarioNumber", action.scenarioNumber)
