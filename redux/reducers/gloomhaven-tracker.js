@@ -85,8 +85,8 @@ export const selectActiveStandees = createSelector(selectMonsterByNewType, (mons
 
 export const makeSelectSortedActiveMonsters = (monsterName) => createSelector([selectMonster(monsterName)], (monster) => {
   const active = monster.get('active').entrySeq();
-  return active.filter(standee => standee[1].get('elite')).sortBy(standee => standee[0])
-    .concat(active.filter(standee => !standee[1].get('elite')).sortBy(standee => standee[0]));
+  return active.filter(standee => standee[1].get('elite')).sortBy(standee => parseInt(standee[0]))
+    .concat(active.filter(standee => !standee[1].get('elite')).sortBy(standee => parseInt(standee[0])));
 });
 
 // Reducer
@@ -102,8 +102,9 @@ function trackerReducer(state = initialState, action) {
         .set("characters", fromJS(transformCharacterNamesToState(action.body.characterClasses)))
         .set("monsters", fromJS(transformMonsterNamesToState(monstersFromScenarioOrSelect(action.body.scenarioNumber, action.body.monsterClasses))));
     case INITIALIZE_TRACKER_SUCCESS:
+      const newState = state.set("roomCode", action.roomCode);
       Router.push(`/gloomhaven-tracker?roomCode=${action.roomCode}`, `/gloomhaven-tracker/${action.roomCode}`, { shallow: true });
-      return state.set("roomCode", action.roomCode);
+      return newState;
     case SET_ROOM_CODE:
       return state.set("roomCode", action.roomCode);
     case FETCH_TRACKER_STATE_SUCCESS:
@@ -111,7 +112,7 @@ function trackerReducer(state = initialState, action) {
         .set("characters", fromJS(action.characters))
         .set("monsters", fromJS(action.monsters));
     case sseActionTypes.INITIALIZE_SSE_SUCCESS:
-      return state.set("sseConnected", true);
+      return state.set("sseConnected", action.roomCode);
     case UPDATE_CHARACTER_EXPERIENCE:
     case sseActionTypes.SSE_UPDATE_CHARACTER_EXPERIENCE:
       nextVal = parseInt(action.experience);

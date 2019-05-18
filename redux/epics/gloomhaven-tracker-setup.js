@@ -1,5 +1,5 @@
 import { ofType } from 'redux-observable';
-import { mergeMap, map } from 'rxjs/operators';
+import { mergeMap, flatMap } from 'rxjs/operators';
 import { of, concat } from 'rxjs';
 import { observableRequest } from '../../utils/request';
 import { apiUrl } from '../../config';
@@ -15,7 +15,12 @@ export const postNewRoomEpic = action$ => action$.pipe(
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(action.body)
     }).pipe(
-      map(response => initializeTrackerSuccess(response.roomCode))
+      flatMap(response =>
+        concat(
+          of(initializeTrackerSuccess(response.roomCode)),
+          of(initializeSSE(response.roomCode))
+        )
+      )
     )
   )
 );

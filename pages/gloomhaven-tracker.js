@@ -40,8 +40,8 @@ const styles = theme => ({
 class GloomhavenTracker extends React.Component {
 
   static async getInitialProps({ query, store, isServer }) {
-    store.dispatch(setRoomCode(query.roomCode));
     if (isServer) {
+      store.dispatch(setRoomCode(query.roomCode));
       const state$ = new StateObservable(new Subject(), store.getState());
       const resultAction = await rootEpic(
         of(fetchTrackerState(query.roomCode)),
@@ -53,7 +53,9 @@ class GloomhavenTracker extends React.Component {
   };
 
   componentDidMount = function() {
-    this.props.onComponentDidMount(this.props.roomCode);
+    if (this.props.roomCode) {
+      this.props.onComponentDidMount(this.props.roomCode);
+    }
   };
 
   render() {

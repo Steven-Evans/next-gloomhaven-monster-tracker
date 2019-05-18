@@ -22,7 +22,7 @@ router.get('/session/:roomCode/sse', (req, res) => {
   }
   let sseStore = req.app.locals.sseStore;
   sseStore.sub(res, req.params.roomCode);
-  sseStore.pub(sseActionTypes.INITIALIZE_SSE_SUCCESS, {}, req.params.roomCode);
+  sseStore.pub(sseActionTypes.INITIALIZE_SSE_SUCCESS, {roomCode: req.params.roomCode}, req.params.roomCode);
 });
 
 router.put('/session/:roomCode/character/:characterName/initiative', (req, res) => {
