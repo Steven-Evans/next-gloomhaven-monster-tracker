@@ -9,6 +9,7 @@ import {
   selectNewMonsterType
 } from "../../redux/reducers/gloomhaven-tracker";
 import {selectScenarioLevel} from "../../redux/reducers/gloomhaven-tracker-setup";
+import {monsterClasses} from "../../utils/constants";
 
 class NewMonsterDialogue extends React.Component {
   constructor(props) {
@@ -17,7 +18,6 @@ class NewMonsterDialogue extends React.Component {
 
   render() {
     const {
-      numberOfMaxStandees,
       activeStandees,
       newMonsterType,
       scenarioLevel,
@@ -25,12 +25,13 @@ class NewMonsterDialogue extends React.Component {
       onSelectStandee,
       onNewMonsterDialogueClose
     } = this.props;
+    const numMaxStandees = newMonsterType && monsterClasses.find((monster) => monster.codename === newMonsterType).max;
 
     return (
       <MonsterDialog
         dialogTitle="Select Standee Number"
         open={newMonsterDialogueOpen}
-        numberOfMaxStandees={10}
+        numberOfMaxStandees={numMaxStandees}
         onSelectStandee={onSelectStandee.bind(null, newMonsterType, scenarioLevel)}
         activeStandees={activeStandees}
         onClose={onNewMonsterDialogueClose(newMonsterType)}
