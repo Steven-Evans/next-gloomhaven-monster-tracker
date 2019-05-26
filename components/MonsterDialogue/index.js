@@ -8,7 +8,19 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
 const styles = theme => ({
-
+  buttonContainer: {
+    textAlign: "center",
+  },
+  dialogGrid: {
+    margin: 0,
+    width: "100%",
+  },
+  dialogTitle: {
+    paddingBottom: 0,
+  },
+  eliteLabel: {
+    paddingLeft: theme.spacing.unit * 3,
+  },
 });
 
 class MonsterDialogue extends React.Component {
@@ -44,36 +56,44 @@ class MonsterDialogue extends React.Component {
     } = this.props;
 
     return (
-      <Dialog aria-labelledby="dialog-title" {...other}>
-        <DialogTitle id="dialog-title">{dialogTitle}</DialogTitle>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={this.state.elite}
-              onChange={this.handleEliteToggle}
-              disabled={oozeSplitting || false}
-              color="primary"
-            />
-          }
-          label="Elite"
-          labelPlacement="start"
-        />
-        <Grid container spacing={24}>
-          {
-            MonsterDialogue.standeesToArray(numberOfMaxStandees).map((standee) => (
-              <Grid item xs={4} key={standee}>
-                <Button
-                  variant="contained"
+      <Dialog
+        aria-labelledby="dialog-title"
+        {...other}>
+        <Grid container spacing={16} className={classes.dialogGrid}>
+          <Grid item xs={12}>
+            <DialogTitle id="dialog-title" className={classes.dialogTitle}>{dialogTitle}</DialogTitle>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControlLabel
+              className={classes.eliteLabel}
+              control={
+                <Checkbox
+                  checked={this.state.elite}
+                  onChange={this.handleEliteToggle}
+                  disabled={oozeSplitting || false}
                   color="primary"
-                  className={classes.button}
-                  onClick={onSelectStandee(standee, this.state.elite)}
-                  disabled={!!activeStandees.find(active => standee === active)}
-                >
-                  { standee }
-                </Button>
-              </Grid>
-            ))
-          }
+                />
+              }
+              label="Elite"
+            />
+          </Grid>
+          <Grid container spacing={32} item className={classes.dialogGrid} justify={"center"}>
+            {
+              MonsterDialogue.standeesToArray(numberOfMaxStandees).map((standee) => (
+                <Grid item xs={4} key={standee} className={classes.buttonContainer}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth={true}
+                    onClick={onSelectStandee(standee, this.state.elite)}
+                    disabled={!!activeStandees.find(active => standee === active)}
+                  >
+                    { standee }
+                  </Button>
+                </Grid>
+              ))
+            }
+          </Grid>
         </Grid>
       </Dialog>
     );
