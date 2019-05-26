@@ -15,6 +15,9 @@ const styles = theme => ({
   healthTypography: {
     textAlign: "right",
   },
+  standeeTypography: {
+    marginLeft: theme.spacing.unit,
+  },
   iconContainer: {
     textAlign: "center",
   },
@@ -42,7 +45,7 @@ class ActiveMonster extends React.Component {
     return (
       <Grid container spacing={8} alignItems="baseline" className={`${classes.monsterContainer} ${activeMonster.get('elite') ? classes.elite : classes.normal}`}>
         <Grid item xs={1}>
-          <Typography variant={"h5"}>
+          <Typography variant={"h5"} className={classes.standeeTypography}>
             { standeeNumber }
           </Typography>
         </Grid>

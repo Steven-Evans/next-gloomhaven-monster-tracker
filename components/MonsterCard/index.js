@@ -17,9 +17,13 @@ import monsterStats from "../../utils/monster_stats";
 import ActiveMonster from "../ActiveMonster";
 import {
   decrementMonsterHealth,
-  deleteActiveMonster, incrementMonsterHealth, updateMonsterHealth, updateMonsterInitiative,
+  deleteActiveMonster,
+  incrementMonsterHealth,
+  updateMonsterHealth,
+  updateMonsterInitiative,
   updateMonsterStatusEffect,
-  updateNewMonsterDialogue
+  updateNewMonsterDialogue,
+  openOozeDialogue,
 } from "../../redux/actions/gloomhaven-tracker";
 
 const styles = theme => ({
@@ -82,6 +86,15 @@ class MonsterCard extends React.Component {
                 onChange={props.onUpdateInitiative}
               />
             </Grid>
+            {
+              name === "ooze" && (
+                <Grid item xs={12}>
+                  <Button variant="contained" color="primary" className={classes.button} onClick={props.onClickSplitOozes(sortedMonsters.map(monsterEntry => monsterEntry[0]))}>
+                    Split Oozes
+                  </Button>
+                </Grid>
+              )
+            }
           </Grid>
           {
             ["normal", "elite"].map((type) => (
@@ -122,7 +135,6 @@ class MonsterCard extends React.Component {
         {
           sortedMonsters.map(standee => (
             <ActiveMonster
-              monsterName={name}
               standeeNumber={standee[0]}
               activeMonster={standee[1]}
               onUpdateStatusEffect={props.onUpdateStatusEffect}
@@ -139,6 +151,17 @@ class MonsterCard extends React.Component {
   }
 }
 
+/*
+{
+  monsterName === "ooze" && (
+    <Grid item xs={12}>
+      <Button variant="contained" color="primary" className={classes.button} onClick={props.onClickSplitOoze}>
+        Split Ooze
+      </Button>
+    </Grid>
+  )
+}
+*/
 const makeMapStateToProps = (state, ownProps) => {
   const selectActiveMonsters = makeSelectSortedActiveMonsters(ownProps.name);
 
@@ -162,6 +185,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onDecrementHealth: (standeeNumber) => () => dispatch(decrementMonsterHealth(standeeNumber, name)),
     onUpdateHealth: (standeeNumber) => (event) => dispatch(updateMonsterHealth(standeeNumber, name, event.target.value)),
     onMonsterKilled: (standeeNumber) => () => dispatch(deleteActiveMonster(standeeNumber, name)),
+    onClickSplitOozes: (oozeSplits) => () => dispatch(openOozeDialogue(oozeSplits)),
   }
 };
 

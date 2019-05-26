@@ -11,7 +11,7 @@ const styles = theme => ({
 
 });
 
-class NewMonsterDialog extends React.Component {
+class MonsterDialogue extends React.Component {
   constructor(props) {
     super(props);
 
@@ -35,21 +35,23 @@ class NewMonsterDialog extends React.Component {
   render() {
     const {
       classes,
-      onSelectStandee,
+      dialogTitle,
+      oozeSplitting,
       numberOfMaxStandees,
+      onSelectStandee,
       activeStandees,
-      selectedValue,
       ...other
     } = this.props;
 
     return (
-      <Dialog aria-labelledby="new-monster-dialog-title" {...other}>
-        <DialogTitle id="new-monster-dialog-title">Monster Number</DialogTitle>
+      <Dialog aria-labelledby="dialog-title" {...other}>
+        <DialogTitle id="dialog-title">{dialogTitle}</DialogTitle>
         <FormControlLabel
           control={
             <Checkbox
               checked={this.state.elite}
               onChange={this.handleEliteToggle}
+              disabled={oozeSplitting || false}
               color="primary"
             />
           }
@@ -58,7 +60,7 @@ class NewMonsterDialog extends React.Component {
         />
         <Grid container spacing={24}>
           {
-            NewMonsterDialog.standeesToArray(numberOfMaxStandees).map((standee) => (
+            MonsterDialogue.standeesToArray(numberOfMaxStandees).map((standee) => (
               <Grid item xs={4} key={standee}>
                 <Button
                   variant="contained"
@@ -78,4 +80,4 @@ class NewMonsterDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(NewMonsterDialog);
+export default withStyles(styles)(MonsterDialogue);

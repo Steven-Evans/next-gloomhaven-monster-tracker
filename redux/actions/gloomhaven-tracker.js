@@ -37,7 +37,11 @@ import {
   UPDATE_MONSTER_STATUS_EFFECT,
   UPDATE_MONSTER_STATUS_EFFECT_FAILURE,
   UPDATE_MONSTER_STATUS_EFFECT_SUCCESS,
-  UPDATE_NEW_MONSTER_DIALOGUE
+  UPDATE_NEW_MONSTER_DIALOGUE,
+  OPEN_OOZE_SPLITTING_DIALOGUE,
+  CLOSE_OOZE_SPLITTING_DIALOGUE,
+  CLOSE_NEW_MONSTER_DIALOGUE,
+  CHOOSE_OOZE_SPLIT_STANDEE
 } from "../actionTypes/gloomhaven-tracker";
 import {INITIALIZE_TRACKER_SUCCESS} from "../actionTypes/gloomhaven-tracker-setup";
 
@@ -329,5 +333,27 @@ export function updateNewMonsterDialogue(monsterType, open) {
     type: UPDATE_NEW_MONSTER_DIALOGUE,
     monsterType,
     open,
+  }
+}
+
+export function openOozeDialogue(oozeSplits) {
+  return {
+    type: OPEN_OOZE_SPLITTING_DIALOGUE,
+    oozeSplits,
+  }
+}
+
+export function closeOozeDialogue() {
+  return {
+    type: CLOSE_OOZE_SPLITTING_DIALOGUE,
+  }
+}
+
+export function chooseOozeSplitStandee(originalStandee, newStandee, elite) {
+  return {
+    type: CHOOSE_OOZE_SPLIT_STANDEE,
+    originalStandee,
+    newStandee,
+    elite,
   }
 }

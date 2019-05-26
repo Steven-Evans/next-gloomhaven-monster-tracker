@@ -2,7 +2,12 @@ import Router from 'next/router';
 import {fromJS, Map} from "immutable";
 import {createSelector} from "reselect";
 import {sseActionTypes} from "../../utils/constants";
-import {createNewMonster, monstersFromScenarioOrSelect, transformMonsterNamesToState} from "../../utils/monster";
+import {
+  createNewMonster,
+  monstersFromScenarioOrSelect,
+  transformMonsterNamesToState,
+  stateAfterOozeSplitLogic,
+} from "../../utils/monster";
 import {transformCharacterNamesToState} from "../../utils/character";
 import {
   CREATE_ACTIVE_MONSTER,
@@ -23,6 +28,8 @@ import {
   UPDATE_MONSTER_INITIATIVE,
   UPDATE_MONSTER_STATUS_EFFECT,
   UPDATE_NEW_MONSTER_DIALOGUE,
+  OPEN_OOZE_SPLITTING_DIALOGUE,
+  CHOOSE_OOZE_SPLIT_STANDEE, CLOSE_OOZE_SPLITTING_DIALOGUE,
 } from "../actionTypes/gloomhaven-tracker";
 import {INITIALIZE_TRACKER, INITIALIZE_TRACKER_SUCCESS} from "../actionTypes/gloomhaven-tracker-setup";
 
@@ -32,6 +39,11 @@ export const initialState = fromJS({
   newMonsterDialogue: {
     open: false,
     type: "",
+  },
+  oozeSplittingDialogue: {
+    open: false,
+    tempOozes: {},
+    oozeSplits: {},
   },
   sseConnected: false,
   characters: {},
@@ -58,6 +70,14 @@ export const selectNewMonsterDialogueOpen = (state) => selectTracker(state).getI
 export const selectNewMonsterType = (state) => selectTracker(state).getIn(['newMonsterDialogue', 'type']);
 
 export const selectMonsterByNewType = (state) => selectMonster(selectNewMonsterType(state))(state);
+
+export const selectOozeDialogue = (state) => selectTracker(state).get('oozeSplittingDialogue');
+
+export const selectTempOozes = (state) => selectOozeDialogue(state).get('tempOozes');
+
+export const selectOozeSplits = (state) => selectOozeDialogue(state).get('oozeSplits');
+
+export const selectOozeOpen = (state) => selectOozeDialogue(state).get('open');
 
 export const selectMonsterNames = () =>
   createSelector(selectTracker, (trackerState) => trackerState.get('monsters').keySeq());
@@ -95,7 +115,7 @@ function numberOrEmpty(stateVal) {
 }
 
 function trackerReducer(state = initialState, action) {
-  let keyPath, nextVal;
+  let keyPath, nextVal, nextState;
   switch (action.type) {
     case INITIALIZE_TRACKER:
       return state
@@ -150,7 +170,7 @@ function trackerReducer(state = initialState, action) {
       const newMonsterType = action.monsterName || state.getIn(['newMonsterDialogue', 'type']);
       keyPath = ["monsters", newMonsterType, "active", action.standeeNumber];
       return state
-        .setIn(keyPath, fromJS(createNewMonster(newMonsterType, action.standeeNumber, action.elite, action.scenarioLevel)))
+        .setIn(keyPath, fromJS(createNewMonster(newMonsterType, action.elite, action.scenarioLevel)))
         .setIn(['newMonsterDialogue', 'open'], false);
     case UPDATE_MONSTER_INITIATIVE:
     case sseActionTypes.SSE_UPDATE_MONSTER_INITIATIVE:
@@ -180,6 +200,21 @@ function trackerReducer(state = initialState, action) {
       return state
         .setIn(["newMonsterDialogue", "type"], action.monsterType)
         .setIn(["newMonsterDialogue", "open"], action.open);
+    case OPEN_OOZE_SPLITTING_DIALOGUE:
+      nextState = state
+        .setIn(["oozeSplittingDialogue", "tempOozes"], state.getIn(["monsters", "ooze", "active"]))
+        .setIn(["oozeSplittingDialogue", "oozeSplits"], action.oozeSplits)
+        .setIn(["oozeSplittingDialogue", "open"], true);
+      return stateAfterOozeSplitLogic(nextState);
+    case CLOSE_OOZE_SPLITTING_DIALOGUE:
+      return state.setIn(["oozeSplittingDialogue", "open"], false);
+    case CHOOSE_OOZE_SPLIT_STANDEE:
+      let newOoze = fromJS(createNewMonster("ooze", action.elite, 0));
+      newOoze = newOoze.set("currentHealth", state.getIn(["oozeSplittingDialogue", "tempOozes", action.originalStandee, "currentHealth"]));
+      nextState = state
+        .setIn(["oozeSplittingDialogue", "tempOozes", action.newStandee], newOoze)
+        .setIn(["oozeSplittingDialogue", "oozeSplits"], state.getIn(["oozeSplittingDialogue", "oozeSplits"]).rest());
+      return stateAfterOozeSplitLogic(nextState);
     default:
       return state;
   }

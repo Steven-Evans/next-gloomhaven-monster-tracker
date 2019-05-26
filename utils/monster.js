@@ -66,13 +66,37 @@ const getMonsterHitpoints = (monsterClass, elite, scenarioLevel) => {
   return elite ? stats.elite.health : stats.normal.health;
 };
 
-const createNewMonster = (monsterClass, standeeNum, elite, scenarioLevel) => {
+const createNewMonster = (monsterClass, elite, scenarioLevel) => {
   return {
     elite,
     currentHealth: getMonsterHitpoints(monsterClass, elite, scenarioLevel),
     statusEffects: statusEffects(),
   };
 };
+
+const stateAfterOozeSplitLogic = (nextState) => {
+  let oozeSplits, nextOoze, oozesSize;
+  do {
+    oozeSplits = nextState.getIn(["oozeSplittingDialogue", "oozeSplits"]);
+    if (oozeSplits.isEmpty()) {
+      return nextState
+        .setIn(["monsters", "ooze", "active"], nextState.getIn(["oozeSplittingDialogue", "tempOozes"]))
+        .setIn(["oozeSplittingDialogue", "open"], false);
+    } else {
+      nextOoze = nextState.getIn(["oozeSplittingDialogue", "tempOozes", oozeSplits.first()]);
+      if (nextOoze.get('currentHealth') <= 2) {
+        nextState = nextState.deleteIn(["oozeSplittingDialogue", "tempOozes", oozeSplits.first()]);
+      } else {
+        nextState = nextState.updateIn(["oozeSplittingDialogue", "tempOozes", oozeSplits.first(), "currentHealth"], hp => hp - 2);
+      }
+      oozesSize = nextState.getIn(["oozeSplittingDialogue", "tempOozes"]).size;
+      if (oozesSize === 10 || !nextState.hasIn(["oozeSplittingDialogue", "tempOozes", oozeSplits.first()])) {
+        nextState = nextState.setIn(["oozeSplittingDialogue", "oozeSplits"], oozeSplits.rest());
+      }
+    }
+  } while (oozesSize === 10 || !nextState.hasIn(["oozeSplittingDialogue", "tempOozes", oozeSplits.first()]));
+  return nextState;
+}
 
 module.exports = {
   transformMonsterNamesToState,
@@ -82,4 +106,5 @@ module.exports = {
   getMonsterStats,
   createMonsterType,
   createNewMonster,
+  stateAfterOozeSplitLogic,
 };
