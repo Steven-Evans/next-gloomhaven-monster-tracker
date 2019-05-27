@@ -40,3 +40,5 @@ export const UPDATE_NEW_MONSTER_DIALOGUE = "gloomhaven-tracker/UPDATE_NEW_MONSTE
 export const OPEN_OOZE_SPLITTING_DIALOGUE = "gloomhaven-tracker/OPEN_OOZE_SPLITTING_DIALOGUE";
 export const CLOSE_OOZE_SPLITTING_DIALOGUE = "gloomhaven-tracker/CLOSE_OOZE_SPLITTING_DIALOGUE";
 export const CHOOSE_OOZE_SPLIT_STANDEE = "gloomhaven-tracker/CHOOSE_OOZE_SPLIT_STANDEE";
+export const SET_ACTIVE_OOZES_SUCCESS = "gloomhaven-tracker/SET_ACTIVE_OOZES_SUCCESS";
+export const SET_ACTIVE_OOZES_FAILURE = "gloomhaven-tracker/SET_ACTIVE_OOZES_FAILURE";

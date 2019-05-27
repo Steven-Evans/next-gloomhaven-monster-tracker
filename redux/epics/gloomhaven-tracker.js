@@ -1,10 +1,12 @@
 import { ofType } from 'redux-observable';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Observable, of} from 'rxjs';
 import {
   selectRoomCode,
   selectCharacter,
   selectActiveMonster,
+  selectOozeSplits,
+  selectTempOozes
   } from "../reducers/gloomhaven-tracker";
 import { observableRequest } from '../../utils/request';
 import { apiUrl } from '../../config';
@@ -25,7 +27,9 @@ import {
   UPDATE_CHARACTER_STATUS_EFFECT,
   UPDATE_MONSTER_HEALTH,
   UPDATE_MONSTER_INITIATIVE,
-  UPDATE_MONSTER_STATUS_EFFECT
+  UPDATE_MONSTER_STATUS_EFFECT,
+  OPEN_OOZE_SPLITTING_DIALOGUE,
+  CHOOSE_OOZE_SPLIT_STANDEE,
 } from "../actionTypes/gloomhaven-tracker";
 import {
   createActiveMonsterFailure,
@@ -47,7 +51,9 @@ import {
   updateMonsterInitiativeFailure,
   updateMonsterInitiativeSuccess,
   updateMonsterStatusEffectFailure,
-  updateMonsterStatusEffectSuccess
+  updateMonsterStatusEffectSuccess,
+  setActiveOozesSuccess,
+  setActiveOozesFailure,
 } from "../actions/gloomhaven-tracker";
 
 const apiSessionUrl = (state) => `${apiUrl}/session/${selectRoomCode(state)}`;
@@ -178,6 +184,21 @@ export const updateMonsterStatusEffectEpic = (action$, state$) => action$.pipe(
     }).pipe(
       map(response => updateMonsterStatusEffectSuccess(response)),
       catchError(err => of(updateMonsterStatusEffectFailure(err)))
+    )
+  )
+);
+
+export const setActiveOozesEpic = (action$, state$) => action$.pipe(
+  ofType(OPEN_OOZE_SPLITTING_DIALOGUE, CHOOSE_OOZE_SPLIT_STANDEE),
+  filter(() => selectOozeSplits(state$.value).isEmpty()),
+  mergeMap(action =>
+    observableRequest(`${apiSessionUrl(state$.value)}/monster/ooze/active`, {
+      method: "PUT",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({active: selectTempOozes(state$.value)})
+    }).pipe(
+      map(response => setActiveOozesSuccess(response)),
+      catchError(err => of(setActiveOozesFailure(err)))
     )
   )
 );

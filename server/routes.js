@@ -79,6 +79,15 @@ router.put('/session/:roomCode/monster/:monsterName/active/:standeeNumber/health
   });
 });
 
+router.put('/session/:roomCode/monster/:monsterName/active', (req, res) => {
+  const keyString = `monsters.${req.params.monsterName}.active`;
+  const sseData = {monsterName: req.params.monsterName, active: req.body.active};
+  api.updateTrackerField(req, keyString, req.body.active, sseActionTypes.SSE_SET_ACTIVE_MONSTERS, sseData).then(() => {
+    res.status(200);
+    res.send({});
+  })
+});
+
 router.put('/session/:roomCode/monster/:monsterName/active/:standeeNumber/statuseffect/:statusEffect', (req, res) => {
   const keyString = `monsters.${req.params.monsterName}.active.${req.params.standeeNumber}.statusEffects.${req.params.statusEffect}`;
   const sseData = {monsterName: req.params.monsterName, standeeNumber: req.params.standeeNumber, statusEffect: req.params.statusEffect, checked: req.body.checked};

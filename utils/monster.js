@@ -96,7 +96,7 @@ const stateAfterOozeSplitLogic = (nextState) => {
     }
   } while (oozesSize === 10 || !nextState.hasIn(["oozeSplittingDialogue", "tempOozes", oozeSplits.first()]));
   return nextState;
-}
+};
 
 module.exports = {
   transformMonsterNamesToState,

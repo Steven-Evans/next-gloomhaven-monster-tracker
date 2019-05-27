@@ -40,8 +40,9 @@ import {
   UPDATE_NEW_MONSTER_DIALOGUE,
   OPEN_OOZE_SPLITTING_DIALOGUE,
   CLOSE_OOZE_SPLITTING_DIALOGUE,
-  CLOSE_NEW_MONSTER_DIALOGUE,
-  CHOOSE_OOZE_SPLIT_STANDEE
+  CHOOSE_OOZE_SPLIT_STANDEE,
+  SET_ACTIVE_OOZES_SUCCESS,
+  SET_ACTIVE_OOZES_FAILURE,
 } from "../actionTypes/gloomhaven-tracker";
 import {INITIALIZE_TRACKER_SUCCESS} from "../actionTypes/gloomhaven-tracker-setup";
 
@@ -355,5 +356,18 @@ export function chooseOozeSplitStandee(originalStandee, newStandee, elite) {
     originalStandee,
     newStandee,
     elite,
+  }
+}
+
+export function setActiveOozesSuccess() {
+  return {
+    type: SET_ACTIVE_OOZES_SUCCESS,
+  }
+}
+
+export function setActiveOozesFailure(error) {
+  return {
+    type: SET_ACTIVE_OOZES_FAILURE,
+    error,
   }
 }

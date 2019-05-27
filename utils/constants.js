@@ -10,6 +10,7 @@ const sseActionTypes = {
   SSE_UPDATE_MONSTER_STATUS_EFFECT: "gloomhaven-tracker/SSE_UPDATE_MONSTER_STATUS_EFFECT",
   SSE_CREATE_ACTIVE_MONSTER: "gloomhaven-tracker/SSE_CREATE_ACTIVE_MONSTER",
   SSE_DELETE_ACTIVE_MONSTER: "gloomhaven-tracker/SSE_DELETE_ACTIVE_MONSTER",
+  SSE_SET_ACTIVE_MONSTERS: "gloomhaven-tracker/SSE_SET_ACTIVE_MONSTERS",
 };
 
 const characterClasses = [

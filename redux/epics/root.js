@@ -12,6 +12,7 @@ import {
   updateMonsterStatusEffectEpic,
   createActiveMonsterEpic,
   deleteActiveMonsterEpic,
+  setActiveOozesEpic,
 } from './gloomhaven-tracker';
 
 const root = combineEpics(
@@ -27,6 +28,7 @@ const root = combineEpics(
   updateMonsterStatusEffectEpic,
   createActiveMonsterEpic,
   deleteActiveMonsterEpic,
+  setActiveOozesEpic,
 );
 
 export default root;

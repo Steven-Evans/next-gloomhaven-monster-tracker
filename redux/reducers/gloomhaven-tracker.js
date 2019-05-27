@@ -215,6 +215,10 @@ function trackerReducer(state = initialState, action) {
         .setIn(["oozeSplittingDialogue", "tempOozes", action.newStandee], newOoze)
         .setIn(["oozeSplittingDialogue", "oozeSplits"], state.getIn(["oozeSplittingDialogue", "oozeSplits"]).rest());
       return stateAfterOozeSplitLogic(nextState);
+    case sseActionTypes.SSE_SET_ACTIVE_MONSTERS:
+      return state
+        .setIn(["monsters", action.monsterName, "active"], fromJS(action.active))
+        .setIn(["oozeSplittingDialogue", "open"], false);
     default:
       return state;
   }
