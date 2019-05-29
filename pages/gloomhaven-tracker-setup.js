@@ -37,6 +37,13 @@ const styles = theme => ({
   },
   chip: {
     margin: theme.spacing.unit / 2,
+  },
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  button: {
+    width: "25%",
   }
 });
 
@@ -116,12 +123,13 @@ const GloomhavenTrackerSetup = (props) => (
         className={props.classes.numberTextField}
       />
     </Grid>
-    <Grid item xs={4}>
+    <Grid item xs={12} className={props.classes.buttonContainer}>
       <Link href="/gloomhaven-tracker">
         <Button
           type="button"
           variant="contained"
           color="primary"
+          className={props.classes.button}
           onClick={props.onInitializeTracker(props)}>Submit</Button>
       </Link>
     </Grid>

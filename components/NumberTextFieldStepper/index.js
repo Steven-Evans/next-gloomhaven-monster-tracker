@@ -4,9 +4,6 @@ import { withStyles } from "@material-ui/core/styles";
 import { AddCircle, RemoveCircle } from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
-import { selectCharacter } from "../../redux/reducers/gloomhaven-tracker";
 
 const styles = theme => ({
   media: {
@@ -18,15 +15,8 @@ const styles = theme => ({
   actions: {
     display: 'flex',
   },
-  icon: {
-    //fontSize: 24,
-  },
   iconButton: {
-    //textAlign: 'center',
     color: theme.palette.primary.main,
-    /*'&:hover': {
-      color: theme.palette.primary.accent,
-    },*/
   },
 });
 
@@ -49,10 +39,6 @@ class NumberTextFieldStepper extends React.Component {
         <Grid item xs={4}>
           <NumberTextField
             { ...other }
-            //      className={classes.textField}
-            /*      InputLabelProps={{
-                    shrink: true,
-                  }}*/
           />
         </Grid>
         <Grid item>

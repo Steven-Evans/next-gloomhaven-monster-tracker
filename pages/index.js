@@ -1,55 +1,48 @@
-
-import Layout from '../components/MyLayout.js';
+import React from "react";
 import Link from 'next/link';
-import fetch from 'isomorphic-unfetch';
+import {withStyles} from "@material-ui/core/styles";
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import IconLink from "../components/IconLink";
+
+const styles = theme => ({
+  welcome: {
+    [theme.breakpoints.down('sm')]: {
+      paddingTop: `${theme.spacing.unit * 2}px`,
+      maxWidth: "95%",
+    },
+    maxWidth: "70%",
+    margin: '0 auto',
+    padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`,
+  },
+});
 
 const Index = (props) => (
-  <Layout>
-    <h1>Batman TV Shows</h1>
-    <ul>
-      {props.shows.map(({show}) => (
-        <li key={show.id}>
-          <Link as={`/p/${show.id}`} href={`/post?id=${show.id}`}>
-            <a>{show.name}</a>
-          </Link>
-        </li>
-      ))}
-    </ul>
-    <style jsx>{`
-      h1, a {
-        font-family: "Arial";
-      }
-
-      ul {
-        padding: 0;
-      }
-
-      li {
-        list-style: none;
-        margin: 5px 0;
-      }
-
-      a {
-        text-decoration: none;
-        color: blue;
-      }
-
-      a:hover {
-        opacity: 0.6;
-      }
-    `}</style>
-  </Layout>
+  <Grid container spacing={24} direction="column" justify={"center"} className={props.classes.welcome}>
+    <Grid item xs={12}>
+      <Typography variant="h2">Welcome!</Typography>
+    </Grid>
+    <Grid item xs={12}>
+      <Typography variant="body1" gutterBottom>
+        This is my homepage! I'm not going to spend a whole bunch of time on it since my main focus is the Gloomhaven Tracker portion of the site, at least for now. I'm also looking for work so if you're in Vancouver BC and hiring for a software developer, give me a holler if you'd like to chat. If you are in that business, you'll know that having something is better than nothing and the value of producing something deliverable to show for.  
+      </Typography>
+    </Grid>
+    <Grid item xs={12}>
+      <IconLink iconName="alpha-g-box" alt="Just a G" link="/gloomhaven-tracker-setup">
+        Gloomhaven Tracker
+      </IconLink>
+      <IconLink iconName="github-box" alt="Github Icon" link="https://www.github.com/steven-evans">
+        Github
+      </IconLink>
+      <IconLink iconName="linkedin-box" alt="LinkedIn Icon" link="https://www.linkedin.com/in/steven-evans-a8459b67/">
+        LinkedIn
+      </IconLink>
+    </Grid>
+  </Grid>
 );
 
 Index.getInitialProps = async function() {
-  const res = await fetch('https://api.tvmaze.com/search/shows?q=batman');
-  const data = await res.json();
 
-  console.log(`Show data fetched. Count: ${data.length}`);
-
-  return {
-    shows: data
-  };
 };
 
-export default Index
+export default withStyles(styles)(Index);
