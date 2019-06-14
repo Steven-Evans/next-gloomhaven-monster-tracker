@@ -24,10 +24,11 @@ class IconLink extends React.Component {
       iconName,
       alt,
       link,
+      onClick,
       children
     } = this.props;
     return (
-      <a href={link} className={classes.main}>
+      <a href={link} onClick={onClick} className={classes.main}>
         <img src={`/static/misc_icons/${iconName}.svg`} alt={alt}/>
         <Typography variant="body1" className={classes.typography}>
           {children}

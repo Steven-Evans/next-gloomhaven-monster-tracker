@@ -1,5 +1,6 @@
-import React from "react";
+import React from 'react';
 import Link from 'next/link';
+import {logLinkClick} from '../utils/analytics';
 import {withStyles} from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -31,10 +32,10 @@ const Index = (props) => (
       <IconLink iconName="alpha-g-box" alt="Just a G" link="/gloomhaven-tracker-setup">
         Gloomhaven Tracker
       </IconLink>
-      <IconLink iconName="github-box" alt="Github Icon" link="https://www.github.com/steven-evans">
+      <IconLink onClick={logLinkClick('github')} iconName="github-box" alt="Github Icon" link="https://www.github.com/steven-evans">
         Github
       </IconLink>
-      <IconLink iconName="linkedin-box" alt="LinkedIn Icon" link="https://www.linkedin.com/in/steven-evans-a8459b67/">
+      <IconLink onClick={logLinkClick('linkedIn')} iconName="linkedin-box" alt="LinkedIn Icon" link="https://www.linkedin.com/in/steven-evans-a8459b67/">
         LinkedIn
       </IconLink>
     </Grid>
