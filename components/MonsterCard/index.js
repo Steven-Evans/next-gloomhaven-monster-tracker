@@ -167,7 +167,6 @@ const makeMapStateToProps = (state, ownProps) => {
 
   const mapStateToProps = createStructuredSelector({
     monster: selectMonster(ownProps.name),
-    scenarioLevel: selectScenarioLevel,
     sortedMonsters: selectActiveMonsters,
   });
   return mapStateToProps;
