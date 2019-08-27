@@ -19,7 +19,10 @@ import {
   selectMonsterClasses,
   selectScenarioNumber,
   selectScenarioLevel,
-  } from "../redux/reducers/gloomhaven-tracker-setup";
+  selectCharacterClassesError,
+  selectMonsterError,
+  selectScenarioLevelError, selectSubmitClean,
+} from "../redux/reducers/gloomhaven-tracker-setup";
 import {
   charactersUpdated,
   initializeTracker, monstersUpdated,
@@ -62,11 +65,11 @@ const GloomhavenTrackerSetup = (props) => (
       </Grid>
     </Grid>
     <Grid item xs={12}>
-      <FormControl fullWidth>
+      <FormControl error={props.errorCharacterClasses} fullWidth>
         <InputLabel htmlFor="select-character-classes">Select your character classes</InputLabel>
         <Select
           multiple
-          value={props.characterClasses}
+          value={props.characterClasses.toArray()}
           onChange={props.onChangeClasses}
           input={<Input id="select-character-classes" />}
           renderValue={selected => (
@@ -88,11 +91,11 @@ const GloomhavenTrackerSetup = (props) => (
       </FormControl>
     </Grid>
     <Grid item xs={12}>
-      <FormControl fullWidth>
+      <FormControl error={props.errorMonsterClasses} fullWidth>
         <InputLabel htmlFor="select-monster-classes">Select the monster classes</InputLabel>
         <Select
           multiple
-          value={props.monsterClasses}
+          value={props.monsterClasses.toArray()}
           onChange={props.onChangeMonsters}
           input={<Input id="select-monster-classes" />}
           renderValue={selected => (
@@ -121,6 +124,7 @@ const GloomhavenTrackerSetup = (props) => (
         onChange={props.onChangeScenarioNumber}
         min={1}
         max={95}
+        error={props.errorMonsterClasses}
         className={props.classes.numberTextField}
       />
     </Grid>
@@ -132,6 +136,7 @@ const GloomhavenTrackerSetup = (props) => (
         onChange={props.onChangeScenarioLevel}
         min={0}
         max={7}
+        error={props.errorScenarioLevel}
         className={props.classes.numberTextField}
       />
     </Grid>
@@ -142,6 +147,7 @@ const GloomhavenTrackerSetup = (props) => (
           variant="contained"
           color="primary"
           className={props.classes.button}
+          disabled={props.submitClean}
           onClick={props.onInitializeTracker(props)}>Submit</Button>
       </Link>
     </Grid>
@@ -175,6 +181,10 @@ const mapStateToProps = createStructuredSelector({
   monsterClasses: selectMonsterClasses,
   scenarioNumber: selectScenarioNumber,
   scenarioLevel: selectScenarioLevel,
+  errorCharacterClasses: selectCharacterClassesError,
+  errorMonsterClasses: selectMonsterError,
+  errorScenarioLevel: selectScenarioLevelError,
+  submitClean: selectSubmitClean,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(GloomhavenTrackerSetup));

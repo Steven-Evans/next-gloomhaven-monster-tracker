@@ -119,8 +119,8 @@ function trackerReducer(state = initialState, action) {
   switch (action.type) {
     case INITIALIZE_TRACKER:
       return state
-        .set("characters", fromJS(transformCharacterNamesToState(action.body.characterClasses)))
-        .set("monsters", fromJS(transformMonsterNamesToState(monstersFromScenarioOrSelect(action.body.scenarioNumber, action.body.monsterClasses))));
+        .set("characters", fromJS(transformCharacterNamesToState(action.body.characterClasses.toArray())))
+        .set("monsters", fromJS(transformMonsterNamesToState(monstersFromScenarioOrSelect(action.body.scenarioNumber, action.body.monsterClasses.toArray()))));
     case INITIALIZE_TRACKER_SUCCESS:
       const newState = state.set("roomCode", action.roomCode);
       Router.push(`/gloomhaven-tracker?roomCode=${action.roomCode}`, `/gloomhaven-tracker/${action.roomCode}`, { shallow: true });
