@@ -11,6 +11,7 @@ import Chip from '@material-ui/core/Chip';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import Typography from "@material-ui/core/Typography";
 import NumberTextField from '../components/NumberTextField';
 import { characterClasses, monsterClasses } from '../utils/constants.js';
 import {
@@ -49,6 +50,17 @@ const styles = theme => ({
 
 const GloomhavenTrackerSetup = (props) => (
   <Grid container spacing={24} className={props.classes.heroContent} justify={"center"}>
+    <Grid item xs={12}>
+      <Typography variant="body1" gutterBottom>
+        Create a Gloomhaven Monster Tracker session by filling in which classes you are playing, one of filling in the monsters or the scenario number, and the scenario level/difficulty for monster stats then hit the Submit button.
+      </Typography>
+
+      <Grid item xs={12}>
+        <Typography variant="body1" gutterBottom>
+          When you've created a session, use the sharable URL (the idea is to be similar to Jackbox) and give it to your buddies so they can also pull out their phones and track their character stats and monsters from their seat.
+        </Typography>
+      </Grid>
+    </Grid>
     <Grid item xs={12}>
       <FormControl fullWidth>
         <InputLabel htmlFor="select-character-classes">Select your character classes</InputLabel>
