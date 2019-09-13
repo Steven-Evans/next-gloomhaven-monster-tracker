@@ -25,7 +25,7 @@ const Index = (props) => (
     </Grid>
     <Grid item xs={12}>
       <Typography variant="body1" gutterBottom>
-        This is my homepage! I'm not going to spend a whole bunch of time on it since my main focus is the Gloomhaven Tracker portion of the site, at least for now. I'm also looking for work so if you're in Vancouver BC and hiring for a software developer, give me a holler if you'd like to chat. If you are in that business, you'll know that having something is better than nothing and the value of producing something deliverable to show for.
+        This is my homepage! I'm not going to spend a whole bunch of time on it since my main focus is the Gloomhaven Tracker portion of the site, at least for now. I'm also looking for work so if you're in Vancouver BC and hiring for a software developer, give me a holler if you'd like to chat. So while it's not the flashiest thing in the world, check out my Github and see what I've done.
       </Typography>
     </Grid>
     <Grid item xs={12}>
