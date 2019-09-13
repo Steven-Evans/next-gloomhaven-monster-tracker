@@ -10,8 +10,6 @@ Two pain points and time sinks my group has when we play are:
 
 ### About the App
 
-> The app is currently in a very rough and incomplete state. There's still cruft from the nextjs tutorial that I'll remove later. Currently it creates a [random](http://i.giphy.com/lvidCfM1OVPDa.gif) room code after being given some setup information using Redux and Redux-Observable. A SSE connection is made which will allow the server to push changes made by another player.
-
 The goal of the app is to allow players to input their own initiatives, having turn order displayed automatically, while also allowing monster health to be easily parsed and changed. Having the app flip monster ability cards is still up in the air because those cards are fun to flip but would also mean their initiatives would need to be inputted manually as well. This means having multiple people connect to the same "room" to view and change monsters and initiative.
 
-I started from a fresh [next.js](https://github.com/zeit/next.js) to try something new (Server-Side Rendering) while also basing on something I've used (React). To have multiple players connect to the same "room", I'm trying out Server Sent Events because I haven't used them before and I'm not sending messages all the time, instead of Sockets. Rooms are denoted by 4 letter codes similar to Jackbox games. 
+I started from a fresh [next.js](https://github.com/zeit/next.js) to try something new (Server-Side Rendering) while also basing on something I've used (React). To have multiple players connect to the same "room", I'm trying out Server Sent Events because I haven't used them before and the clients aren't sending a huge stream of information to the server, which is where sockets would be most useful. Events and Async are handled by Redux-Observable which writes in a functional style. Rooms are denoted by 4 letter codes similar to Jackbox games. 
