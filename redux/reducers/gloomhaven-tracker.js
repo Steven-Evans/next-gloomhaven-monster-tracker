@@ -209,12 +209,15 @@ function trackerReducer(state = initialState, action) {
     case CLOSE_OOZE_SPLITTING_DIALOGUE:
       return state.setIn(["oozeSplittingDialogue", "open"], false);
     case CHOOSE_OOZE_SPLIT_STANDEE:
-      let newOoze = fromJS(createNewMonster("ooze", action.elite, 0));
-      newOoze = newOoze.set("currentHealth", state.getIn(["oozeSplittingDialogue", "tempOozes", action.originalStandee, "currentHealth"]));
+      let newOoze = fromJS(createNewMonster("ooze", action.elite, action.scenarioLevel));
+      const oldOozeHealth = state.getIn(["oozeSplittingDialogue", "tempOozes", action.originalStandee, "currentHealth"]);
+      if (oldOozeHealth < newOoze.get("currentHealth")) {
+        newOoze = newOoze.set("currentHealth", oldOozeHealth);
+      }
       nextState = state
         .setIn(["oozeSplittingDialogue", "tempOozes", action.newStandee], newOoze)
         .setIn(["oozeSplittingDialogue", "oozeSplits"], state.getIn(["oozeSplittingDialogue", "oozeSplits"]).rest());
-      return stateAfterOozeSplitLogic(nextState);
+      return stateAfterOozeSplitLogic(nextState, action.scenarioLevel);
     case sseActionTypes.SSE_SET_ACTIVE_MONSTERS:
       return state
         .setIn(["monsters", action.monsterName, "active"], fromJS(action.active))

@@ -350,12 +350,13 @@ export function closeOozeDialogue() {
   }
 }
 
-export function chooseOozeSplitStandee(originalStandee, newStandee, elite) {
+export function chooseOozeSplitStandee(originalStandee, newStandee, elite, scenarioLevel) {
   return {
     type: CHOOSE_OOZE_SPLIT_STANDEE,
     originalStandee,
     newStandee,
     elite,
+    scenarioLevel,
   }
 }
 

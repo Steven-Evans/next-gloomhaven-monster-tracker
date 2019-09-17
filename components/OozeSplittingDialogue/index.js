@@ -11,6 +11,7 @@ import {
   chooseOozeSplitStandee,
   closeOozeDialogue,
 } from "../../redux/actions/gloomhaven-tracker";
+import {selectScenarioLevel} from "../../redux/reducers/gloomhaven-tracker-setup";
 
 class OozeSplittingDialogue extends React.Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class OozeSplittingDialogue extends React.Component {
     const {
       onSelectStandee,
       activeOozes,
+      scenarioLevel,
       oozeSplits,
       oozeDialogueOpen,
       onOozeDialogueClose,
@@ -32,7 +34,7 @@ class OozeSplittingDialogue extends React.Component {
         open={oozeDialogueOpen}
         oozeSplitting={true}
         numberOfMaxStandees={10}
-        onSelectStandee={onSelectStandee.bind(null, oozeSplits.first())}
+        onSelectStandee={onSelectStandee.bind(null, scenarioLevel, oozeSplits.first())}
         activeStandees={activeOozes.keySeq()}
         onClose={onOozeDialogueClose}
       />
@@ -45,12 +47,13 @@ const mapStateToProps = createStructuredSelector({
   activeOozes: selectTempOozes,
   oozeSplits: selectOozeSplits,
   oozeDialogueOpen: selectOozeOpen,
+  scenarioLevel: selectScenarioLevel,
 });
 
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSelectStandee: (splitter, splittee, elite) => () => dispatch(chooseOozeSplitStandee(splitter, splittee, elite)),
+    onSelectStandee: (scenarioLevel, splitter, splittee, elite) => () => dispatch(chooseOozeSplitStandee(splitter, splittee, elite, scenarioLevel)),
     onOozeDialogueClose: () => dispatch(closeOozeDialogue())
   }
 };
