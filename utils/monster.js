@@ -1,5 +1,5 @@
 const { scenarioMonsters, monsterClasses } = require('./constants');
-const statusEffects = require('./statusEffects');
+const { statusEffects, statusEffectsImmunitiesFiltered } = require('./statusEffects');
 const monsterStats = require('./monster_stats');
 
 const transformMonsterNamesToState = (monsterClasses) => {
@@ -39,37 +39,46 @@ const isBoss = (monsterClass) => {
   return !monsterStats.monsters[monsterClass];
 };
 
-const getMonsterStats = (monsterClass, scenarioLevel, numCharacters) => {
-  if (isBoss) {
-    return getBossStats(monsterClass, scenarioLevel, numCharacters);
-  }
-  return monsterStats.monsters[monsterClass].level.find((monsterByLevel) =>
-    monsterByLevel.level === scenarioLevel
-  )
+const getMonsterStats = (monsterClass, scenarioLevel) => {
+  return monsterStats.monsters[monsterClass].level[scenarioLevel];
 };
 
 const getBossStats = (bossName, scenarioLevel, numCharacters) => {
-  const boss = monsterStats.bosses[bossName].level.find((monsterByLevel) =>
-    monsterByLevel.level === scenarioLevel
-  );
+  let boss = monsterStats.bosses[bossName].level[scenarioLevel];
   boss.health = getBossHitpoints(boss.health, numCharacters);
   return boss;
 };
 
 // Boss health string is always of the form "NxC"
 const getBossHitpoints = (hitpointStr, numCharacters) => {
+  if (typeof hitpointStr === "number") {
+    return hitpointStr;
+  }
   return hitpointStr.split("x")[0] * numCharacters;
 };
 
 const getMonsterHitpoints = (monsterClass, elite, scenarioLevel) => {
-  const stats = monsterStats.monsters[getMonsterName(monsterClass)].level[scenarioLevel];
+  const stats = monsterStats.monsters[monsterClass].level[scenarioLevel];
   return elite ? stats.elite.health : stats.normal.health;
 };
 
-const createNewMonster = (monsterClass, elite, scenarioLevel) => {
+const createNewBoss = (bossClass, scenarioLevel, numCharacters) => {
+  let bossStats = getBossStats(bossClass, scenarioLevel, numCharacters);
+  return {
+    elite: false,
+    currentHealth: bossStats.health,
+    statusEffects: statusEffectsImmunitiesFiltered(bossStats.immunities),
+  };
+};
+
+const createNewMonster = (monsterClass, elite, scenarioLevel, numCharacters) => {
+  const monsterName = getMonsterName(monsterClass);
+  if (monsterStats.bosses[monsterName]) {
+    return createNewBoss(monsterName, scenarioLevel, numCharacters);
+  }
   return {
     elite,
-    currentHealth: getMonsterHitpoints(monsterClass, elite, scenarioLevel),
+    currentHealth: getMonsterHitpoints(monsterName, elite, scenarioLevel),
     statusEffects: statusEffects(),
   };
 };
@@ -104,6 +113,7 @@ module.exports = {
   monstersFromScenarioOrSelect,
   isBoss,
   getMonsterStats,
+  getBossStats,
   createMonsterType,
   createNewMonster,
   stateAfterOozeSplitLogic,

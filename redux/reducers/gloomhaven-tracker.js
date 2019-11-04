@@ -29,7 +29,9 @@ import {
   UPDATE_MONSTER_STATUS_EFFECT,
   UPDATE_NEW_MONSTER_DIALOGUE,
   OPEN_OOZE_SPLITTING_DIALOGUE,
-  CHOOSE_OOZE_SPLIT_STANDEE, CLOSE_OOZE_SPLITTING_DIALOGUE,
+  CHOOSE_OOZE_SPLIT_STANDEE,
+  CLOSE_OOZE_SPLITTING_DIALOGUE,
+  UPDATE_NEW_BOSS_DIALOGUE,
 } from "../actionTypes/gloomhaven-tracker";
 import {INITIALIZE_TRACKER, INITIALIZE_TRACKER_SUCCESS} from "../actionTypes/gloomhaven-tracker-setup";
 
@@ -39,6 +41,7 @@ export const initialState = fromJS({
   newMonsterDialogue: {
     open: false,
     type: "",
+    eliteDisabled: false,
   },
   oozeSplittingDialogue: {
     open: false,
@@ -68,6 +71,8 @@ export const selectActiveMonster = (monsterName, standeeNumber) => (state) => se
 export const selectNewMonsterDialogueOpen = (state) => selectTracker(state).getIn(['newMonsterDialogue', 'open']);
 
 export const selectNewMonsterType = (state) => selectTracker(state).getIn(['newMonsterDialogue', 'type']);
+
+export const selectEliteDisabled = (state) => selectTracker(state).getIn(['newMonsterDialogue', 'eliteDisabled']);
 
 export const selectMonsterByNewType = (state) => selectMonster(selectNewMonsterType(state))(state);
 
@@ -170,7 +175,7 @@ function trackerReducer(state = initialState, action) {
       const newMonsterType = action.monsterName || state.getIn(['newMonsterDialogue', 'type']);
       keyPath = ["monsters", newMonsterType, "active", action.standeeNumber];
       return state
-        .setIn(keyPath, fromJS(createNewMonster(newMonsterType, action.elite, action.scenarioLevel)))
+        .setIn(keyPath, fromJS(createNewMonster(newMonsterType, action.elite, action.scenarioLevel, state.get('characters').size)))
         .setIn(['newMonsterDialogue', 'open'], false);
     case UPDATE_MONSTER_INITIATIVE:
     case sseActionTypes.SSE_UPDATE_MONSTER_INITIATIVE:
@@ -199,7 +204,13 @@ function trackerReducer(state = initialState, action) {
     case UPDATE_NEW_MONSTER_DIALOGUE:
       return state
         .setIn(["newMonsterDialogue", "type"], action.monsterType)
-        .setIn(["newMonsterDialogue", "open"], action.open);
+        .setIn(["newMonsterDialogue", "open"], action.open)
+        .setIn(["newMonsterDialogue", "eliteDisabled"], false);
+    case UPDATE_NEW_BOSS_DIALOGUE:
+      return state
+        .setIn(["newMonsterDialogue", "type"], action.monsterType)
+        .setIn(["newMonsterDialogue", "open"], action.open)
+        .setIn(["newMonsterDialogue", "eliteDisabled"], action.open); // only true when opening dialogue for bosses
     case OPEN_OOZE_SPLITTING_DIALOGUE:
       nextState = state
         .setIn(["oozeSplittingDialogue", "tempOozes"], state.getIn(["monsters", "ooze", "active"]))

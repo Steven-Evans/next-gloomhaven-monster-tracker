@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { withStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -12,8 +11,8 @@ import {
   selectMonster,
   makeSelectSortedActiveMonsters,
   } from "../../redux/reducers/gloomhaven-tracker";
-import { selectScenarioLevel } from "../../redux/reducers/gloomhaven-tracker-setup";
-import monsterStats from "../../utils/monster_stats";
+import {selectScenarioLevel} from "../../redux/reducers/gloomhaven-tracker-setup";
+import {getMonsterStats} from "../../utils/monster";
 import ActiveMonster from "../ActiveMonster";
 import {
   decrementMonsterHealth,
@@ -54,7 +53,7 @@ class MonsterCard extends React.Component {
       ...props
     } = this.props;
 
-    const stats = monsterStats.monsters[monster.get('name')].level[scenarioLevel];
+    const stats = getMonsterStats(monster.get('name'), scenarioLevel);
     const uppercase = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
     return (
@@ -137,6 +136,7 @@ class MonsterCard extends React.Component {
             <ActiveMonster
               standeeNumber={standee[0]}
               activeMonster={standee[1]}
+              isBoss={false}
               onUpdateStatusEffect={props.onUpdateStatusEffect}
               onIncrementHealth={props.onIncrementHealth(standee[0])}
               onDecrementHealth={props.onDecrementHealth(standee[0])}
@@ -151,28 +151,16 @@ class MonsterCard extends React.Component {
   }
 }
 
-/*
-{
-  monsterName === "ooze" && (
-    <Grid item xs={12}>
-      <Button variant="contained" color="primary" className={classes.button} onClick={props.onClickSplitOoze}>
-        Split Ooze
-      </Button>
-    </Grid>
-  )
-}
-*/
 const makeMapStateToProps = (state, ownProps) => {
   const selectActiveMonsters = makeSelectSortedActiveMonsters(ownProps.name);
 
   const mapStateToProps = createStructuredSelector({
     monster: selectMonster(ownProps.name),
     sortedMonsters: selectActiveMonsters,
+    scenarioLevel: selectScenarioLevel,
   });
   return mapStateToProps;
 };
-
-
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const name = ownProps.name;

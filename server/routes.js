@@ -102,9 +102,10 @@ router.post('/session/:roomCode/monster/:monsterName/', (req, res) => {
   const standeeNumber = req.body.standeeNumber;
   const elite = req.body.elite;
   const scenarioLevel = req.body.scenarioLevel;
+  const numCharacters = req.body.numCharacters;
   const keyString = `monsters.${monsterName}.active.${standeeNumber}`;
   const sseData = {monsterName, standeeNumber, elite, scenarioLevel};
-  api.updateTrackerField(req, keyString, createNewMonster(monsterName, elite, scenarioLevel), sseActionTypes.SSE_CREATE_ACTIVE_MONSTER, sseData, {upsert: true}).then(() => {
+  api.updateTrackerField(req, keyString, createNewMonster(monsterName, elite, scenarioLevel, numCharacters), sseActionTypes.SSE_CREATE_ACTIVE_MONSTER, sseData, {upsert: true}).then(() => {
     res.status(200);
     res.send({});
   });

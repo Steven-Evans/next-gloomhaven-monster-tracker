@@ -48,7 +48,7 @@ class MonsterDialogue extends React.Component {
     const {
       classes,
       dialogTitle,
-      oozeSplitting,
+      eliteDisabled,
       numberOfMaxStandees,
       onSelectStandee,
       activeStandees,
@@ -63,20 +63,23 @@ class MonsterDialogue extends React.Component {
           <Grid item xs={12}>
             <DialogTitle id="dialog-title" className={classes.dialogTitle}>{dialogTitle}</DialogTitle>
           </Grid>
-          <Grid item xs={12}>
-            <FormControlLabel
-              className={classes.eliteLabel}
-              control={
-                <Checkbox
-                  checked={this.state.elite}
-                  onChange={this.handleEliteToggle}
-                  disabled={oozeSplitting || false}
-                  color="primary"
-                />
-              }
-              label="Elite"
-            />
-          </Grid>
+          {
+            !eliteDisabled &&
+            <Grid item xs={12}>
+              <FormControlLabel
+                className={classes.eliteLabel}
+                control={
+                  <Checkbox
+                    checked={this.state.elite}
+                    onChange={this.handleEliteToggle}
+                    disabled={eliteDisabled || false}
+                    color="primary"
+                  />
+                }
+                label="Elite"
+              />
+            </Grid>
+          }
           <Grid container spacing={32} item className={classes.dialogGrid} justify={"center"}>
             {
               MonsterDialogue.standeesToArray(numberOfMaxStandees).map((standee) => (

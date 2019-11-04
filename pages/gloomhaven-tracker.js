@@ -7,10 +7,10 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CharacterCard from "../components/CharacterCard/index";
 import MonsterCard from "../components/MonsterCard/index";
+import BossCard from "../components/BossCard/index";
 import NewMonsterDialog from "../components/NewMonsterDialogue";
 import OozeSplittingDialogue from "../components/OozeSplittingDialogue";
 import InitiativeInputCard from "../components/InitiativeInputCard";
-import { selectScenarioLevel } from "../redux/reducers/gloomhaven-tracker-setup";
 import {
   selectClassesByInitiative,
 } from "../redux/reducers/gloomhaven-tracker";
@@ -66,9 +66,9 @@ class GloomhavenTracker extends React.Component {
                   if (!sortedClass[1].get('active')) {
                     componentToRender = <CharacterCard name={sortedClass[0]}/>;
                   } else if (isBoss(sortedClass[1].get('name'))) {
-                    //componentToRender = <BossCard name={sortedClass[0]}/>;
+                    componentToRender = <BossCard name={sortedClass[0]}/>;
                   } else {
-                    componentToRender = <MonsterCard name={sortedClass[0]} scenarioLevel={props.scenarioLevel}/>;
+                    componentToRender = <MonsterCard name={sortedClass[0]}/>;
                   }
                   return (
                     <Grid key={sortedClass[0]} item xs={12}>
@@ -95,7 +95,6 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = createStructuredSelector({
   initiativeSortedClasses: selectClassesByInitiative,
-  scenarioLevel: selectScenarioLevel,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(GloomhavenTracker));

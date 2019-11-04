@@ -39,6 +39,7 @@ class ActiveMonster extends React.Component {
       classes,
       standeeNumber,
       activeMonster,
+      isBoss,
       ...props
     } = this.props;
 
@@ -51,7 +52,7 @@ class ActiveMonster extends React.Component {
         </Grid>
         <Grid item xs={2}>
           <Typography variant={"subtitle1"}>
-            { activeMonster.get('elite') ? "Elite" : "Normal" }
+            { isBoss ? "Boss" : activeMonster.get('elite') ? "Elite" : "Normal" }
           </Typography>
         </Grid>
         <Grid container item xs={7} alignItems="center">

@@ -6321,11 +6321,11 @@
           "attack": 2,
           "range": 0,
           "special1": [
-            "{{resources.elements.consumeDark}}: Summon Night Demon",
+            "{{/static/boss_icons/consumeDark.png}}: Summon Night Demon",
             "Invisible, Self"
           ],
           "special2": [
-            "{{resources.elements.consumeLight}}: Summon Sun Demon",
+            "{{/static/boss_icons/consumeLight.png}}: Summon Sun Demon",
             "Heal 4, Self",
             "Shield 1"
           ],
@@ -6345,11 +6345,11 @@
           "attack": 3,
           "range": 0,
           "special1": [
-            "{{resources.elements.consumeDark}}: Summon Night Demon",
+            "{{/static/boss_icons/consumeDark.png}}: Summon Night Demon",
             "Invisible, Self"
           ],
           "special2": [
-            "{{resources.elements.consumeLight}}: Summon Sun Demon",
+            "{{/static/boss_icons/consumeLight.png}}: Summon Sun Demon",
             "Heal 4, Self",
             "Shield 1"
           ],
@@ -6369,11 +6369,11 @@
           "attack": 3,
           "range": 0,
           "special1": [
-            "{{resources.elements.consumeDark}}: Summon Night Demon",
+            "{{/static/boss_icons/consumeDark.png}}: Summon Night Demon",
             "Invisible, Self"
           ],
           "special2": [
-            "{{resources.elements.consumeLight}}: Summon Sun Demon",
+            "{{/static/boss_icons/consumeLight.png}}: Summon Sun Demon",
             "Heal 5, Self",
             "Shield 1"
           ],
@@ -6393,11 +6393,11 @@
           "attack": 4,
           "range": 0,
           "special1": [
-            "{{resources.elements.consumeDark}}: Summon Night Demon",
+            "{{/static/boss_icons/consumeDark.png}}: Summon Night Demon",
             "Invisible, Self"
           ],
           "special2": [
-            "{{resources.elements.consumeLight}}: Summon Sun Demon",
+            "{{/static/boss_icons/consumeLight.png}}: Summon Sun Demon",
             "Heal 5, Self",
             "Shield 1"
           ],
@@ -6417,11 +6417,11 @@
           "attack": 4,
           "range": 0,
           "special1": [
-            "{{resources.elements.consumeDark}}: Summon Night Demon",
+            "{{/static/boss_icons/consumeDark.png}}: Summon Night Demon",
             "Invisible, Self"
           ],
           "special2": [
-            "{{resources.elements.consumeLight}}: Summon Sun Demon",
+            "{{/static/boss_icons/consumeLight.png}}: Summon Sun Demon",
             "Heal 6, Self",
             "Shield 1"
           ],
@@ -6441,11 +6441,11 @@
           "attack": 5,
           "range": 0,
           "special1": [
-            "{{resources.elements.consumeDark}}: Summon Night Demon",
+            "{{/static/boss_icons/consumeDark.png}}: Summon Night Demon",
             "Invisible, Self"
           ],
           "special2": [
-            "{{resources.elements.consumeLight}}: Summon Sun Demon",
+            "{{/static/boss_icons/consumeLight.png}}: Summon Sun Demon",
             "Heal 6, Self",
             "Shield 1"
           ],
@@ -6465,11 +6465,11 @@
           "attack": 6,
           "range": 0,
           "special1": [
-            "{{resources.elements.consumeDark}}: Summon Night Demon",
+            "{{/static/boss_icons/consumeDark.png}}: Summon Night Demon",
             "Invisible, Self"
           ],
           "special2": [
-            "{{resources.elements.consumeLight}}: Summon Sun Demon",
+            "{{/static/boss_icons/consumeLight.png}}: Summon Sun Demon",
             "Heal 7, Self",
             "Shield 1"
           ],
@@ -6489,11 +6489,11 @@
           "attack": 7,
           "range": 0,
           "special1": [
-            "{{resources.elements.consumeDark}}: Summon Night Demon",
+            "{{/static/boss_icons/consumeDark.png}}: Summon Night Demon",
             "Invisible, Self"
           ],
           "special2": [
-            "{{resources.elements.consumeLight}}: Summon Sun Demon",
+            "{{/static/boss_icons/consumeLight.png}}: Summon Sun Demon",
             "Heal 7, Self",
             "Shield 1"
           ],
@@ -6705,7 +6705,7 @@
           "attack": 3,
           "range": 0,
           "special1": [
-            "Attack +0 {{resources.elderDrake.special1Area}}"
+            "Attack +0 {{/static/boss_icons/elderDrakeSpecial1Area.svg}}"
           ],
           "special2": [
             "Move and summon 2 Zephyrs"
@@ -6726,7 +6726,7 @@
           "attack": 4,
           "range": 0,
           "special1": [
-            "Attack +0 {{resources.elderDrake.special1Area}}"
+            "Attack +0 {{/static/boss_icons/elderDrakeSpecial1Area.svg}}"
           ],
           "special2": [
             "Move and summon 2 Zephyrs"
@@ -6747,7 +6747,7 @@
           "attack": 4,
           "range": 0,
           "special1": [
-            "Attack +0 {{resources.elderDrake.special1Area}}"
+            "Attack +0 {{/static/boss_icons/elderDrakeSpecial1Area.svg}}"
           ],
           "special2": [
             "Move and summon 2 Zephyrs"
@@ -6768,7 +6768,7 @@
           "attack": 5,
           "range": 0,
           "special1": [
-            "Attack +0 {{resources.elderDrake.special1Area}}"
+            "Attack +0 {{/static/boss_icons/elderDrakeSpecial1Area.svg}}"
           ],
           "special2": [
             "Move and summon 2 Zephyrs"
@@ -6789,7 +6789,7 @@
           "attack": 5,
           "range": 0,
           "special1": [
-            "Attack +0 {{resources.elderDrake.special1Area}}"
+            "Attack +0 {{/static/boss_icons/elderDrakeSpecial1Area.svg}}"
           ],
           "special2": [
             "Move and summon 2 Zephyrs"
@@ -6810,7 +6810,7 @@
           "attack": 6,
           "range": 0,
           "special1": [
-            "Attack +0 {{resources.elderDrake.special1Area}}"
+            "Attack +0 {{/static/boss_icons/elderDrakeSpecial1Area.svg}}"
           ],
           "special2": [
             "Move and summon 2 Zephyrs"
@@ -6831,7 +6831,7 @@
           "attack": 6,
           "range": 0,
           "special1": [
-            "Attack +0 {{resources.elderDrake.special1Area}}"
+            "Attack +0 {{/static/boss_icons/elderDrakeSpecial1Area.svg}}"
           ],
           "special2": [
             "Move and summon 2 Zephyrs"
@@ -6852,7 +6852,7 @@
           "attack": 7,
           "range": 0,
           "special1": [
-            "Attack +0 {{resources.elderDrake.special1Area}}"
+            "Attack +0 {{/static/boss_icons/elderDrakeSpecial1Area.svg}}"
           ],
           "special2": [
             "Move and summon 2 Zephyrs"
@@ -7114,7 +7114,7 @@
           "range": 0,
           "special1": [
             "Move -1",
-            "Attack -1 {{resources.inoxBodyguard.special1Area}}"
+            "Attack -1 {{/static/boss_icons/inoxBodyguardSpecial1Area.svg}}"
           ],
           "special2": [
             "Move +0",
@@ -7137,7 +7137,7 @@
           "range": 0,
           "special1": [
             "Move -1",
-            "Attack -1 {{resources.inoxBodyguard.special1Area}}"
+            "Attack -1 {{/static/boss_icons/inoxBodyguardSpecial1Area.svg}}"
           ],
           "special2": [
             "Move +0",
@@ -7160,7 +7160,7 @@
           "range": 0,
           "special1": [
             "Move -1",
-            "Attack -1 {{resources.inoxBodyguard.special1Area}}"
+            "Attack -1 {{/static/boss_icons/inoxBodyguardSpecial1Area.svg}}"
           ],
           "special2": [
             "Move +0",
@@ -7183,7 +7183,7 @@
           "range": 0,
           "special1": [
             "Move -1",
-            "Attack -1 {{resources.inoxBodyguard.special1Area}}"
+            "Attack -1 {{/static/boss_icons/inoxBodyguardSpecial1Area.svg}}"
           ],
           "special2": [
             "Move +0",
@@ -7206,7 +7206,7 @@
           "range": 0,
           "special1": [
             "Move -1",
-            "Attack -1 {{resources.inoxBodyguard.special1Area}}"
+            "Attack -1 {{/static/boss_icons/inoxBodyguardSpecial1Area.svg}}"
           ],
           "special2": [
             "Move +0",
@@ -7229,7 +7229,7 @@
           "range": 0,
           "special1": [
             "Move -1",
-            "Attack -1 {{resources.inoxBodyguard.special1Area}}"
+            "Attack -1 {{/static/boss_icons/inoxBodyguardSpecial1Area.svg}}"
           ],
           "special2": [
             "Move +0",
@@ -7252,7 +7252,7 @@
           "range": 0,
           "special1": [
             "Move -1",
-            "Attack -1 {{resources.inoxBodyguard.special1Area}}"
+            "Attack -1 {{/static/boss_icons/inoxBodyguardSpecial1Area.svg}}"
           ],
           "special2": [
             "Move +0",
@@ -7275,7 +7275,7 @@
           "range": 0,
           "special1": [
             "Move -1",
-            "Attack -1 {{resources.inoxBodyguard.special1Area}}"
+            "Attack -1 {{/static/boss_icons/inoxBodyguardSpecial1Area.svg}}"
           ],
           "special2": [
             "Move +0",
@@ -7882,11 +7882,11 @@
           "range": 3,
           "special1": [
             "Summon Deep Terror",
-            "Attack -3 {{resources.sightlessEye.special1Area}}"
+            "Attack -3 {{/static/boss_icons/sightlessEyeSpecial1Area.svg}}"
           ],
           "special2": [
             "Summon Deep Terror",
-            "Attack -2 {{resources.sightlessEye.special2Area}}"
+            "Attack -2 {{/static/boss_icons/sightlessEyeSpecial2Area.svg}}"
           ],
           "immunities": [
             "Stun",
@@ -7904,11 +7904,11 @@
           "range": 3,
           "special1": [
             "Summon Deep Terror",
-            "Attack -3 {{resources.sightlessEye.special1Area}}"
+            "Attack -3 {{/static/boss_icons/sightlessEyeSpecial1Area.svg}}"
           ],
           "special2": [
             "Summon Deep Terror",
-            "Attack -2 {{resources.sightlessEye.special2Area}}"
+            "Attack -2 {{/static/boss_icons/sightlessEyeSpecial2Area.svg}}"
           ],
           "immunities": [
             "Stun",
@@ -7926,11 +7926,11 @@
           "range": 3,
           "special1": [
             "Summon Deep Terror",
-            "Attack -3 {{resources.sightlessEye.special1Area}}"
+            "Attack -3 {{/static/boss_icons/sightlessEyeSpecial1Area.svg}}"
           ],
           "special2": [
             "Summon Deep Terror",
-            "Attack -2 {{resources.sightlessEye.special2Area}}"
+            "Attack -2 {{/static/boss_icons/sightlessEyeSpecial2Area.svg}}"
           ],
           "immunities": [
             "Stun",
@@ -7948,11 +7948,11 @@
           "range": 3,
           "special1": [
             "Summon Deep Terror",
-            "Attack -3 {{resources.sightlessEye.special1Area}}"
+            "Attack -3 {{/static/boss_icons/sightlessEyeSpecial1Area.svg}}"
           ],
           "special2": [
             "Summon Deep Terror",
-            "Attack -2 {{resources.sightlessEye.special2Area}}"
+            "Attack -2 {{/static/boss_icons/sightlessEyeSpecial2Area.svg}}"
           ],
           "immunities": [
             "Stun",
@@ -7970,11 +7970,11 @@
           "range": 3,
           "special1": [
             "Summon Deep Terror",
-            "Attack -3 {{resources.sightlessEye.special1Area}}"
+            "Attack -3 {{/static/boss_icons/sightlessEyeSpecial1Area.svg}}"
           ],
           "special2": [
             "Summon Deep Terror",
-            "Attack -2 {{resources.sightlessEye.special2Area}}"
+            "Attack -2 {{/static/boss_icons/sightlessEyeSpecial2Area.svg}}"
           ],
           "immunities": [
             "Stun",
@@ -7992,11 +7992,11 @@
           "range": 3,
           "special1": [
             "Summon Deep Terror",
-            "Attack -3 {{resources.sightlessEye.special1Area}}"
+            "Attack -3 {{/static/boss_icons/sightlessEyeSpecial1Area.svg}}"
           ],
           "special2": [
             "Summon Deep Terror",
-            "Attack -2 {{resources.sightlessEye.special2Area}}"
+            "Attack -2 {{/static/boss_icons/sightlessEyeSpecial2Area.svg}}"
           ],
           "immunities": [
             "Stun",
@@ -8014,11 +8014,11 @@
           "range": 3,
           "special1": [
             "Summon Deep Terror",
-            "Attack -3 {{resources.sightlessEye.special1Area}}"
+            "Attack -3 {{/static/boss_icons/sightlessEyeSpecial1Area.svg}}"
           ],
           "special2": [
             "Summon Deep Terror",
-            "Attack -2 {{resources.sightlessEye.special2Area}}"
+            "Attack -2 {{/static/boss_icons/sightlessEyeSpecial2Area.svg}}"
           ],
           "immunities": [
             "Stun",
@@ -8036,11 +8036,11 @@
           "range": 3,
           "special1": [
             "Summon Deep Terror",
-            "Attack -3 {{resources.sightlessEye.special1Area}}"
+            "Attack -3 {{/static/boss_icons/sightlessEyeSpecial1Area.svg}}"
           ],
           "special2": [
             "Summon Deep Terror",
-            "Attack -2 {{resources.sightlessEye.special2Area}}"
+            "Attack -2 {{/static/boss_icons/sightlessEyeSpecial2Area.svg}}"
           ],
           "immunities": [
             "Stun",

@@ -1,4 +1,4 @@
-const statusEffects = require('./statusEffects');
+const { statusEffects } = require('./statusEffects');
 const characterClasses = require("./constants").characterClasses;
 
 const getNickname = (name) => characterClasses.find((character) => character.codename === name).nickname;

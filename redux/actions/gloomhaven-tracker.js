@@ -38,6 +38,7 @@ import {
   UPDATE_MONSTER_STATUS_EFFECT_FAILURE,
   UPDATE_MONSTER_STATUS_EFFECT_SUCCESS,
   UPDATE_NEW_MONSTER_DIALOGUE,
+  UPDATE_NEW_BOSS_DIALOGUE,
   OPEN_OOZE_SPLITTING_DIALOGUE,
   CLOSE_OOZE_SPLITTING_DIALOGUE,
   CHOOSE_OOZE_SPLIT_STANDEE,
@@ -332,6 +333,14 @@ export function deleteActiveMonsterFailure(error) {
 export function updateNewMonsterDialogue(monsterType, open) {
   return {
     type: UPDATE_NEW_MONSTER_DIALOGUE,
+    monsterType,
+    open,
+  }
+}
+
+export function updateNewBossDialogue(monsterType, open) {
+  return {
+    type: UPDATE_NEW_BOSS_DIALOGUE,
     monsterType,
     open,
   }

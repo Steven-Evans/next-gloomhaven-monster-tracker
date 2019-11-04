@@ -6,8 +6,9 @@ import {
   selectCharacter,
   selectActiveMonster,
   selectOozeSplits,
-  selectTempOozes
-  } from "../reducers/gloomhaven-tracker";
+  selectTempOozes,
+  selectCharacters,
+} from "../reducers/gloomhaven-tracker";
 import { observableRequest } from '../../utils/request';
 import { apiUrl } from '../../config';
 import {
@@ -213,6 +214,7 @@ export const createActiveMonsterEpic = (action$, state$) => action$.pipe(
         standeeNumber: action.standeeNumber,
         elite: action.elite,
         scenarioLevel: action.scenarioLevel,
+        numCharacters: selectCharacters(state$.value).size
       })
     }).pipe(
       map(response => createActiveMonsterSuccess(response)),

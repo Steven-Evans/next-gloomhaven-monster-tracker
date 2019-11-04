@@ -32,7 +32,7 @@ class OozeSplittingDialogue extends React.Component {
       <MonsterDialogue
         dialogTitle={`Splitting Ooze ${oozeSplits.first()}`}
         open={oozeDialogueOpen}
-        oozeSplitting={true}
+        eliteDisabled={true}
         numberOfMaxStandees={10}
         onSelectStandee={onSelectStandee.bind(null, scenarioLevel, oozeSplits.first())}
         activeStandees={activeOozes.keySeq()}
