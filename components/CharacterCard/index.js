@@ -8,7 +8,6 @@ import ClassCard from "../ClassCard/index";
 import NumberTextField from "../NumberTextField/index";
 import NumberTextFieldStepper from "../NumberTextFieldStepper/index";
 import StatusEffectSelector from "../StatusEffectSelector/index";
-import { characterClasses } from "../../utils/constants";
 import { createStructuredSelector } from "reselect";
 import {
   selectCharacter,
@@ -24,7 +23,7 @@ import {
   updateCharacterStatusEffect
 } from "../../redux/actions/gloomhaven-tracker";
 
-const styles = theme => ({
+const styles = () => ({
   media: {
     width: '6em',
     height: 0,

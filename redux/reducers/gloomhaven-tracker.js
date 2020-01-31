@@ -1,5 +1,5 @@
 import Router from 'next/router';
-import {fromJS, Map} from "immutable";
+import {fromJS} from "immutable";
 import {createSelector} from "reselect";
 import {sseActionTypes} from "../../utils/constants";
 import {
@@ -105,7 +105,7 @@ export const selectClassesByInitiative = createSelector([selectCharacters, selec
 });
 
 export const selectActiveStandees = createSelector(selectMonsterByNewType, (monster) => {
-  return !!monster ? monster.get('active').keySeq().toArray() : [];
+  return monster ? monster.get('active').keySeq().toArray() : [];
 });
 
 export const makeSelectSortedActiveMonsters = (monsterName) => createSelector([selectMonster(monsterName)], (monster) => {
@@ -126,10 +126,11 @@ function trackerReducer(state = initialState, action) {
       return state
         .set("characters", fromJS(transformCharacterNamesToState(action.body.characterClasses.toArray())))
         .set("monsters", fromJS(transformMonsterNamesToState(monstersFromScenarioOrSelect(action.body.scenarioNumber, action.body.monsterClasses.toArray()))));
-    case INITIALIZE_TRACKER_SUCCESS:
+    case INITIALIZE_TRACKER_SUCCESS: {
       const newState = state.set("roomCode", action.roomCode);
       Router.push(`/gloomhaven-tracker?roomCode=${action.roomCode}`, `/gloomhaven-tracker/${action.roomCode}`, { shallow: true });
       return newState;
+    }
     case SET_ROOM_CODE:
       return state.set("roomCode", action.roomCode);
     case FETCH_TRACKER_STATE_SUCCESS:
@@ -171,12 +172,13 @@ function trackerReducer(state = initialState, action) {
       keyPath = ["characters", action.characterName, "statusEffects", action.statusEffect];
       return state.setIn(keyPath, action.checked);
     case CREATE_ACTIVE_MONSTER:
-    case sseActionTypes.SSE_CREATE_ACTIVE_MONSTER:
+    case sseActionTypes.SSE_CREATE_ACTIVE_MONSTER: {
       const newMonsterType = action.monsterName || state.getIn(['newMonsterDialogue', 'type']);
       keyPath = ["monsters", newMonsterType, "active", action.standeeNumber];
       return state
         .setIn(keyPath, fromJS(createNewMonster(newMonsterType, action.elite, action.scenarioLevel, state.get('characters').size)))
         .setIn(['newMonsterDialogue', 'open'], false);
+    }
     case UPDATE_MONSTER_INITIATIVE:
     case sseActionTypes.SSE_UPDATE_MONSTER_INITIATIVE:
       nextVal = parseInt(action.initiative);
@@ -219,7 +221,7 @@ function trackerReducer(state = initialState, action) {
       return stateAfterOozeSplitLogic(nextState);
     case CLOSE_OOZE_SPLITTING_DIALOGUE:
       return state.setIn(["oozeSplittingDialogue", "open"], false);
-    case CHOOSE_OOZE_SPLIT_STANDEE:
+    case CHOOSE_OOZE_SPLIT_STANDEE: {
       let newOoze = fromJS(createNewMonster("ooze", action.elite, action.scenarioLevel));
       const oldOozeHealth = state.getIn(["oozeSplittingDialogue", "tempOozes", action.originalStandee, "currentHealth"]);
       if (oldOozeHealth < newOoze.get("currentHealth")) {
@@ -229,6 +231,7 @@ function trackerReducer(state = initialState, action) {
         .setIn(["oozeSplittingDialogue", "tempOozes", action.newStandee], newOoze)
         .setIn(["oozeSplittingDialogue", "oozeSplits"], state.getIn(["oozeSplittingDialogue", "oozeSplits"]).rest());
       return stateAfterOozeSplitLogic(nextState, action.scenarioLevel);
+    }
     case sseActionTypes.SSE_SET_ACTIVE_MONSTERS:
       return state
         .setIn(["monsters", action.monsterName, "active"], fromJS(action.active))

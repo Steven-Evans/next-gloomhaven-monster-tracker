@@ -1,7 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
 import {createStructuredSelector} from "reselect";
-import {withStyles} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import ClassCard from "../ClassCard/index";
@@ -11,15 +10,10 @@ import {
   selectMonsters} from "../../redux/reducers/gloomhaven-tracker";
 import {updateCharacterInitiative, updateMonsterInitiative} from "../../redux/actions/gloomhaven-tracker";
 
-const styles = theme => ({
-
-});
-
 class InitiativeInputCard extends React.Component {
 
   render() {
     const {
-      classes,
       characters,
       monsters,
       ...props
@@ -68,4 +62,4 @@ const mapStateToProps = createStructuredSelector({
   monsters: selectMonsters,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(InitiativeInputCard));
+export default connect(mapStateToProps, mapDispatchToProps)(InitiativeInputCard);

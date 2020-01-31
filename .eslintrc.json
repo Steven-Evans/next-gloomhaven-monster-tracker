@@ -10,6 +10,7 @@
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
+    "parser": "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
@@ -21,7 +22,7 @@
         "react"
     ],
     "rules": {
-        "no-console": ["error", { "allow": ["warn", "error"] }],
+        "no-console": 0,
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error"
     }

@@ -192,7 +192,7 @@ export const updateMonsterStatusEffectEpic = (action$, state$) => action$.pipe(
 export const setActiveOozesEpic = (action$, state$) => action$.pipe(
   ofType(OPEN_OOZE_SPLITTING_DIALOGUE, CHOOSE_OOZE_SPLIT_STANDEE),
   filter(() => selectOozeSplits(state$.value).isEmpty()),
-  mergeMap(action =>
+  mergeMap(() =>
     observableRequest(`${apiSessionUrl(state$.value)}/monster/ooze/active`, {
       method: "PUT",
       headers: {"Content-Type": "application/json"},

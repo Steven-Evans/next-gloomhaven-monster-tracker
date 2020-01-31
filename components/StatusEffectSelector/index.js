@@ -4,7 +4,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import {withStyles} from "@material-ui/core";
 
-const styles = theme => ({
+const styles = () => ({
   checkbox: {
     width: "36px",
     height: "36px",

@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import {logLinkClick} from '../utils/analytics';
 import {withStyles} from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';

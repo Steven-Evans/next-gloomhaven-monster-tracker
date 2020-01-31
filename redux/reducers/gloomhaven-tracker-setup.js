@@ -5,7 +5,7 @@ import {
   UPDATE_CHARACTERS,
   UPDATE_MONSTERS
 } from "../actionTypes/gloomhaven-tracker-setup";
-import {FETCH_TRACKER_STATE, FETCH_TRACKER_STATE_SUCCESS} from "../actionTypes/gloomhaven-tracker";
+import {FETCH_TRACKER_STATE_SUCCESS} from "../actionTypes/gloomhaven-tracker";
 
 // State
 export const initialState = fromJS({

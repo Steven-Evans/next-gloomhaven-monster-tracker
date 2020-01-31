@@ -1,8 +1,6 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
-import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ClassCard from "../ClassCard";
 import Button from "@material-ui/core/Button";
@@ -90,7 +88,6 @@ class BossCard extends React.Component {
       name,
       classes,
       boss,
-      scenarioLevel,
       sortedBosses,
       ...props
     } = this.props;
@@ -189,14 +186,6 @@ class BossCard extends React.Component {
                                   <Typography className={classes.abilityTypography}>
                                     {ability.split(/{{(.*)}}/)[2]}
                                   </Typography>
-                                {
-                                  /*ability.split(/{{(.*)}}/).map((str, ind) => (
-                                    ind === 1 ?
-                                      <img className={classes[str.split(/\.[^.]+$/)[0].split('/').reverse()[0]]}
-                                           key={ind} src={str}/> :
-                                      <Typography key={ind} className={classes.abilityTypography}>{str}</Typography>
-                                  ))*/
-                                }
                               </Grid> :
                               <Typography className={classes.abilityTypography}>{ ability }</Typography>
                           }

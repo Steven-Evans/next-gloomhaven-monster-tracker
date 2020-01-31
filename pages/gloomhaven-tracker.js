@@ -41,9 +41,9 @@ class GloomhavenTracker extends React.Component {
       store.dispatch(resultAction);
     }
     return { isServer, roomCode: query.roomCode }
-  };
+  }
 
-  componentDidMount = function() {
+  componentDidMount = () => {
     if (this.props.roomCode) {
       this.props.onComponentDidMount(this.props.roomCode);
     }
