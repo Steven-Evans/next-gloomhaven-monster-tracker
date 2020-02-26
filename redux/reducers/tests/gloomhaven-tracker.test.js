@@ -1,10 +1,7 @@
 import {fromJS} from "immutable";
 import reducer from "./../gloomhaven-tracker";
-import {
-  updateCharacterStatusEffect,
-  updateMonsterStatusEffect,
- } from "./../../actions/gloomhaven-tracker";
- import {sseActionTypes} from "../../../utils/constants";
+import * as reduxActions from "./../../actions/gloomhaven-tracker";
+import sseActions from "../../../server/sseActions";
 
 const initialState = fromJS({
   roomCode: "",
@@ -47,7 +44,7 @@ const testState = fromJS({
         wounded: false,
         disarmed: false,
         stunned: false,
-        muddled: false,
+        muddled: true,
         immobilized: false,
         strengthened: false,
         invisible: false
@@ -89,42 +86,40 @@ describe("tracker reducer", () => {
     expect(reducer(initialState, {type: "NOT_AN_ACTION"})).toEqual(initialState);
   });
 
-  test("handles character's status effect change", () => {
-    let newState = testState.setIn(["characters", "tinkerer", "statusEffects", "stunned"], true);
+  test("redux handles character's status effect change", () => {
+    let newState = testState.setIn(["characters", "tinkerer", "statusEffects", "poisoned"], true);
     expect(
-      reducer(testState, updateCharacterStatusEffect("tinkerer", "stunned", true))
+      reducer(testState, reduxActions.updateCharacterStatusEffect("tinkerer", "poisoned", true))
     ).toEqual(
       newState
     );
-
+  });
+  
+  test("sse handles character's status effect change", () => {
+    let newState = testState.setIn(["characters", "tinkerer", "statusEffects", "muddled"], false);
     expect(
-      reducer(testState, {
-        type: sseActionTypes.SSE_UPDATE_CHARACTER_STATUS_EFFECT,
-        characterName: "tinkerer",
-        statusEffect: "stunned",
-        checked: true})
+      reducer(testState, sseActions.updateCharacterStatusEffect("tinkerer", "muddled", false))
     ).toEqual(
       newState
     );
   });
 
-  test("handles monster's status effect change", () => {
+  test("redux handles monster's status effect change", () => {
     let newState = testState.setIn(["monsters", "inoxarcher", "active", "1", "statusEffects", "wounded"], false);
     expect(
-      reducer(testState, updateMonsterStatusEffect("inoxarcher", "1", "wounded", false))
+      reducer(testState, reduxActions.updateMonsterStatusEffect("inoxarcher", "1", "wounded", false))
     ).toEqual(
       newState
     );
+  });
 
+  test("sse handles monster's status effect change", () => {
+    let newState = testState.setIn(["monsters", "inoxarcher", "active", "1", "statusEffects", "stunned"], true);
     expect(
-      reducer(testState, {
-        type: sseActionTypes.SSE_UPDATE_MONSTER_STATUS_EFFECT,
-        monsterName: "inoxarcher",
-        standeeNumber: "1",
-        statusEffect: "wounded",
-        checked: false})
+      reducer(testState, sseActions.updateMonsterStatusEffect("inoxarcher", "1", "stunned", true))
     ).toEqual(
       newState
     );
+    console.log('teststate', testState);
   });
 });
