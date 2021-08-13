@@ -21,7 +21,7 @@
     "express": "^4.16.4",
     "immutable": "^4.0.0-rc.12",
     "mongodb": "^3.5.3",
-    "next": "^7.0.2",
+    "next": "^11.1.0",
     "next-redux-wrapper": "^2.1.0",
     "node-fetch": "^2.5.0",
     "react": "^16.12.0",
